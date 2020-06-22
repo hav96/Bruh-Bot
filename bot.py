@@ -1,12 +1,17 @@
-import discord                                            
+
+import asyncio
+import os
+import discord
 from discord.ext import commands
-               
-bot = commands.Bot(command_prefix='>')   
 
-@bot.command()
-async def commands(ctx):
-    await ctx.send('тест')
+TOKEN = 'NzI0NjQyNjgwMTI2MDQ2MzM5.XvDbTg.7tmEJ94cyQtJIsEqw7aMbowsNSg'
+bot = commands.Bot(command_prefix='!')
 
 
-bot.run(token='g6ii8K1Gsd6JxZrtuc9Mf1GfDdaLq7k')                             
-       
+@bot.command(pass_context=True)  
+async def test(ctx, arg):  
+    await ctx.send(arg)  
+
+
+bot.run(TOKEN)
+
