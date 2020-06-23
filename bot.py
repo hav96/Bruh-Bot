@@ -13,7 +13,7 @@ bot.remove_command('help')
 @bot.command(pass_context=True)  
 async def help(ctx):
     embed=discord.Embed(title="Помошь", description="hentai - рандомная хентай манга\nkill - убийство мафией игрока", color=0xddff00)
-    await self.ctx.send(embed=embed)
+    await ctx.send(embed=embed)
   
 
 
