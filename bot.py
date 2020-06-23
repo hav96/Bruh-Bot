@@ -11,8 +11,8 @@ bot = commands.Bot(command_prefix='>')
 bot.remove_command('help')
 
 @bot.command(pass_context=True)  
-async def help(ctx, arg):
-    await ctx.send(arg)  
+async def help(ctx):
+    await ctx.send('команда хелп')  
 
 
 bot.run(TOKEN)
