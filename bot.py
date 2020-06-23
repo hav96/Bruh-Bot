@@ -5,7 +5,8 @@ import discord
 from discord.ext import commands
 import pyowm
 import tenorpy
-import sqlite3
+import psycopg2
+
 
 TOKEN = 'NzI0NjQyNjgwMTI2MDQ2MzM5.XvDbTg.7tmEJ94cyQtJIsEqw7aMbowsNSg'
 
@@ -17,16 +18,6 @@ bot.remove_command('help')
 moder_role = 722554357186560061
 
 
-
-conn = sqlite3.connect("kartoshka.db")
-cursor = conn.cursor()
- 
-cursor.execute("""CREATE TABLE users
-                  (nicname text,warns int,coins)
-               """)
- 
-
-conn.commit()
 
 
 
