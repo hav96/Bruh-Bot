@@ -24,7 +24,11 @@ admin_role = 723198849434386462 # роль гл.админ
 discord_server_id = 722548853173125162 
 
 
+admins = []
 
+moders = []
+
+leaders = []
 
 
 @bot.event
@@ -43,8 +47,11 @@ async def help(ctx):
 @commands.has_role(moder_role)
 async def ban(ctx, member : discord.Member, *, reason=None):
     try:
-        await member.ban(reason=reason)
-        await ctx.send(f'{ctx.author} забанил {member}')
+        if member not in moders or admins or leaders:
+            await member.ban(reason=reason)
+            await ctx.send(f'{ctx.author} забанил {member}')
+        else:
+            await ctx.send(f'Не удалось забанить {member} ,не достаточно прав!')
     except:
         await ctx.send(f'Не удалось забанить {member} ,не достаточно прав!')
 
@@ -54,10 +61,13 @@ async def ban(ctx, member : discord.Member, *, reason=None):
 @commands.has_role(moder_role)
 async def warn(ctx, member : discord.Member, *, reason=None):
     try:
-        await ctx.send(f'{ctx.author} дал варн {member}')
+        if member not in moders or admins or leaders:
+            await member.ban(reason=reason)
+            await ctx.send(f'{ctx.author} дал варн {member}')
+        else:
+            await ctx.send(f'Не удалось дать варн {member} ,не достаточно прав!')
     except:
         await ctx.send(f'Не удалось дать варн {member} ,не достаточно прав!')
-
 
 
 @bot.command()
