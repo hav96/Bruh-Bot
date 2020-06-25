@@ -66,15 +66,14 @@ async def gif(ctx, arg):
 
 @bot.command()
 @commands.has_role(leader_role)
-async def kill(ctx, member : discord.Member, *, reason=None):
-    await ctx.send(f'Мафия убила @{member}')
-
+async def kill(user:discord.User):
+    await ctx.send(f'Мафия убила {user.mention}')
 
 
 @bot.command()
 @commands.has_role(leader_role)
-async def hanged(ctx, member : discord.Member, *, reason=None):
-    await ctx.send(f'Не поверили и повесили @{member}')
+async def hanged(user:discord.User):
+    await ctx.send(f'Не поверили и повесили {user.mention}')
 
 
 bot.run(TOKEN)
