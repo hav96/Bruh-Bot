@@ -22,7 +22,7 @@ moder_role = 722554357186560061
 
 
 
-@bot.command()  
+@bot.command()
 async def help(ctx):
     embed=discord.Embed(title="Помощь", description="NFSW команды\nhentai - рандомная хентай манга\nКоманды для ведущего\nkill - убийство мафией игрока\nhanget - игроку не поверили\nrename - сменить никнеймы игрокам 1-10", color=0xddff00)
     await ctx.send(embed=embed)
@@ -38,7 +38,7 @@ async def ban(ctx, member : discord.Member, *, reason=None):
     except:
         await ctx.send(f'Не удалось забанить {member} ,не достаточно прав!')
 
-    
+
 
 @bot.command()
 @commands.has_role(moder_role)
@@ -48,7 +48,7 @@ async def warn(ctx, member : discord.Member, *, reason=None):
     except:
         await ctx.send(f'Не удалось дать варн {member} ,не достаточно прав!')
 
-       
+
 
 @bot.command()
 async def gif(ctx, arg):
@@ -60,7 +60,21 @@ async def gif(ctx, arg):
     except:
         await ctx.send(embed = discord.Embed(title = "Ошибка изображения не найдено"))
 
+
+
+
+
+@bot.command()
+@commands.has_role()
+async def kill(ctx, member : discord.Member, *, reason=None):
+    await ctx.send(f'Мафия убила @{member}')
+
+
+
+@bot.command()
+@commands.has_role()
+async def hanged(ctx, member : discord.Member, *, reason=None):
+    await ctx.send(f'Не поверили и повесили @{member}')
+
+
 bot.run(TOKEN)
-
-
-                      
