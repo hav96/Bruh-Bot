@@ -15,9 +15,9 @@ bot = commands.Bot(command_prefix='>')
 bot.remove_command('help')
 
 
-moder_role = 722554357186560061
+moder_role = 722554357186560061  #роль модератора
 
-
+leader_role = 722787700146700412 # роль ведущего 
 
 
 
@@ -65,14 +65,14 @@ async def gif(ctx, arg):
 
 
 @bot.command()
-@commands.has_role()
+@commands.has_role(leader_role)
 async def kill(ctx, member : discord.Member, *, reason=None):
     await ctx.send(f'Мафия убила @{member}')
 
 
 
 @bot.command()
-@commands.has_role()
+@commands.has_role(leader_role)
 async def hanged(ctx, member : discord.Member, *, reason=None):
     await ctx.send(f'Не поверили и повесили @{member}')
 
