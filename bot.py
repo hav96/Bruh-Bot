@@ -19,7 +19,17 @@ moder_role = 722554357186560061  #роль модератора
 
 leader_role = 722787700146700412 # роль ведущего 
 
+admin_role = 723198849434386462 # роль гл.админ
 
+discord_server_id = 722548853173125162 
+
+
+
+
+
+@bot.event
+async def on_ready():
+    print('I live')
 
 
 @bot.command()
@@ -66,14 +76,25 @@ async def gif(ctx, arg):
 
 @bot.command()
 @commands.has_role(leader_role)
-async def kill(user:discord.User):
-    await ctx.send(f'Мафия убила {user.mention}')
+async def kill(ctx, member : discord.Member, *, reason=None):
+    await ctx.send(f'Мафия убила {member} 💀')
 
 
 @bot.command()
 @commands.has_role(leader_role)
-async def hanged(user:discord.User):
-    await ctx.send(f'Не поверили и повесили {user.mention}')
+async def hanged(ctx, member : discord.Member, *, reason=None):
+     await ctx.send(f'Не поверили и повесили {member} 👹')
+
+
+
+@bot.command()
+@commands.has_role(leader_role)
+async def close_chat(ctx):
+    embed=discord.Embed(title="ЧАТ ЗАКРЫТ!", description="фолы за написания в прочий чат!", color=0xff0000)
+    await ctx.send(embed=embed)
+
+   
+
 
 
 bot.run(TOKEN)
