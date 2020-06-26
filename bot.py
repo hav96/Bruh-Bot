@@ -5,7 +5,9 @@ import discord
 from discord.ext import commands
 import pyowm
 import tenorpy
-import psycopg2
+
+
+
 
 
 TOKEN = 'NzI0NjQyNjgwMTI2MDQ2MzM5.XvDbTg.7tmEJ94cyQtJIsEqw7aMbowsNSg'
@@ -34,7 +36,12 @@ leaders = []
 @bot.event
 async def on_ready():
     print('I live')
+    
 
+
+@bot.event
+async def on_member_join(member):
+    pass
 
 @bot.command()
 async def help(ctx):
@@ -99,8 +106,10 @@ async def hanged(ctx, member : discord.Member, *, reason=None):
 
 @bot.command()
 @commands.has_role(leader_role)
-async def close_chat(ctx):
+async def close_chat(ctx, arg):
     embed=discord.Embed(title="ЧАТ ЗАКРЫТ!", description="фолы за написания в прочий чат!", color=0xff0000)
+    channel = arg
+    await channel.set_permissions(member, overwrite=False)
     await ctx.send(embed=embed)
 
    
