@@ -41,7 +41,10 @@ async def on_ready():
 
 @bot.event
 async def on_member_join(member):
-    pass
+    embed=discord.Embed(title="Добро пожаловать", description="текст", color=0x8206f3)
+    embed.set_thumbnail(url="https://thumbs.gfycat.com/FrighteningPlasticHuman-small.gif")
+    await ctx.send(embed=embed)
+
 
 @bot.command()
 async def help(ctx):
