@@ -54,7 +54,7 @@ async def on_member_join(member):
 @bot.command()
 async def on_member_remove(member):
     channel = discord.utils.get(member.guild.channels, id=722577485589381150)
-    embed=discord.Embed(title="Нас покинул {member}", description="текст", color=0xf9ff00)
+    embed=discord.Embed(title=f"Нас покинул {member}", description="текст", color=0xf9ff00)
     embed.set_thumbnail(url="https://media1.tenor.com/images/ae35ace17c27909ffb0c0e15f9cb79b6/tenor.gif?itemid=14776523")
     await channel.send(embed = embed)
     
