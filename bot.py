@@ -41,9 +41,13 @@ async def on_ready():
 
 @bot.event
 async def on_member_join(member):
-    embed=discord.Embed(title="Добро пожаловать", description="текст", color=0x8206f3)
+    channel = discord.utils.get(member.guild.channels, id=722577485589381150)
+    role = discord.utils.get(member.guild.roles, id=722554994670305321)
+    embed=discord.Embed(title=f"Добро пожаловать {member}", description="bla bla bla", color=0x8206f3)
     embed.set_thumbnail(url="https://thumbs.gfycat.com/FrighteningPlasticHuman-small.gif")
-    await ctx.send(embed=embed)
+    await channel.send(embed = embed)
+    await member.add_roles(role)
+    
 
 
 @bot.command()
@@ -112,8 +116,8 @@ async def hanged(ctx, member : discord.Member, *, reason=None):
 async def close_chat(ctx, arg):
     embed=discord.Embed(title="ЧАТ ЗАКРЫТ!", description="фолы за написания в прочий чат!", color=0xff0000)
     channel = arg
-    await channel.set_permissions(member, overwrite=False)
     await ctx.send(embed=embed)
+    await ctx.channel.set_permissions(Member, read_messages=True,send_messages=False)
 
    
 
