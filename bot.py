@@ -17,6 +17,7 @@ bot = commands.Bot(command_prefix='>')
 
 bot.remove_command('help')
 
+tenorpy = tenorpy.Tenor() #for gifs
 
 moder_role = 722554357186560061  #роль модератора
 
@@ -49,6 +50,14 @@ async def on_member_join(member):
     embed.set_thumbnail(url="https://thumbs.gfycat.com/FrighteningPlasticHuman-small.gif")
     await channel.send(embed = embed)
     await member.add_roles(role)
+    
+@bot.command()
+async def on_member_remove(member):
+    channel = discord.utils.get(member.guild.channels, id=722577485589381150)
+    embed=discord.Embed(title="Нас покинул {member}", description="текст", color=0xf9ff00)
+    embed.set_thumbnail(url="https://media1.tenor.com/images/ae35ace17c27909ffb0c0e15f9cb79b6/tenor.gif?itemid=14776523")
+    await channel.send(embed = embed)
+    
     
 
 
@@ -92,7 +101,6 @@ async def warn(ctx, member : discord.Member, *, reason=None):
 @bot.command()
 async def gif(ctx, arg):
     await ctx.message.delete()
-    tenorpy = tenorpy.Tenor()
     emb = discord.Embed(title = "Загрузка изображения " + arg)
     emb.set_image(url = tenorpy.random(arg))
     emb.set_footer(text = f"Запросил {ctx.author}({ctx.author.display_name})", icon_url = f'{ctx.author.avatar_url}')
@@ -134,6 +142,7 @@ async def manga(ctx):
         random_number = random.randint(100,1600)
         random_manga = f'{main_url}{random_number}'
         await ctx.send(f'Сгенерировал для тебя рандомную хентай мангу - {random_manga}')
+
 
 
 bot.run(TOKEN)
