@@ -129,5 +129,7 @@ async def manga(ctx):
             random_number = random.randint(100,1600)
             random_manga = f'{main_url}{random_number}'
             await ctx.send(f'Сгенерировал для тебя рандомную хентай мангу - {random_manga}')
+    except:
+        pass
 
 bot.run(TOKEN)
