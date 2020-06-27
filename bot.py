@@ -25,6 +25,7 @@ admin_role = 723198849434386462 # роль гл.админ
 
 discord_server_id = 722548853173125162 
 
+ 
 
 admins = []
 
@@ -35,7 +36,7 @@ leaders = []
 
 @bot.event
 async def on_ready():
-    print('I live')
+    print('Bruh Game started.')
     
 
 
@@ -52,7 +53,7 @@ async def on_member_join(member):
 
 @bot.command()
 async def help(ctx):
-    embed=discord.Embed(title="Помощь", description="NFSW команды\nhentai - рандомная хентай манга\nКоманды для ведущего\nkill - убийство мафией игрока\nhanget - игроку не поверили\nrename - сменить никнеймы игрокам 1-10", color=0xddff00)
+    embed=discord.Embed(title="Помощь", description=".")
     await ctx.send(embed=embed)
 
 
@@ -62,7 +63,8 @@ async def help(ctx):
 async def ban(ctx, member : discord.Member, *, reason=None):
     try:
         if member not in moders or admins or leaders:
-            await member.ban(reason=reason)
+            ban_role = discord.utils.get(member.guild.roles, id=726255138926362704)
+            await member.add_roles(ban_role)
             await ctx.send(f'{ctx.author} забанил {member}')
         else:
             await ctx.send(f'Не удалось забанить {member} ,не достаточно прав!')
@@ -76,7 +78,6 @@ async def ban(ctx, member : discord.Member, *, reason=None):
 async def warn(ctx, member : discord.Member, *, reason=None):
     try:
         if member not in moders or admins or leaders:
-            await member.ban(reason=reason)
             await ctx.send(f'{ctx.author} дал варн {member}')
         else:
             await ctx.send(f'Не удалось дать варн {member} ,не достаточно прав!')
@@ -113,14 +114,18 @@ async def hanged(ctx, member : discord.Member, *, reason=None):
 
 @bot.command()
 @commands.has_role(leader_role)
-async def close_chat(ctx, arg):
+async def close_chat(ctx):
     embed=discord.Embed(title="ЧАТ ЗАКРЫТ!", description="фолы за написания в прочий чат!", color=0xff0000)
-    channel = arg
     await ctx.send(embed=embed)
-    await ctx.channel.set_permissions(Member, read_messages=True,send_messages=False)
-
    
 
 
+
+
+
+
+@bot.command
+async def test(ctx: commands.Context):
+    print(ctx.message.reactions)
 
 bot.run(TOKEN)
