@@ -7,6 +7,7 @@ import pyowm
 import tenorpy
 from colorama import init
 from termcolor import colored
+import random
 
 
 
@@ -121,15 +122,11 @@ async def close_chat(ctx):
 
 @bot.command()
 async def manga(ctx):
-    try:
-        if ctx.message.channel.is_nsfw() == False:
-            await ctx.send(embed = discord.Embed(description = f"**{ctx.author.mention} используй команду только в NSWF канале!**", colour = 0xff0000))
-        else:
-            main_url = 'https://9hentai.com/g/'
-            random_number = random.randint(100,1600)
-            random_manga = f'{main_url}{random_number}'
-            await ctx.send(f'Сгенерировал для тебя рандомную хентай мангу - {random_manga}')
-    except:
-        pass
-
+    if ctx.message.channel.is_nsfw() == False:
+        await ctx.send(embed = discord.Embed(description = f"**{ctx.author.mention} используй команду только в NSWF канале!**", colour = 0xff0000))
+    else:
+        main_url = 'https://9hentai.com/g/'
+        random_number = random.randint(100,1600)
+        random_manga = f'{main_url}{random_number}'
+        await ctx.send(f'Сгенерировал для тебя рандомную хентай мангу - {random_manga}')
 bot.run(TOKEN)
