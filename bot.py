@@ -54,6 +54,7 @@ async def on_member_join(member):
 
 @bot.command()
 async def help(ctx):
+    await ctx.message.delete()
     embed=discord.Embed(title="Помощь", description=".")
     await ctx.send(embed=embed)
 
@@ -62,6 +63,7 @@ async def help(ctx):
 @bot.command()
 @commands.has_role(moder_role)
 async def ban(ctx, member : discord.Member, *, reason=None):
+    await ctx.message.delete()
     try:
         if member not in moders or admins or leaders:
             ban_role = discord.utils.get(member.guild.roles, id=726255138926362704)
@@ -77,6 +79,7 @@ async def ban(ctx, member : discord.Member, *, reason=None):
 @bot.command()
 @commands.has_role(moder_role)
 async def warn(ctx, member : discord.Member, *, reason=None):
+    await ctx.message.delete()
     try:
         if member not in moders or admins or leaders:
             await ctx.send(f'{ctx.author} дал варн {member}')
@@ -88,27 +91,27 @@ async def warn(ctx, member : discord.Member, *, reason=None):
 
 @bot.command()
 async def gif(ctx, arg):
-    try:
-        emb = discord.Embed(title = "Загрузка изображения " + arg)
-        emb.set_image(url = tenorpy.random(arg))
-        emb.set_footer(text = f"Запросил {ctx.author}({ctx.author.display_name})", icon_url = f'{ctx.author.avatar_url}')
-        await ctx.send(embed = emb)
-    except:
-        await ctx.send(embed = discord.Embed(title = "Ошибка изображения не найдено"))
-
-
+    await ctx.message.delete()
+    tenorpy = tenorpy.Tenor()
+    emb = discord.Embed(title = "Загрузка изображения " + arg)
+    emb.set_image(url = tenorpy.random(arg))
+    emb.set_footer(text = f"Запросил {ctx.author}({ctx.author.display_name})", icon_url = f'{ctx.author.avatar_url}')
+    await ctx.send(embed = emb)
+    
 
 
 
 @bot.command()
 @commands.has_role(leader_role)
 async def kill(ctx, member : discord.Member, *, reason=None):
+    await ctx.message.delete()
     await ctx.send(f'Мафия убила {member} 💀')
 
 
 @bot.command()
 @commands.has_role(leader_role)
 async def hanged(ctx, member : discord.Member, *, reason=None):
+     await ctx.message.delete()
      await ctx.send(f'Не поверили и повесили {member} 👹')
 
 
@@ -116,12 +119,14 @@ async def hanged(ctx, member : discord.Member, *, reason=None):
 @bot.command()
 @commands.has_role(leader_role)
 async def close_chat(ctx):
+    await ctx.message.delete()
     embed=discord.Embed(title="ЧАТ ЗАКРЫТ!", description="фолы за написания в прочий чат!", color=0xff0000)
     await ctx.send(embed=embed)
    
 
 @bot.command()
 async def manga(ctx):
+    await ctx.message.delete()
     if ctx.message.channel.is_nsfw() == False:
         await ctx.send(embed = discord.Embed(description = f"**{ctx.author.mention} используй команду только в NSWF канале!**", colour = 0xff0000))
     else:
@@ -129,4 +134,6 @@ async def manga(ctx):
         random_number = random.randint(100,1600)
         random_manga = f'{main_url}{random_number}'
         await ctx.send(f'Сгенерировал для тебя рандомную хентай мангу - {random_manga}')
+
+
 bot.run(TOKEN)
