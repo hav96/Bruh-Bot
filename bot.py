@@ -144,5 +144,32 @@ async def manga(ctx):
         await ctx.send(f'Сгенерировал для тебя рандомную хентай мангу - {random_manga}')
 
 
+@bot.command()
+@commands.has_role(leader_role)
+
+@bot.command()
+@commands.has_role(leader_role)
+async def event(ctx, arg):
+    await ctx.message.delete()
+    event = arg
+    if event == 'mafia': 
+        embed=discord.Embed(title=f"Проводится ивент мафия!", description=f"Победа мирных - 300 коинов\nПобеда мафии - 500 коинов\nВедущий - {ctx.author.mention}", color=0xff0084)
+        embed.set_thumbnail(url="https://krot.info/uploads/posts/2020-01/1579563613_29-p-foni-s-mafiei-60.jpg")
+        await ctx.send(embed = embed)
+    elif event == 'uno':
+        embed=discord.Embed(title="Проводится ивент уно!", description=f"1 место - 500 коинов\n2 место - 350 коинов\n3 место - 200 коинов\nВедущий - {ctx.author.mention} ", color=0x40ff00)
+        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/532890437858623488/567023305698312202/Uno.png")
+        await ctx.send(embed = embed)  
+    elif event == 'monopoly':
+        embed=discord.Embed(title="Проводится ивент монополия", description=f"1 место - 500 коинов\n2 место - 300 коинов\n3 место - 200 коинов\nВедущий - {ctx.author.mention} ", color=0xffc500)
+        embed.set_thumbnail(url="https://im0-tub-ru.yandex.net/i?id=013bb6a40f47b1cdee74dd2bc6e6b231&n=13&exp=1")
+        await ctx.send(embed = embed)
+    else:
+        embed=discord.Embed(title="Такого ивента  нет!", description="Все существующие ивенты\nmonopoly\nuno\nmafia", color=0x6efb00)
+        await ctx.send(embed = embed)
+
+
+
 
 bot.run(TOKEN)
+          
