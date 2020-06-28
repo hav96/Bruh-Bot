@@ -51,7 +51,7 @@ async def on_member_join(member):
     await channel.send(embed = embed)
     await member.add_roles(role)
     
-@bot.command()
+@bot.event
 async def on_member_remove(member):
     channel = discord.utils.get(member.guild.channels, id=722577485589381150)
     embed=discord.Embed(title=f"Нас покинул {member}", description="текст", color=0xf9ff00)
