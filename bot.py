@@ -114,13 +114,22 @@ async def gif(ctx, arg):
 async def kill(ctx, member : discord.Member, *, reason=None):
     await ctx.message.delete()
     await ctx.send(f'Мафия убила {member.mention} 💀')
+    try:
+        await member.edit(nick='умер')
+    except:
+        await ctx.send(f'Не смог сменить ник {member.mention},не достаточно прав!')
 
 
 @bot.command()
 @commands.has_role(leader_role)
 async def hanged(ctx, member : discord.Member, *, reason=None):
-     await ctx.message.delete()
-     await ctx.send(f'Не поверили и повесили {member.mention} 👹')
+    -
+    await ctx.message.delete()
+    await ctx.send(f'Не поверили и повесили {member.mention} 👹')
+    try:
+        await member.edit(nick='умер')
+    except:
+        await ctx.send(f'Не смог сменить ник {member.mention},не достаточно прав!')
 
 
 
