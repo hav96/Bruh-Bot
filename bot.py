@@ -76,7 +76,7 @@ async def on_command_error(ctx, error):
 async def help(ctx):
     await ctx.message.delete()
     embed=discord.Embed(title="Помощь", description='''Префикс бота >\n\nРофлан команды.\nmanga - рандомная хентай манга.\ngif слово - получить гифку.\ncase - открыть кейс(нужна роль key).
-    \nМодер команды.\nban упоминание - выдать бан-роль.\nwarn упоминание - выдать варн.
+    \nМодер команды.\nban упоминание - выдать бан-роль.\nwarn упоминание - выдать варн.\nmute упоминание - дать мут\nunmute упоминание - размутить\n
     \nКоманды ведущего.\nevent название ивента - запустить ивент.\nkill упоминание - кого убила мафия.\nhanged упоминание - не поверили и повесили.\n''')
     await ctx.send(embed=embed)
 
