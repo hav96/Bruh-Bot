@@ -267,7 +267,7 @@ async def mute(ctx, member : discord.Member, *, reason=None):
     channel = discord.utils.get(ctx.author.guild.channels, id=723196150961930343) #куда будет логироватся 
     mute_role = discord.utils.get(ctx.author.guild.roles, id=727228695277732063)
     await member.add_roles(mute_role)
-    await channel.send(f'{ctx.author} снял мут {member}')
+    await channel.send(f'{ctx.author.mention} дал мут {member.mention}')
 
     
 @bot.command()
@@ -276,7 +276,7 @@ async def unmute(ctx, member : discord.Member, *, reason=None):
     channel = discord.utils.get(ctx.author.guild.channels, id=723196150961930343) #куда будет логироватся 
     mute_role = discord.utils.get(ctx.author.guild.roles, id=727228695277732063)
     await member.remove_roles(mute_role)
-    await channel.send(f'{ctx.author} снял мут {member}')
+    await channel.send(f'{ctx.author.mention} снял мут {member.mention}')
 
 
 
