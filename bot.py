@@ -171,17 +171,21 @@ async def event(ctx, arg):
         embed=discord.Embed(title=f"Проводится ивент мафия!", description=f"Победа мирных - 100 коинов\nПобеда мафии - 75 коинов\nВедущий - {ctx.author.mention}", color=0xff0084)
         embed.set_thumbnail(url="https://krot.info/uploads/posts/2020-01/1579563613_29-p-foni-s-mafiei-60.jpg")
         await ctx.send(embed = embed)
+
     elif event == 'uno':
         embed=discord.Embed(title="Проводится ивент уно!", description=f"1 место - 150 коинов\n2 место - 100 коинов\n3 место - 70 коинов\nВедущий - {ctx.author.mention} ", color=0x40ff00)
         embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/532890437858623488/567023305698312202/Uno.png")
         await ctx.send(embed = embed)  
+
     elif event == 'monopoly':
         embed=discord.Embed(title="Проводится ивент монополия", description=f"1 место - 350 коинов\n2 место - 300 коинов\n3 место - 150 коинов\nВедущий - {ctx.author.mention} ", color=0xffc500)
         embed.set_thumbnail(url="https://im0-tub-ru.yandex.net/i?id=013bb6a40f47b1cdee74dd2bc6e6b231&n=13&exp=1")
         await ctx.send(embed = embed)
+
     else:
         embed=discord.Embed(title="Такого ивента нет!", description="Все существующие ивенты\nmonopoly\nuno\nmafia", color=0x6efb00)
         await ctx.send(embed = embed)
+
 
 @bot.command()
 @commands.has_role(leader_role)
@@ -192,33 +196,36 @@ async def win(ctx, arg, member : discord.Member, *, reason=None):
 
 
 @bot.command()
-@commands.has_role(key_role)
 async def case(ctx):
+    key_role = discord.utils.get(ctx.author.guild.roles, id=727021729553317928)
     try:
-        roles = ('бездарь','лампочка','добрый','токсичный') #все доступные роли
-        generate_roles = random.choice(roles) 
-        if generate_roles == 'бездарь':
-            role = discord.utils.get(ctx.author.guild.roles, id=727022337295122485)
-            await ctx.author.add_roles(role)
-            await ctx.send(f'{ctx.author.mention} открыл кейс и выбил роль бездарь')
+        if key_role in ctx.author.roles:
+            roles = ('бездарь','лампочка','добрый','токсичный') #все доступные роли
+            generate_roles = random.choice(roles) 
+            if generate_roles == 'бездарь':
+                role = discord.utils.get(ctx.author.guild.roles, id=727022337295122485)
+                await ctx.author.add_roles(role)
+                await ctx.send(f'{ctx.author.mention} открыл кейс и выбил роль бездарь')
 
-        elif generate_roles == 'лампочка':
-            role = discord.utils.get(ctx.author.guild.roles, id=724666465470382171)
-            await ctx.author.add_roles(role)
-            await ctx.send(f'{ctx.author.mention} открыл кейс и выбил роль лампочка')
+            elif generate_roles == 'лампочка':
+                role = discord.utils.get(ctx.author.guild.roles, id=724666465470382171)
+                await ctx.author.add_roles(role)
+                await ctx.send(f'{ctx.author.mention} открыл кейс и выбил роль лампочка')
 
-        elif generate_roles == 'токсичный':
-            role = discord.utils.get(ctx.author.guild.roles, id=724667118016266371)
-            await ctx.author.add_roles(role)
-            await ctx.send(f'{ctx.author.mention} открыл кейс и выбил роль токсичный')
+            elif generate_roles == 'токсичный':
+                role = discord.utils.get(ctx.author.guild.roles, id=724667118016266371)
+                await ctx.author.add_roles(role)
+                await ctx.send(f'{ctx.author.mention} открыл кейс и выбил роль токсичный')
 
-        elif generate_roles == 'добрый':
-            role = discord.utils.get(ctx.author.guild.roles, id=724679202313469953)
-            await ctx.author.add_roles(role)
-            await ctx.send(f'{ctx.author.mention} открыл кейс и выбил роль добрый')
+            elif generate_roles == 'добрый':
+                role = discord.utils.get(ctx.author.guild.roles, id=724679202313469953)
+                await ctx.author.add_roles(role)
+                await ctx.send(f'{ctx.author.mention} открыл кейс и выбил роль добрый')
+        else:
+            await ctx.send(f'У вас {ctx.author.mention} нет роли key для открытия кейса с ролями!')
 
     finally:
-        key_role = discord.utils.get(ctx.author.guild.roles, id=727021729553317928) #в конце просто забераем роль key
+         #в конце просто забераем роль key
         await ctx.author.remove_roles(key_role)
 
 
