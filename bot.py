@@ -212,7 +212,7 @@ async def case(ctx):
     key_role = discord.utils.get(ctx.author.guild.roles, id=727021729553317928)
     try:
         if key_role in ctx.author.roles:
-            roles = ('бездарь','лампочка','добрый','токсичный') #все доступные роли
+            roles = ('бездарь','звонишь','добрый','олег','бездарь','бездарь','олег','олег','🔮','добрый','добрый') #все доступные роли
             generate_roles = random.choice(roles)
 
             if generate_roles == 'бездарь':
@@ -220,24 +220,29 @@ async def case(ctx):
                 await ctx.author.add_roles(role)
                 await ctx.send(f'{ctx.author.mention} открыл кейс и выбил роль бездарь')
 
-            elif generate_roles == 'лампочка':
-                role = discord.utils.get(ctx.author.guild.roles, id=724666465470382171)
+            elif generate_roles == 'звонишь':
+                role = discord.utils.get(ctx.author.guild.roles, id=727102102396207164)
                 await ctx.author.add_roles(role)
-                await ctx.send(f'{ctx.author.mention} открыл кейс и выбил роль лампочка')
+                await ctx.send(f'{ctx.author.mention} открыл кейс и выбил роль кому звонишь')
 
-            elif generate_roles == 'токсичный':
-                role = discord.utils.get(ctx.author.guild.roles, id=724667118016266371)
-                await ctx.author.add_roles(role)
-                await ctx.send(f'{ctx.author.mention} открыл кейс и выбил роль токсичный')
 
             elif generate_roles == 'добрый':
                 role = discord.utils.get(ctx.author.guild.roles, id=724679202313469953)
                 await ctx.author.add_roles(role)
                 await ctx.send(f'{ctx.author.mention} открыл кейс и выбил роль добрый')
+
+
             elif generate_roles == 'олег':
                 role = discord.utils.get(ctx.author.guild.roles, id=724666261195194368)
                 await ctx.author.add_roles(role)
                 await ctx.send(f'{ctx.author.mention} открыл кейс и выбил роль олег')
+
+
+            elif generate_roles == '🔮':
+                role = discord.utils.get(ctx.author.guild.roles, id=727104047433252945)
+                await ctx.author.add_roles(role)
+                await ctx.send(f'{ctx.author.mention} открыл кейс и выбил роль 🔮')
+
 
         else:
             await ctx.send(f'У вас {ctx.author.mention} нет роли key для открытия кейса с ролями!')
