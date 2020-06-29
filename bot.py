@@ -113,14 +113,14 @@ async def gif(ctx, arg):
 @commands.has_role(leader_role)
 async def kill(ctx, member : discord.Member, *, reason=None):
     await ctx.message.delete()
-    await ctx.send(f'Мафия убила {member} 💀')
+    await ctx.send(f'Мафия убила {member.mention} 💀')
 
 
 @bot.command()
 @commands.has_role(leader_role)
 async def hanged(ctx, member : discord.Member, *, reason=None):
      await ctx.message.delete()
-     await ctx.send(f'Не поверили и повесили {member} 👹')
+     await ctx.send(f'Не поверили и повесили {member.mention} 👹')
 
 
 
@@ -165,6 +165,15 @@ async def event(ctx, arg):
     else:
         embed=discord.Embed(title="Такого ивента нет!", description="Все существующие ивенты\nmonopoly\nuno\nmafia", color=0x6efb00)
         await ctx.send(embed = embed)
+
+@bot.command()
+@commands.has_role(leader_role)
+async def win(ctx, member : discord.Member, *, reason=None):
+    pass
+    #тут должна быть работа с бд,но я это пока не освоил
+
+
+
 
 
 
