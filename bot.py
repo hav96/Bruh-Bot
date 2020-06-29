@@ -27,9 +27,6 @@ admin_role = 723198849434386462 # роль гл.админ
 
 discord_server_id = 722548853173125162 
 
-key_role = 727021729553317928
- 
-
 admins = []
 
 moders = []
@@ -216,8 +213,10 @@ async def case(ctx):
             role = discord.utils.get(ctx.author.guild.roles, id=724679202313469953)
             await ctx.author.add_roles(role)
             await ctx.send(f'{ctx.author.mention} открыл кейс и выбил роль добрый')
+
     finally:
-         await ctx.author.remove_roles(key_role)
+        key_role = discord.utils.get(ctx.author.guild.roles, id=722554103930290177)
+        await ctx.author.remove_roles(key_role)
 
 
 
