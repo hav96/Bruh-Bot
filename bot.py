@@ -64,8 +64,7 @@ async def on_member_remove(member):
 @bot.command()
 async def help(ctx):
     await ctx.message.delete()
-    embed=discord.Embed(title="Помощь", description='''Префикс бота >\n\nРофлан команды.\nmanga - рандомная хентай манга.\ngif слово - получить гифку.
-    \ncase - если у вас есть роль key, то вы можете открыть кейс и выбить роль.
+    embed=discord.Embed(title="Помощь", description='''Префикс бота >\n\nРофлан команды.\nmanga - рандомная хентай манга.\ngif слово - получить гифку.\ncase - открыть кейс(нужна роль key).
     \nМодер команды.\nban упоминание - выдать бан-роль.\nwarn упоминание - выдать варн.
     \nКоманды ведущего.\nevent название ивента - запустить ивент.\nkill упоминание - кого убила мафия.\nhanged упоминание - не поверили и повесили.\n''')
     await ctx.send(embed=embed)
@@ -201,7 +200,8 @@ async def case(ctx):
     try:
         if key_role in ctx.author.roles:
             roles = ('бездарь','лампочка','добрый','токсичный') #все доступные роли
-            generate_roles = random.choice(roles) 
+            generate_roles = random.choice(roles)
+
             if generate_roles == 'бездарь':
                 role = discord.utils.get(ctx.author.guild.roles, id=727022337295122485)
                 await ctx.author.add_roles(role)
