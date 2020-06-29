@@ -194,24 +194,30 @@ async def win(ctx, arg, member : discord.Member, *, reason=None):
 @bot.command()
 @commands.has_role(key_role)
 async def case(ctx):
-    roles = ('бездарь','лампочка','добрый','токсичный')
-    generate_roles = random.choice(roles)
-    if generate_roles == 'бездарь':
-        await member.add_roles(727022337295122485)
-        await ctx.send(f'{ctx.author.mention} открыл кейс и выбил роль бездарь')
+    try:
+        roles = ('бездарь','лампочка','добрый','токсичный')
+        generate_roles = random.choice(roles) 
+        if generate_roles == 'бездарь':
+            role = discord.utils.get(ctx.author.guild.roles, id=727022337295122485)
+            await ctx.author.add_roles(role)
+            await ctx.send(f'{ctx.author.mention} открыл кейс и выбил роль бездарь')
 
-    elif generate_roles == 'лампочка':
-        await member.add_roles(724666465470382171)
-        await ctx.send(f'{ctx.author.mention} открыл кейс и выбил роль лампочка')
+        elif generate_roles == 'лампочка':
+            role = discord.utils.get(ctx.author.guild.roles, id=724666465470382171)
+            await ctx.author.add_roles(role)
+            await ctx.send(f'{ctx.author.mention} открыл кейс и выбил роль лампочка')
 
-    elif generate_role == 'токсичный':
-        await member.add_roles(724667118016266371)
-        await ctx.send(f'{ctx.author.mention} открыл кейс и выбил роль токсичный')
-        
-    elif generate_role == 'добрый':
-        await member.add_roles(724679202313469953)
-        await ctx.send(f'{ctx.author.mention} открыл кейс и выбил роль добрый')
-    
+        elif generate_roles == 'токсичный':
+            role = discord.utils.get(ctx.author.guild.roles, id=724667118016266371)
+            await ctx.author.add_roles(role)
+            await ctx.send(f'{ctx.author.mention} открыл кейс и выбил роль токсичный')
+
+        elif generate_roles == 'добрый':
+            role = discord.utils.get(ctx.author.guild.roles, id=724679202313469953)
+            await ctx.author.add_roles(role)
+            await ctx.send(f'{ctx.author.mention} открыл кейс и выбил роль добрый')
+    finally:
+         await ctx.author.remove_roles(key_role)
 
 
 
