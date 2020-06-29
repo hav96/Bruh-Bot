@@ -68,7 +68,7 @@ async def on_command_error(ctx, error):
     if isinstance(error, commands.CommandNotFound ):
         await ctx.send(embed = discord.Embed(description = f'** {ctx.author.mention}, данной команды не существует\nпропиши >help.**', color=0x0c0c0c))
 
-
+ 
 
 
 
@@ -182,14 +182,14 @@ async def event(ctx, arg):
     if event == 'mafia':
         await ctx.guild.create_voice_channel('Мафия', category=category)
         await ctx.guild.create_text_channel('мафия', category=category)
-        embed=discord.Embed(title=f"Проводится ивент мафия!", description=f"Победа мирных - 100 коинов\nПобеда мафии - 75 коинов\nВедущий - {ctx.author.mention}", color=0xff0084)
+        embed=discord.Embed(title=f"Проводится ивент мафия!", description=f"Победа мирных - 100 коинов\nПобеда мафии - 75 коинов\nВедущий - {ctx.author.mention}\n@everyone", color=0xff0084)
         embed.set_thumbnail(url="https://krot.info/uploads/posts/2020-01/1579563613_29-p-foni-s-mafiei-60.jpg")
         await channel.send(embed = embed)
 
     elif event == 'uno':
         await ctx.guild.create_voice_channel('Уно', category=category)
         await ctx.guild.create_text_channel('уно', category=category)
-        embed=discord.Embed(title="Проводится ивент уно!", description=f"1 место - 100 коинов\n2 место - 75 коинов\n3 место - 50 коинов\nВедущий - {ctx.author.mention} ", color=0x40ff00)
+        embed=discord.Embed(title="Проводится ивент уно!", description=f"1 место - 100 коинов\n2 место - 75 коинов\n3 место - 50 коинов\nВедущий - {ctx.author.mention}\n@everyone", color=0x40ff00)
         embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/532890437858623488/567023305698312202/Uno.png")
         await channel.send(embed = embed)
  
@@ -197,7 +197,7 @@ async def event(ctx, arg):
     elif event == 'monopoly':
         await ctx.guild.create_voice_channel('Монополия', category=category)
         await ctx.guild.create_text_channel('монополия', category=category)
-        embed=discord.Embed(title="Проводится ивент монополия!", description=f"1 место - 350 коинов\n2 место - 300 коинов\n3 место - 150 коинов\nВедущий - {ctx.author.mention} ", color=0xffc500)
+        embed=discord.Embed(title="Проводится ивент монополия!", description=f"1 место - 350 коинов\n2 место - 300 коинов\n3 место - 150 коинов\nВедущий - {ctx.author.mention}\n@everyone", color=0xffc500)
         embed.set_thumbnail(url="https://im0-tub-ru.yandex.net/i?id=013bb6a40f47b1cdee74dd2bc6e6b231&n=13&exp=1")
         await channel.send(embed = embed)
 
@@ -260,5 +260,26 @@ async def case(ctx):
          #в конце просто забераем роль key
         await ctx.author.remove_roles(key_role)
 
+
+@bot.command()
+@commands.has_role(moder_role)
+async def mute(ctx, member : discord.Member, *, reason=None):
+    channel = discord.utils.get(ctx.author.guild.channels, id=723196150961930343) #куда будет логироватся 
+    mute_role = discord.utils.get(ctx.author.guild.roles, id=727228695277732063)
+    await member.add_roles(mute_role)
+    channel.send(f'{ctx.author} снял мут {member}')
+
+    
+@bot.command()
+@commands.has_role(moder_role)
+async def unmute(ctx, member : discord.Member, *, reason=None):
+    channel = discord.utils.get(ctx.author.guild.channels, id=723196150961930343) #куда будет логироватся 
+    mute_role = discord.utils.get(ctx.author.guild.roles, id=727228695277732063)
+    await member.remove_roles(mute_role)
+    channel.send(f'{ctx.author} снял мут {member}')
+
+
+
+        
 
 bot.run(TOKEN)         
