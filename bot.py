@@ -65,6 +65,7 @@ async def on_member_remove(member):
 async def help(ctx):
     await ctx.message.delete()
     embed=discord.Embed(title="Помощь", description='''Префикс бота >\n\nРофлан команды.\nmanga - рандомная хентай манга.\ngif слово - получить гифку.
+    \ncase - если у вас есть роль key, то вы можете открыть кейс и выбить роль.
     \nМодер команды.\nban упоминание - выдать бан-роль.\nwarn упоминание - выдать варн.
     \nКоманды ведущего.\nevent название ивента - запустить ивент.\nkill упоминание - кого убила мафия.\nhanged упоминание - не поверили и повесили.\n''')
     await ctx.send(embed=embed)
