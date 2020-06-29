@@ -8,7 +8,7 @@ import tenorpy
 from colorama import init
 from termcolor import colored
 import random
-import COVID19Py
+
 
 
 
