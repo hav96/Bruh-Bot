@@ -27,6 +27,8 @@ admin_role = 723198849434386462 # роль гл.админ
 
 discord_server_id = 722548853173125162 
 
+key_role = 727021729553317928
+
 admins = []
 
 moders = []
@@ -192,7 +194,7 @@ async def win(ctx, arg, member : discord.Member, *, reason=None):
 @commands.has_role(key_role)
 async def case(ctx):
     try:
-        roles = ('бездарь','лампочка','добрый','токсичный')
+        roles = ('бездарь','лампочка','добрый','токсичный') #все доступные роли
         generate_roles = random.choice(roles) 
         if generate_roles == 'бездарь':
             role = discord.utils.get(ctx.author.guild.roles, id=727022337295122485)
@@ -215,7 +217,7 @@ async def case(ctx):
             await ctx.send(f'{ctx.author.mention} открыл кейс и выбил роль добрый')
 
     finally:
-        key_role = discord.utils.get(ctx.author.guild.roles, id=722554103930290177)
+        key_role = discord.utils.get(ctx.author.guild.roles, id=727021729553317928) #в конце просто забераем роль key
         await ctx.author.remove_roles(key_role)
 
 
