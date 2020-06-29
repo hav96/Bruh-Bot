@@ -64,7 +64,9 @@ async def on_member_remove(member):
 @bot.command()
 async def help(ctx):
     await ctx.message.delete()
-    embed=discord.Embed(title="Помощь", description=".")
+    embed=discord.Embed(title="Помощь", description='''Префикс бота >\n\nРофлан команды.\nmanga - рандомная хентай манга.\ngif слово - получить гифку.
+    \nМодер команды.\nban упоминание - выдать бан-роль.\nwarn упоминание - выдать варн.
+    \nКоманды ведущего.\nevent название ивента - запустить ивент.\nkill упоминание - кого убила мафия.\nhanged упоминание - не поверили и повесили.\n''')
     await ctx.send(embed=embed)
 
 
@@ -108,8 +110,8 @@ async def gif(ctx, arg):
         await ctx.send(embed = emb)
     except:
         gif = arg
-        embed=discord.Embed(title='Ошибка' , description=f'Gif с названием {gif} не нашлось!', color=0xff0035)
-        embed.set_thumbnail(url='https://b2.crackwatch.com/file/crackwatch-temp/edk2z47xz.gif')
+        embed=discord.Embed(title='Bruh Bot' , description='Гифки по вашему запросу не нашлось.', color=0xff0035)
+        embed.set_footer(text = f"Запросил {ctx.author}({ctx.author.display_name})", icon_url = f'{ctx.author.avatar_url}')
         await ctx.send(embed = embed)
     
 
@@ -169,11 +171,11 @@ async def event(ctx, arg):
         embed.set_thumbnail(url="https://krot.info/uploads/posts/2020-01/1579563613_29-p-foni-s-mafiei-60.jpg")
         await ctx.send(embed = embed)
     elif event == 'uno':
-        embed=discord.Embed(title="Проводится ивент уно!", description=f"1 место - 500 коинов\n2 место - 350 коинов\n3 место - 200 коинов\nВедущий - {ctx.author.mention} ", color=0x40ff00)
+        embed=discord.Embed(title="Проводится ивент уно!", description=f"1 место - 150 коинов\n2 место - 100 коинов\n3 место - 70 коинов\nВедущий - {ctx.author.mention} ", color=0x40ff00)
         embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/532890437858623488/567023305698312202/Uno.png")
         await ctx.send(embed = embed)  
     elif event == 'monopoly':
-        embed=discord.Embed(title="Проводится ивент монополия", description=f"1 место - 500 коинов\n2 место - 300 коинов\n3 место - 200 коинов\nВедущий - {ctx.author.mention} ", color=0xffc500)
+        embed=discord.Embed(title="Проводится ивент монополия", description=f"1 место - 350 коинов\n2 место - 300 коинов\n3 место - 150 коинов\nВедущий - {ctx.author.mention} ", color=0xffc500)
         embed.set_thumbnail(url="https://im0-tub-ru.yandex.net/i?id=013bb6a40f47b1cdee74dd2bc6e6b231&n=13&exp=1")
         await ctx.send(embed = embed)
     else:
@@ -182,8 +184,8 @@ async def event(ctx, arg):
 
 @bot.command()
 @commands.has_role(leader_role)
-async def win(ctx, member : discord.Member, *, reason=None):
-    pass
+async def win(ctx, arg, member : discord.Member, *, reason=None):
+    await ctx.message.delete()
     #тут должна быть работа с бд,но я это пока не освоил
 
 
