@@ -178,7 +178,7 @@ async def event(ctx, arg):
     elif event == 'uno':
         await ctx.guild.create_voice_channel('Уно', category=category)
         await ctx.guild.create_text_channel('уно', category=category)
-        embed=discord.Embed(title="Проводится ивент уно!", description=f"1 место - 150 коинов\n2 место - 100 коинов\n3 место - 70 коинов\nВедущий - {ctx.author.mention} ", color=0x40ff00)
+        embed=discord.Embed(title="Проводится ивент уно!", description=f"1 место - 100 коинов\n2 место - 75 коинов\n3 место - 50 коинов\nВедущий - {ctx.author.mention} ", color=0x40ff00)
         embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/532890437858623488/567023305698312202/Uno.png")
         await channel.send(embed = embed)
  
@@ -205,6 +205,7 @@ async def win(ctx, arg, member : discord.Member, *, reason=None):
 
 @bot.command()
 async def case(ctx):
+    await ctx.message.delete()
     key_role = discord.utils.get(ctx.author.guild.roles, id=727021729553317928)
     try:
         if key_role in ctx.author.roles:
