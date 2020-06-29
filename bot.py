@@ -27,6 +27,7 @@ admin_role = 723198849434386462 # роль гл.админ
 
 discord_server_id = 722548853173125162 
 
+key_role = 727021729553317928
  
 
 admins = []
@@ -188,6 +189,29 @@ async def win(ctx, arg, member : discord.Member, *, reason=None):
     await ctx.message.delete()
     #тут должна быть работа с бд,но я это пока не освоил
 
+
+
+@bot.command()
+@commands.has_role(key_role)
+async def case(ctx):
+    roles = ('бездарь','лампочка','добрый','токсичный')
+    generate_roles = random.choice(roles)
+    if generate_roles == 'бездарь':
+        await member.add_roles(727022337295122485)
+        await ctx.send(f'{ctx.author.mention} открыл кейс и выбил роль бездарь')
+
+    elif generate_roles == 'лампочка':
+        await member.add_roles(724666465470382171)
+        await ctx.send(f'{ctx.author.mention} открыл кейс и выбил роль лампочка')
+
+    elif generate_role == 'токсичный':
+        await member.add_roles(724667118016266371)
+        await ctx.send(f'{ctx.author.mention} открыл кейс и выбил роль токсичный')
+        
+    elif generate_role == 'добрый':
+        await member.add_roles(724679202313469953)
+        await ctx.send(f'{ctx.author.mention} открыл кейс и выбил роль добрый')
+    
 
 
 
