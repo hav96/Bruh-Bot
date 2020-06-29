@@ -165,21 +165,30 @@ async def manga(ctx):
 @commands.has_role(leader_role)
 async def event(ctx, arg):
     await ctx.message.delete()
+    category = discord.utils.get(ctx.guild.categories, name='ивенты') #где будет создаваться ивент
+    channel = discord.utils.get(ctx.author.guild.channels, id=727040205210517505) #куда будут писаться все ивенты 
     event = arg
-    if event == 'mafia': 
+    if event == 'mafia':
+        await ctx.guild.create_voice_channel('Мафия', category=category)
+        await ctx.guild.create_text_channel('мафия', category=category)
         embed=discord.Embed(title=f"Проводится ивент мафия!", description=f"Победа мирных - 100 коинов\nПобеда мафии - 75 коинов\nВедущий - {ctx.author.mention}", color=0xff0084)
         embed.set_thumbnail(url="https://krot.info/uploads/posts/2020-01/1579563613_29-p-foni-s-mafiei-60.jpg")
-        await ctx.send(embed = embed)
+        await channel.send(embed = embed)
 
     elif event == 'uno':
+        await ctx.guild.create_voice_channel('Уно', category=category)
+        await ctx.guild.create_text_channel('уно', category=category)
         embed=discord.Embed(title="Проводится ивент уно!", description=f"1 место - 150 коинов\n2 место - 100 коинов\n3 место - 70 коинов\nВедущий - {ctx.author.mention} ", color=0x40ff00)
         embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/532890437858623488/567023305698312202/Uno.png")
-        await ctx.send(embed = embed)  
+        await channel.send(embed = embed)
+ 
 
     elif event == 'monopoly':
+        await ctx.guild.create_voice_channel('Монополия', category=category)
+        await ctx.guild.create_text_channel('монополия', category=category)
         embed=discord.Embed(title="Проводится ивент монополия", description=f"1 место - 350 коинов\n2 место - 300 коинов\n3 место - 150 коинов\nВедущий - {ctx.author.mention} ", color=0xffc500)
         embed.set_thumbnail(url="https://im0-tub-ru.yandex.net/i?id=013bb6a40f47b1cdee74dd2bc6e6b231&n=13&exp=1")
-        await ctx.send(embed = embed)
+        await channel.send(embed = embed)
 
     else:
         embed=discord.Embed(title="Такого ивента нет!", description="Все существующие ивенты\nmonopoly\nuno\nmafia", color=0x6efb00)
