@@ -8,6 +8,7 @@ import tenorpy
 from colorama import init
 from termcolor import colored
 import random
+import COVID19Py
 
 
 
@@ -39,7 +40,8 @@ leaders = []
 @bot.event
 async def on_ready():
     init()
-    print(colored('Bruh Bot started', 'yellow'))
+    print(colored('Bruh Bot started', 'green'))
+    
 
 
 @bot.event
@@ -190,6 +192,7 @@ async def event(ctx, arg):
         embed.set_thumbnail(url="https://im0-tub-ru.yandex.net/i?id=013bb6a40f47b1cdee74dd2bc6e6b231&n=13&exp=1")
         await channel.send(embed = embed)
 
+
     else:
         embed=discord.Embed(title="Такого ивента нет!", description="Все существующие ивенты\nmonopoly\nuno\nmafia", color=0x6efb00)
         await ctx.send(embed = embed)
@@ -231,6 +234,11 @@ async def case(ctx):
                 role = discord.utils.get(ctx.author.guild.roles, id=724679202313469953)
                 await ctx.author.add_roles(role)
                 await ctx.send(f'{ctx.author.mention} открыл кейс и выбил роль добрый')
+            elif generate_roles == 'олег':
+                role = discord.utils.get(ctx.author.guild.roles, id=724666261195194368)
+                await ctx.author.add_roles(role)
+                await ctx.send(f'{ctx.author.mention} открыл кейс и выбил роль олег')
+
         else:
             await ctx.send(f'У вас {ctx.author.mention} нет роли key для открытия кейса с ролями!')
 
@@ -239,9 +247,4 @@ async def case(ctx):
         await ctx.author.remove_roles(key_role)
 
 
-
-
-
-
-bot.run(TOKEN)
-          
+bot.run(TOKEN)         
