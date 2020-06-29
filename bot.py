@@ -107,6 +107,7 @@ async def gif(ctx, arg):
         emb.set_footer(text = f"Запросил {ctx.author}({ctx.author.display_name})", icon_url = f'{ctx.author.avatar_url}')
         await ctx.send(embed = emb)
     except:
+        gif = arg
         embed=discord.Embed(title='Ошибка' , description=f'Gif с названием {gif} не нашлось!', color=0xff0035)
         embed.set_thumbnail(url='https://b2.crackwatch.com/file/crackwatch-temp/edk2z47xz.gif')
         await ctx.send(embed = embed)
