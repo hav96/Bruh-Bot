@@ -213,7 +213,13 @@ async def win(ctx, arg, member : discord.Member, *, reason=None):
     await ctx.message.delete()
     #тут должна быть работа с бд,но я это пока не освоил
 
-
+@bot.command()
+@commands.has_role(leader_role)
+async def event_end(ctx, first, *, two):
+    await ctx.guild.get_channel(first).delete()
+    await ctx.guild.get_channel(two).delete()
+    embed=discord.Embed(title=f"Ивент закончен,ведущим был {ctx.author.mention}", color=0x9c00ff)
+    await ctx.send(embed = embed)
 
 @bot.command()
 async def case(ctx):
