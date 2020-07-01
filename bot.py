@@ -312,9 +312,10 @@ async def create_room(ctx):
 @commands.has_role(room_creator)
 async def endroom(ctx):
     try:
-        server = 722548853173125162
-        channel = discord.utils.get(server.channels, name=f"room {ctx.author}", type="ChannelType.voice")
-        await channel.edit(channel, name='~1 - ~2 - 3~')
+        #server = 722548853173125162
+        category = discord.utils.get(ctx.guild.categories, name='Румы участников🍥')
+        channel = discord.utils.get(ctx.guild.voice_channels,category=category, name=f"room {ctx.author}")
+        #await channel.edit(channel, name='~1 - ~2 - 3~')
         await ctx.guild.get_channel(channel).delete()
     except Exception as error:
         print(error)
