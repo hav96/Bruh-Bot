@@ -8,6 +8,7 @@ import tenorpy
 from colorama import init
 from termcolor import colored
 import random
+from Cybernator import Paginator
 
 
 
@@ -114,15 +115,14 @@ async def warn(ctx, member : discord.Member, *, reason=None):
 
 
 @bot.command()
-async def gif(ctx, arg):
+async def gif(ctx, gif: str):
     try:
         await ctx.message.delete()
-        emb = discord.Embed(title = "Загрузка изображения " + arg)
-        emb.set_image(url = tenorpy.random(arg))
+        emb = discord.Embed(title = "Загрузка изображения " + gif)
+        emb.set_image(url = tenorpy.random(gif))
         emb.set_footer(text = f"Запросил {ctx.author}({ctx.author.display_name})", icon_url = f'{ctx.author.avatar_url}')
         await ctx.send(embed = emb)
     except:
-        gif = arg
         embed=discord.Embed(title='Bruh Bot' , description='Гифки по вашему запросу не нашлось.', color=0xff0035)
         embed.set_footer(text = f"Запросил {ctx.author}({ctx.author.display_name})", icon_url = f'{ctx.author.avatar_url}')
         await ctx.send(embed = embed)
@@ -174,6 +174,11 @@ async def manga(ctx):
 
 
 
+
+events_id = []
+
+
+
 @bot.command()
 @commands.has_role(leader_role)
 async def event(ctx, arg):
@@ -187,6 +192,7 @@ async def event(ctx, arg):
         embed=discord.Embed(title=f"Проводится ивент мафия!", description=f"Победа мирных - 100 коинов\nПобеда мафии - 75 коинов\nВедущий - {ctx.author.mention}\n@everyone", color=0xff0084)
         embed.set_thumbnail(url="https://krot.info/uploads/posts/2020-01/1579563613_29-p-foni-s-mafiei-60.jpg")
         await channel.send(embed = embed)
+    
 
     elif event == 'uno':
         await ctx.guild.create_voice_channel('Уно', category=category)
@@ -202,6 +208,7 @@ async def event(ctx, arg):
         embed=discord.Embed(title="Проводится ивент монополия!", description=f"1 место - 350 коинов\n2 место - 300 коинов\n3 место - 150 коинов\nВедущий - {ctx.author.mention}\n@everyone", color=0xffc500)
         embed.set_thumbnail(url="https://im0-tub-ru.yandex.net/i?id=013bb6a40f47b1cdee74dd2bc6e6b231&n=13&exp=1")
         await channel.send(embed = embed)
+  
 
 
     else:
@@ -209,18 +216,8 @@ async def event(ctx, arg):
         await ctx.send(embed = embed)
 
 
-@bot.command()
-@commands.has_role(leader_role)
-async def event_end(ctx, channel_id1: int, channel_id2: int):
-    category = discord.utils.get(ctx.guild.categories, name='ивенты') 
-    try:
-        await ctx.guild.get_channel(channel_id1).delete()
-        await ctx.guild.get_channel(channel_id2).delete()
-        embed=discord.Embed(title=f"Ивент закончен", color=0x9c00ff)
-        await ctx.send(embed = embed)
-            #await ctx.send(f'Ивент закончен,ивент проводил {ctx.author.mention}')
-    except Exception as error:
-        print(error)
+
+
 
 @bot.command()
 async def case(ctx):
@@ -268,6 +265,8 @@ async def case(ctx):
         await ctx.author.remove_roles(key_role)
 
 
+
+
 @bot.command()
 @commands.has_role(moder_role)
 async def mute(ctx, member : discord.Member, *, reason=None):
@@ -276,7 +275,9 @@ async def mute(ctx, member : discord.Member, *, reason=None):
     await member.add_roles(mute_role)
     await channel.send(f'{ctx.author.mention} дал мут {member.mention}')
 
-    
+
+
+
 @bot.command()
 @commands.has_role(moder_role)
 async def unmute(ctx, member : discord.Member, *, reason=None):
@@ -285,13 +286,15 @@ async def unmute(ctx, member : discord.Member, *, reason=None):
     await member.remove_roles(mute_role)
     await channel.send(f'{ctx.author.mention} снял мут {member.mention}')
 
-'''Список с помощью которого будет проверка создал ли определенный человек руму или же нет'''
 
 author_rooms = []
 
+rooms_id = []
+
+
 @bot.command()
 @commands.has_role(room_creator)
-async def create_room(ctx, name: str):
+async def create_room(ctx):
     try:
         author = ctx.author.id
         print(author)
@@ -299,29 +302,27 @@ async def create_room(ctx, name: str):
         if str(author) in author_rooms:
             await ctx.send(f'{ctx.author.mention} Вы не можете создать более 1 комнаты!Удалите старую комнату и сможете создать новую!')
         else:
+            name = f'room {ctx.author}'
             await ctx.guild.create_voice_channel(name, category=category)
             author_rooms.append(str(author))
+            rooms_id.append(str(channel.id))
             print(author_rooms)
+    
     except Exception as error:
         print(error)
 
 
 
+
+
 @bot.command()
 @commands.has_role(room_creator)
-async def delete_room(ctx, name):
-    author_tag = ctx.author.id
-    category = discord.utils.get(ctx.guild.categories, name='Румы участников🍥') 
-    if str(author_tag) in author_rooms and  room_creator in ctx.author.roles:
-        await ctx.guild.get_channel(name).delete()
+async def delete_room(ctx, room_id):
+    if room_id in rooms_id:
+        await ctx.guild.get_channel(room_id).delete()
+        rooms_id.remove(room_id)
     else:
         pass
-
-        
-
-
-
-
 
 
 
