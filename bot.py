@@ -211,12 +211,6 @@ async def event(ctx, arg):
 
 @bot.command()
 @commands.has_role(leader_role)
-async def win(ctx, arg, member : discord.Member, *, reason=None):
-    await ctx.message.delete()
-    #тут должна быть работа с бд,но я это пока не освоил
-
-@bot.command()
-@commands.has_role(leader_role)
 async def event_end(ctx, channel_id1: int, channel_id2: int):
     category = discord.utils.get(ctx.guild.categories, name='ивенты') 
     try:
@@ -298,12 +292,37 @@ author_rooms = []
 @bot.command()
 @commands.has_role(room_creator)
 async def create_room(ctx, name: str):
-    author = ctx.author.mention
-    category = discord.utils.get(ctx.guild.categories, name='Румы участников🍥') #где будет создаваться приват рума
-    if author in author_rooms:
-        await ctx.send(f'{author.mention} Вы не можете создать более 1 комнаты!')
+    try:
+        author = ctx.author.id
+        print(author)
+        category = discord.utils.get(ctx.guild.categories, name='Румы участников🍥') #где будет создаваться приват рума
+        if str(author) in author_rooms:
+            await ctx.send(f'{ctx.author.mention} Вы не можете создать более 1 комнаты!Удалите старую комнату и сможете создать новую!')
+        else:
+            await ctx.guild.create_voice_channel(name, category=category)
+            author_rooms.append(str(author))
+            print(author_rooms)
+    except Exception as error:
+        print(error)
+
+
+
+@bot.command()
+@commands.has_role(room_creator)
+async def delete_room(ctx, name):
+    author_tag = ctx.author.id
+    category = discord.utils.get(ctx.guild.categories, name='Румы участников🍥') 
+    if str(author_tag) in author_rooms and  room_creator in ctx.author.roles:
+        await ctx.guild.get_channel(name).delete()
     else:
-        await ctx.guild.create_voice_channel(name, category=category)
-        author_rooms.append(author)
+        pass
+
+        
+
+
+
+
+
+
 
 bot.run(TOKEN)         
