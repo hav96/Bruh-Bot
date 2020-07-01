@@ -11,7 +11,7 @@ import random
 from Cybernator import Paginator
 
 
-
+version = '0.0.1'
 
 TOKEN = 'NzI0NjQyNjgwMTI2MDQ2MzM5.XvDbTg.7tmEJ94cyQtJIsEqw7aMbowsNSg'
 
@@ -43,7 +43,7 @@ leaders = []
 @bot.event
 async def on_ready():
     init()
-    print(colored('Bruh Bot started', 'green'))
+    print(colored(f'-------------\nBruh Bot started\nVersion bot {version}\nDeveloper saywex bruh\n-------------', 'green'))
     
 
 
@@ -175,7 +175,7 @@ async def manga(ctx):
 
 
 
-events_id = []
+
 
 
 
@@ -304,7 +304,6 @@ async def create_room(ctx):
             name = f'room {ctx.author}'
             await ctx.guild.create_voice_channel(name, category=category)
             author_rooms.append(str(author))
-            
     except Exception as error:
         print(error)
 
