@@ -215,11 +215,15 @@ async def win(ctx, arg, member : discord.Member, *, reason=None):
 
 @bot.command()
 @commands.has_role(leader_role)
-async def event_end(ctx, first, *, two):
-    await ctx.guild.get_channel(first).delete()
-    await ctx.guild.get_channel(two).delete()
-    embed=discord.Embed(title=f"Ивент закончен,ведущим был {ctx.author.mention}", color=0x9c00ff)
-    await ctx.send(embed = embed)
+async def event_end(ctx, channel_id1: int, channel_id2: int):
+    try:
+        await ctx.guild.get_channel(channel_id1).delete()
+        await ctx.guild.get_channel(channel_id2).delete()
+        embed=discord.Embed(title=f"Ивент закончен", color=0x9c00ff)
+        await ctx.send(embed = embed)
+        #await ctx.send(f'Ивент закончен,ивент проводил {ctx.author.mention}')
+    except Exception as error:
+        print(error)
 
 @bot.command()
 async def case(ctx):
