@@ -289,7 +289,7 @@ async def unmute(ctx, member : discord.Member, *, reason=None):
 
 author_rooms = []
 
-rooms_id = []
+rooms_name = []
 
 
 @bot.command()
@@ -297,7 +297,6 @@ rooms_id = []
 async def create_room(ctx):
     try:
         author = ctx.author.id
-        print(author)
         category = discord.utils.get(ctx.guild.categories, name='Румы участников🍥') #где будет создаваться приват рума
         if str(author) in author_rooms:
             await ctx.send(f'{ctx.author.mention} Вы не можете создать более 1 комнаты!Удалите старую комнату и сможете создать новую!')
@@ -305,24 +304,11 @@ async def create_room(ctx):
             name = f'room {ctx.author}'
             await ctx.guild.create_voice_channel(name, category=category)
             author_rooms.append(str(author))
-            rooms_id.append(str(channel.id))
-            print(author_rooms)
-    
+            
     except Exception as error:
         print(error)
 
 
-
-
-
-@bot.command()
-@commands.has_role(room_creator)
-async def delete_room(ctx, room_id: int):
-    if room_id in rooms_id:
-        await ctx.guild.get_channel(room_id).delete()
-        rooms_id.remove(room_id)
-    else:
-        pass
 
 
 
