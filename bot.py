@@ -289,7 +289,7 @@ async def unmute(ctx, member : discord.Member, *, reason=None):
 
 author_rooms = []
 
-rooms_name = []
+
 
 
 @bot.command()
@@ -307,8 +307,16 @@ async def create_room(ctx):
     except Exception as error:
         print(error)
 
-
-
-
+#voice_channel = client.get_channel(channel_id)
+@bot.command()
+@commands.has_role(room_creator)
+async def endroom(ctx):
+    try:
+        server = 722548853173125162
+        channel = discord.utils.get(server.channels, name=f"room {ctx.author}", type="ChannelType.voice")
+        await channel.edit(channel, name='~1 - ~2 - 3~')
+        await ctx.guild.get_channel(channel).delete()
+    except Exception as error:
+        print(error)
 
 bot.run(TOKEN)         
