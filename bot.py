@@ -317,7 +317,7 @@ async def create_room(ctx):
 
 @bot.command()
 @commands.has_role(room_creator)
-async def delete_room(ctx, room_id):
+async def delete_room(ctx, room_id: int):
     if room_id in rooms_id:
         await ctx.guild.get_channel(room_id).delete()
         rooms_id.remove(room_id)
