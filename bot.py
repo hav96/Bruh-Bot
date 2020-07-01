@@ -30,6 +30,8 @@ discord_server_id = 722548853173125162
 
 key_role = 727021729553317928
 
+room_creator = 727690980341317632 #дает возможность создавать приват румы
+
 admins = []
 
 moders = []
@@ -216,12 +218,13 @@ async def win(ctx, arg, member : discord.Member, *, reason=None):
 @bot.command()
 @commands.has_role(leader_role)
 async def event_end(ctx, channel_id1: int, channel_id2: int):
+    category = discord.utils.get(ctx.guild.categories, name='ивенты') 
     try:
         await ctx.guild.get_channel(channel_id1).delete()
         await ctx.guild.get_channel(channel_id2).delete()
         embed=discord.Embed(title=f"Ивент закончен", color=0x9c00ff)
         await ctx.send(embed = embed)
-        #await ctx.send(f'Ивент закончен,ивент проводил {ctx.author.mention}')
+            #await ctx.send(f'Ивент закончен,ивент проводил {ctx.author.mention}')
     except Exception as error:
         print(error)
 
@@ -288,8 +291,19 @@ async def unmute(ctx, member : discord.Member, *, reason=None):
     await member.remove_roles(mute_role)
     await channel.send(f'{ctx.author.mention} снял мут {member.mention}')
 
+'''Список с помощью которого будет проверка создал ли определенный человек руму или же нет'''
 
+author_rooms = []
 
-        
+@bot.command()
+@commands.has_role(room_creator)
+async def create_room(ctx, name: str):
+    author = ctx.author.mention
+    category = discord.utils.get(ctx.guild.categories, name='Румы участников🍥') #где будет создаваться приват рума
+    if author in author_rooms:
+        await ctx.send(f'{author.mention} Вы не можете создать более 1 комнаты!')
+    else:
+        await ctx.guild.create_voice_channel(name, category=category)
+        author_rooms.append(author)
 
 bot.run(TOKEN)         
