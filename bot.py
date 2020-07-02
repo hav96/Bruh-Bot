@@ -44,6 +44,9 @@ leaders = []
 async def on_ready():
     init()
     print(colored(f'-------------\nBruh Bot started\nVersion bot {version}\nDeveloper saywex bruh\n-------------', 'green'))
+    #online_members = sum([0 if member.status == discord.status.offline else 1 for member in member.guild.members])
+    #channel = discord.utils.get(bot.guild.channels, id=728194908082667541)
+    #await channel.edit(online_members)
     
 
 
