@@ -86,12 +86,18 @@ async def on_voice_state_update(member, before, after):
         await member.remove_roles(voice_role)
         await log_channel.send(f'{member} вышел из голосового')
 
+
     else:
-        if after.channel != '🤫Помолчанка':
+        voice_channel = discord.utils.get(member.guild.channels, id=after.channel.id)
+        members = voice_channel.members
+        if after.channel != '🤫Помолчанка' and len(members) != 1:
             await member.add_roles(voice_role)
             await log_channel.send(f'{member} зашел в {after.channel}')
             #добавление коинов позже
-        else:
+        elif after.channel != '🤫Помолчанка' and len(members) == 1:
+            await member.send(f'{member.mention} если ты сидишь 1 тебе не начисляются коины,держу в курсе)')
+            await log_channel.send(f'{member} зашел в {after.channel}')
+        elif after.channel == '🤫Помолчанка':
             await member.remove_roles(voice_role)
             await log_channel.send(f'{member} зашел в AFK')
             #afk не добавляем коины
