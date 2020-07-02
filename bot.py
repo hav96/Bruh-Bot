@@ -51,7 +51,7 @@ async def on_ready():
 async def on_member_join(member):
     channel = discord.utils.get(member.guild.channels, id=722577485589381150)
     role = discord.utils.get(member.guild.roles, id=722554994670305321)
-    embed=discord.Embed(title=f"Добро пожаловать {member}", description="bla bla bla", color=0x8206f3)
+    embed=discord.Embed(title=f"Добро пожаловать {member}", description="Привествуем на нашем сервере!Выдал вам роль новичка =)", color=0x8206f3)
     embed.set_thumbnail(url="https://thumbs.gfycat.com/FrighteningPlasticHuman-small.gif")
     await channel.send(embed = embed)
     await member.add_roles(role)
@@ -59,7 +59,7 @@ async def on_member_join(member):
 @bot.event
 async def on_member_remove(member):
     channel = discord.utils.get(member.guild.channels, id=722577485589381150)
-    embed=discord.Embed(title=f"Нас покинул {member}", description="текст", color=0xf9ff00)
+    embed=discord.Embed(title=f"Нас покинул {member}", description="Жаль что ты решил(а) аокинуть наш сервер((", color=0xf9ff00)
     embed.set_thumbnail(url="https://media1.tenor.com/images/ae35ace17c27909ffb0c0e15f9cb79b6/tenor.gif?itemid=14776523")
     await channel.send(embed = embed)
     
@@ -137,8 +137,12 @@ async def kill(ctx, member : discord.Member, *, reason=None):
     await ctx.send(f'Мафия убила {member.mention} 💀')
     try:
         await member.edit(nick='умер')
+        embed=discord.Embed(title='Bruh Bot' , description=f'Сменил ник {member.mention}', color=0xff0035)
+        embed.set_footer(text = f"Запросил {ctx.author}({ctx.author.display_name})", icon_url = f'{ctx.author.avatar_url}')
     except:
-        await ctx.send(f'Не смог сменить ник {member.mention},не достаточно прав!')
+        embed=discord.Embed(title='Bruh Bot' , description=f'Не смог сменить ник {member.mention},не достаточно прав!', color=0xff0035)
+        embed.set_footer(text = f"Запросил {ctx.author}({ctx.author.display_name})", icon_url = f'{ctx.author.avatar_url}')
+        await ctx.send(embed = embed)
 
 
 @bot.command()
@@ -147,17 +151,20 @@ async def hanged(ctx, member : discord.Member, *, reason=None):
     await ctx.message.delete()
     await ctx.send(f'Не поверили и повесили {member.mention} 👹')
     try:
-        await member.edit(nick='умер')
+        embed=discord.Embed(title='Bruh Bot' , description=f'Сменил ник {member.mention}', color=0xff0035)
+        embed.set_footer(text = f"Запросил {ctx.author}({ctx.author.display_name})", icon_url = f'{ctx.author.avatar_url}')
+        await ctx.send(embed = embed)
     except:
-        await ctx.send(f'Не смог сменить ник {member.mention},не достаточно прав!')
-
+        embed=discord.Embed(title='Bruh Bot' , description=f'Не смог сменить ник {member.mention},не достаточно прав!', color=0xff0035)
+        embed.set_footer(text = f"Запросил {ctx.author}({ctx.author.display_name})", icon_url = f'{ctx.author.avatar_url}')
+        await ctx.send(embed = embed)
 
 
 @bot.command()
 @commands.has_role(leader_role)
 async def close_chat(ctx):
     await ctx.message.delete()
-    embed=discord.Embed(title="ЧАТ ЗАКРЫТ!", description="фолы за написания в прочий чат!", color=0xff0000)
+    embed=discord.Embed(title="ЧАТ ЗАКРЫТ!", description="Система фолов активна!", color=0xff0000)
     await ctx.send(embed=embed)
    
 
@@ -181,11 +188,10 @@ async def manga(ctx):
 
 @bot.command()
 @commands.has_role(leader_role)
-async def event(ctx, arg):
+async def event(ctx, event: str):
     await ctx.message.delete()
     category = discord.utils.get(ctx.guild.categories, name='ивенты') #где будет создаваться ивент
     channel = discord.utils.get(ctx.author.guild.channels, id=727040205210517505) #куда будут писаться все ивенты 
-    event = arg
     if event == 'mafia':
         await ctx.guild.create_voice_channel('Мафия', category=category)
         await ctx.guild.create_text_channel('мафия', category=category)
@@ -287,9 +293,7 @@ async def unmute(ctx, member : discord.Member, *, reason=None):
     await channel.send(f'{ctx.author.mention} снял мут {member.mention}')
 
 
-author_rooms = []
-
-
+author_rooms = [] #проверка через список созданных рум
 
 
 @bot.command()
@@ -304,6 +308,7 @@ async def create_room(ctx):
             name = f'room {ctx.author}'
             await ctx.guild.create_voice_channel(name, category=category)
             author_rooms.append(str(author))
+            await ctx.author.send('Вы создали приватную руму,удалить руму >endroom')
     except Exception as error:
         print(error)
 
@@ -312,9 +317,9 @@ async def create_room(ctx):
 @commands.has_role(room_creator)
 async def endroom(ctx):
     try:
-        #server = 722548853173125162
+        server = 722548853173125162
         category = discord.utils.get(ctx.guild.categories, name='Румы участников🍥')
-        channel = discord.utils.get(ctx.guild.voice_channels,category=category, name=f"room {ctx.author}")
+        channel = discord.utils.get(server.guild.voice_channels,category=category, name=f"room {ctx.author}")
         #await channel.edit(channel, name='~1 - ~2 - 3~')
         await ctx.guild.get_channel(channel).delete()
     except Exception as error:
