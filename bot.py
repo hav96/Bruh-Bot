@@ -65,7 +65,7 @@ async def on_member_join(member):
 async def on_member_remove(member):
     log_channel = discord.utils.get(member.guild.channels, id=723196150961930343) #куда будет логироватся
     channel = discord.utils.get(member.guild.channels, id=722577485589381150)
-    embed=discord.Embed(title=f"Нас покинул {member}", description="Жаль что ты решил(а) аокинуть наш сервер((", color=0xf9ff00)
+    embed=discord.Embed(title=f"Нас покинул {member}", description="Жаль что ты решил(а) покинуть наш сервер((", color=0xf9ff00)
     embed.set_thumbnail(url="https://media1.tenor.com/images/ae35ace17c27909ffb0c0e15f9cb79b6/tenor.gif?itemid=14776523")
     await channel.send(embed = embed)
     await log_channel.send(f'{member} вышел с сервера')
@@ -143,6 +143,7 @@ async def warn(ctx, member : discord.Member, *, reason=None):
     try:
         if member not in moders or admins or leaders:
             await ctx.send(f'{ctx.author} дал варн {member}')
+            log_channel = discord.utils.get(member.guild.channels, id=723196150961930343)
         else:
             await ctx.send(f'Не удалось дать варн {member} ,не достаточно прав!')
     except:
@@ -226,13 +227,15 @@ async def manga(ctx):
 async def event(ctx, event: str):
     await ctx.message.delete()
     category = discord.utils.get(ctx.guild.categories, name='ивенты') #где будет создаваться ивент
-    channel = discord.utils.get(ctx.author.guild.channels, id=727040205210517505) #куда будут писаться все ивенты 
+    channel = discord.utils.get(ctx.author.guild.channels, id=727040205210517505) #куда будут писаться все ивенты
+    log_channel = discord.utils.get(member.guild.channels, id=723196150961930343)
     if event == 'mafia':
         await ctx.guild.create_voice_channel('Мафия', category=category)
         await ctx.guild.create_text_channel('мафия', category=category)
         embed=discord.Embed(title=f"Проводится ивент мафия!", description=f"Победа мирных - 100 коинов\nПобеда мафии - 75 коинов\nВедущий - {ctx.author.mention}\n@everyone", color=0xff0084)
         embed.set_thumbnail(url="https://krot.info/uploads/posts/2020-01/1579563613_29-p-foni-s-mafiei-60.jpg")
         await channel.send(embed = embed)
+        await log_hannel.send(f'{ctx.author} запустил ивент мафия')
     
 
     elif event == 'uno':
@@ -241,6 +244,7 @@ async def event(ctx, event: str):
         embed=discord.Embed(title="Проводится ивент уно!", description=f"1 место - 100 коинов\n2 место - 75 коинов\n3 место - 50 коинов\nВедущий - {ctx.author.mention}\n@everyone", color=0x40ff00)
         embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/532890437858623488/567023305698312202/Uno.png")
         await channel.send(embed = embed)
+        await log_hannel.send(f'{ctx.author} запустил ивент уно')
  
 
     elif event == 'monopoly':
@@ -249,12 +253,18 @@ async def event(ctx, event: str):
         embed=discord.Embed(title="Проводится ивент монополия!", description=f"1 место - 350 коинов\n2 место - 300 коинов\n3 место - 150 коинов\nВедущий - {ctx.author.mention}\n@everyone", color=0xffc500)
         embed.set_thumbnail(url="https://im0-tub-ru.yandex.net/i?id=013bb6a40f47b1cdee74dd2bc6e6b231&n=13&exp=1")
         await channel.send(embed = embed)
+        await log_hannel.send(f'{ctx.author} запустил ивент монополия')
   
 
 
     else:
-        embed=discord.Embed(title="Такого ивента нет!", description="Все существующие ивенты\nmonopoly\nuno\nmafia", color=0x6efb00)
-        await ctx.send(embed = embed)
+        event = event.lower()
+        await ctx.guild.create_voice_channel(event, category=category)
+        await ctx.guild.create_text_channel(event, category=category)
+        #embed=discord.Embed(title="Такого ивента нет!", description="Все существующие ивенты\nmonopoly\nuno\nmafia", color=0x6efb00)
+        #await ctx.send(embed = embed)
+        await log_hannel.send(f'{ctx.author} запустил ивент {event}')
+
 
 
 
