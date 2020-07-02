@@ -49,19 +49,23 @@ async def on_ready():
 
 @bot.event
 async def on_member_join(member):
+    log_channel = discord.utils.get(member.guild.channels, id=723196150961930343) #куда будет логироватся
     channel = discord.utils.get(member.guild.channels, id=722577485589381150)
     role = discord.utils.get(member.guild.roles, id=722554994670305321)
     embed=discord.Embed(title=f"Добро пожаловать {member}", description="Привествуем на нашем сервере!Выдал вам роль новичка =)", color=0x8206f3)
     embed.set_thumbnail(url="https://thumbs.gfycat.com/FrighteningPlasticHuman-small.gif")
     await channel.send(embed = embed)
     await member.add_roles(role)
+    await log_channel.send(f'{member} зашел на  сервер')
     
 @bot.event
 async def on_member_remove(member):
+    log_channel = discord.utils.get(member.guild.channels, id=723196150961930343) #куда будет логироватся
     channel = discord.utils.get(member.guild.channels, id=722577485589381150)
     embed=discord.Embed(title=f"Нас покинул {member}", description="Жаль что ты решил(а) аокинуть наш сервер((", color=0xf9ff00)
     embed.set_thumbnail(url="https://media1.tenor.com/images/ae35ace17c27909ffb0c0e15f9cb79b6/tenor.gif?itemid=14776523")
     await channel.send(embed = embed)
+    await log_channel.send(f'{member} вышел с сервера')
     
     
 
@@ -72,6 +76,28 @@ async def on_command_error(ctx, error):
         await ctx.send(embed = discord.Embed(description = f'** {ctx.author.mention}, данной команды не существует\nпропиши >help.**', color=0x0c0c0c))
 
  
+
+
+@bot.event
+async def on_voice_state_update(member, before, after):
+    log_channel = discord.utils.get(member.guild.channels, id=723196150961930343) #куда будет логироватся
+    voice_role = discord.utils.get(member.guild.roles, id=int(728160775851606037))
+    if after.channel is None:
+        await member.remove_roles(voice_role)
+        await log_channel.send(f'{member} вышел из голосового')
+
+    else:
+        if after.channel != '🤫Помолчанка':
+            await member.add_roles(voice_role)
+            await log_channel.send(f'{member} зашел в {after.channel}')
+            #добавление коинов позже
+        else:
+            await member.remove_roles(voice_role)
+            await log_channel.send(f'{member} зашел в AFK')
+            #afk не добавляем коины
+
+
+
 
 
 
@@ -317,9 +343,8 @@ async def create_room(ctx):
 @commands.has_role(room_creator)
 async def endroom(ctx):
     try:
-        server = 722548853173125162
         category = discord.utils.get(ctx.guild.categories, name='Румы участников🍥')
-        channel = discord.utils.get(server.guild.voice_channels,category=category, name=f"room {ctx.author}")
+        channel = discord.utils.get(ctx.author.guild.voice_channels,category=category, name=f"room {ctx.author}")
         #await channel.edit(channel, name='~1 - ~2 - 3~')
         await ctx.guild.get_channel(channel).delete()
     except Exception as error:
