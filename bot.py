@@ -79,14 +79,14 @@ async def on_member_remove(member):
 async def on_command_error(ctx, error):
     if isinstance(error, commands.CommandNotFound ):
         await ctx.send(embed = discord.Embed(description = f'** {ctx.author.mention}, данной команды не существует\nпропиши >help.**', color=0x0c0c0c))
-
+        
  
 
 
 @bot.event
 async def on_voice_state_update(member, before, after):
     log_channel = discord.utils.get(member.guild.channels, id=723196150961930343) #куда будет логироватся
-    voice_role = discord.utils.get(member.guild.roles, id=int(728160775851606037))
+    voice_role = discord.utils.get(member.guild.roles, id=728160775851606037)
     if after.channel is None:
         await member.remove_roles(voice_role)
         await log_channel.send(f'{member} вышел из голосового')
@@ -100,7 +100,6 @@ async def on_voice_state_update(member, before, after):
             await log_channel.send(f'{member} зашел в {after.channel}')
             #добавление коинов позже
         elif after.channel != '🤫Помолчанка' and len(members) == 1:
-            await member.send(f'{member.mention} если ты сидишь 1 тебе не начисляются коины,держу в курсе)')
             await log_channel.send(f'{member} зашел в {after.channel}')
         elif after.channel == '🤫Помолчанка':
             await member.remove_roles(voice_role)
@@ -108,17 +107,21 @@ async def on_voice_state_update(member, before, after):
             #afk не добавляем коины
 
 
-
+#@bot.event  
+#async def on_raw_reaction_add(reaction, member):
+     #if reaction.emoji == "🏃":
+         #await member.add_roles(user.guild.get_role(726273302238199898))
 
 
 
 @bot.command()
 async def help(ctx):
     await ctx.message.delete()
-    embed=discord.Embed(title="Помощь", description='''Префикс бота >\n\nРофлан команды.\nmanga - рандомная хентай манга.\ngif слово - получить гифку.\ncase - открыть кейс(нужна роль key).
+    embed=discord.Embed(title="Помощь", description=('''Префикс бота >\n\nРофлан команды.\nmanga - рандомная хентай манга.\ngif слово - получить гифку.\ncase - открыть кейс(нужна роль key).
     \nМодер команды.\nban упоминание - выдать бан-роль.\nwarn упоминание - выдать варн.\nmute упоминание - дать мут\nunmute упоминание - размутить\n
-    \nКоманды ведущего.\nevent название ивента - запустить ивент.\nkill упоминание - кого убила мафия.\nhanged упоминание - не поверили и повесили.\n''')
+    \nКоманды ведущего.\nevent название ивента - запустить ивент.\nkill упоминание - кого убила мафия.\nhanged упоминание - не поверили и повесили.\n'''))
     await ctx.send(embed=embed)
+
 
 
 
@@ -134,9 +137,7 @@ async def ban(ctx, member : discord.Member, *, reason=None):
         else:
             await ctx.send(f'Не удалось забанить {member} ,не достаточно прав!')
     except:
-        await ctx.send(f'Не удалось забанить {member} ,не достаточно прав!')
-
-
+        await ctx.send(f'Не удалось забанить {member} ,не достаточно прав!')       
 
 @bot.command()
 @commands.has_role(moder_role)
@@ -222,7 +223,7 @@ async def manga(ctx):
 
 
 
-
+       
 
 @bot.command()
 @commands.has_role(leader_role)
@@ -278,36 +279,62 @@ async def case(ctx):
     key_role = discord.utils.get(ctx.author.guild.roles, id=727021729553317928)
     try:
         if key_role in ctx.author.roles:
-            roles = ('бездарь','звонишь','добрый','олег','бездарь','бездарь','олег','олег','🔮','добрый','добрый') #все доступные роли
+            roles = (
+            'олег',
+            'олег',
+            'олег',
+            'олег',
+            'добрый',
+            'бездарь',
+            'бездарь',
+            'бездарь',
+            'звонишь',
+            'добрый',
+            'олег',
+            'бездарь',
+            'бездарь',
+            'олег',
+            'олег',
+            '🔮',
+            'добрый',
+            'добрый',
+            'Майнкрафт',
+            'Майнкрафт'
+            'добрый') 
             generate_roles = random.choice(roles)
-
+            
             if generate_roles == 'бездарь':
                 role = discord.utils.get(ctx.author.guild.roles, id=727022337295122485)
                 await ctx.author.add_roles(role)
-                await ctx.send(f'{ctx.author.mention} открыл кейс и выбил роль бездарь')
+                await ctx.send(f'{ctx.author.mention} открыл кейс и выбил роль {generate_roles}')
+
+            elif generate_roles == 'Майнкрафт':
+                role = discord.utils.get(ctx.author.guild.roles, id=727193170269700167)
+                await ctx.author.add_roles(role)
+                await ctx.send(f'{ctx.author.mention} открыл кейс и выбил роль {generate_roles}')
 
             elif generate_roles == 'звонишь':
                 role = discord.utils.get(ctx.author.guild.roles, id=727102102396207164)
                 await ctx.author.add_roles(role)
-                await ctx.send(f'{ctx.author.mention} открыл кейс и выбил роль кому звонишь')
+                await ctx.send(f'{ctx.author.mention} открыл кейс и выбил роль {generate_roles}')
 
 
             elif generate_roles == 'добрый':
                 role = discord.utils.get(ctx.author.guild.roles, id=724679202313469953)
                 await ctx.author.add_roles(role)
-                await ctx.send(f'{ctx.author.mention} открыл кейс и выбил роль добрый')
+                await ctx.send(f'{ctx.author.mention} открыл кейс и выбил роль {generate_roles}')
 
 
             elif generate_roles == 'олег':
                 role = discord.utils.get(ctx.author.guild.roles, id=724666261195194368)
                 await ctx.author.add_roles(role)
-                await ctx.send(f'{ctx.author.mention} открыл кейс и выбил роль олег')
+                await ctx.send(f'{ctx.author.mention} открыл кейс и выбил роль {generate_roles}')
 
 
             elif generate_roles == '🔮':
                 role = discord.utils.get(ctx.author.guild.roles, id=727104047433252945)
                 await ctx.author.add_roles(role)
-                await ctx.send(f'{ctx.author.mention} открыл кейс и выбил роль 🔮')
+                await ctx.send(f'{ctx.author.mention} открыл кейс и выбил роль {generate_roles}')
 
 
         else:
@@ -340,7 +367,9 @@ async def unmute(ctx, member : discord.Member, *, reason=None):
     await channel.send(f'{ctx.author.mention} снял мут {member.mention}')
 
 
-author_rooms = [] #проверка через список созданных рум
+author_rooms = {
+    'автор': 343532
+} #проверка через список созданных рум
 
 
 @bot.command()
