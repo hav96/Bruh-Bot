@@ -44,11 +44,6 @@ leaders = []
 async def on_ready():
     init()
     print(colored(f'-------------\nBruh Bot started\nVersion bot {version}\nDeveloper saywex bruh\n-------------', 'green'))
-    #online_members = sum([0 if member.status == discord.status.offline else 1 for member in member.guild.members])
-    #y = '2'#sum(bot.status!=discord.Status.offline and not message.bot for member in message.guild.members)
-    #channel = discord.utils.get(message.guild.channels, id=728194908082667541)
-    #await channel.edit(y)
-    #await channel.edit(online_members)
     
 
 
@@ -61,7 +56,7 @@ async def on_member_join(member):
     embed.set_thumbnail(url="https://thumbs.gfycat.com/FrighteningPlasticHuman-small.gif")
     await channel.send(embed = embed)
     await member.add_roles(role)
-    await log_channel.send(f'{member} зашел на  сервер')
+    await log_channel.send(f'{member.mention} зашел на  сервер')
     
 @bot.event
 async def on_member_remove(member):
@@ -70,14 +65,14 @@ async def on_member_remove(member):
     embed=discord.Embed(title=f"Нас покинул {member}", description="Жаль что ты решил(а) покинуть наш сервер((", color=0xf9ff00)
     embed.set_thumbnail(url="https://media1.tenor.com/images/ae35ace17c27909ffb0c0e15f9cb79b6/tenor.gif?itemid=14776523")
     await channel.send(embed = embed)
-    await log_channel.send(f'{member} вышел с сервера')
+    await log_channel.send(f'{member.mention} вышел с сервера')
     
     
 
 
 @bot.event
 async def on_command_error(ctx, error):
-    if isinstance(error, commands.CommandNotFound ):
+    if isinstance(error, commands.CommandNotFound):
         await ctx.send(embed = discord.Embed(description = f'** {ctx.author.mention}, данной команды не существует\nпропиши >help.**', color=0x0c0c0c))
         
  
@@ -89,28 +84,20 @@ async def on_voice_state_update(member, before, after):
     voice_role = discord.utils.get(member.guild.roles, id=728160775851606037)
     if after.channel is None:
         await member.remove_roles(voice_role)
-        await log_channel.send(f'{member} вышел из голосового')
-
-
+        await log_channel.send(f'{member.mention} вышел из голосового')
     else:
         voice_channel = discord.utils.get(member.guild.channels, id=after.channel.id)
         members = voice_channel.members
         if after.channel != '🤫Помолчанка' and len(members) != 1:
             await member.add_roles(voice_role)
-            await log_channel.send(f'{member} зашел в {after.channel}')
+            await log_channel.send(f'{member.mention} зашел в {after.channel}')
             #добавление коинов позже
         elif after.channel != '🤫Помолчанка' and len(members) == 1:
-            await log_channel.send(f'{member} зашел в {after.channel}')
+            await log_channel.send(f'{member.mention} зашел в {after.channel}')
         elif after.channel == '🤫Помолчанка':
             await member.remove_roles(voice_role)
-            await log_channel.send(f'{member} зашел в AFK')
+            await log_channel.send(f'{member.mention} зашел в AFK')
             #afk не добавляем коины
-
-
-#@bot.event  
-#async def on_raw_reaction_add(reaction, member):
-     #if reaction.emoji == "🏃":
-         #await member.add_roles(user.guild.get_role(726273302238199898))
 
 
 
@@ -145,7 +132,7 @@ async def warn(ctx, member : discord.Member, *, reason=None):
     await ctx.message.delete()
     try:
         if member not in moders or admins or leaders:
-            await ctx.send(f'{ctx.author} дал варн {member}')
+            await ctx.send(f'{ctx.author.mention} дал варн {member.mention}')
             log_channel = discord.utils.get(member.guild.channels, id=723196150961930343)
         else:
             await ctx.send(f'Не удалось дать варн {member} ,не достаточно прав!')
@@ -216,14 +203,8 @@ async def manga(ctx):
         main_url = 'https://9hentai.com/g/'
         random_number = random.randint(100,1600)
         random_manga = f'{main_url}{random_number}'
-        await ctx.send(f'Сгенерировал для тебя рандомную хентай мангу - {random_manga}')
-
-
-
-
-
-
-       
+        await ctx.send(f'Сгенерировал для {ctx.author.mention} рандомную хентай мангу - {random_manga}')
+ 
 
 @bot.command()
 @commands.has_role(leader_role)
@@ -231,46 +212,39 @@ async def event(ctx, event: str):
     await ctx.message.delete()
     category = discord.utils.get(ctx.guild.categories, name='ивенты') #где будет создаваться ивент
     channel = discord.utils.get(ctx.author.guild.channels, id=727040205210517505) #куда будут писаться все ивенты
-    log_channel = discord.utils.get(member.guild.channels, id=723196150961930343)
-    if event == 'mafia':
-        await ctx.guild.create_voice_channel('Мафия', category=category)
-        await ctx.guild.create_text_channel('мафия', category=category)
-        embed=discord.Embed(title=f"Проводится ивент мафия!", description=f"Победа мирных - 100 коинов\nПобеда мафии - 75 коинов\nВедущий - {ctx.author.mention}\n@everyone", color=0xff0084)
-        embed.set_thumbnail(url="https://krot.info/uploads/posts/2020-01/1579563613_29-p-foni-s-mafiei-60.jpg")
-        await channel.send(embed = embed)
-        await log_hannel.send(f'{ctx.author} запустил ивент мафия')
+    log_channel = discord.utils.get(ctx.author.guild.channels, id=723196150961930343) #ЛОГ канал 
+    try:
+        if event == 'mafia':
+            await ctx.guild.create_voice_channel('Мафия', category=category)
+            await ctx.guild.create_text_channel('мафия', category=category)
+            embed=discord.Embed(title=f"Проводится ивент мафия!", description=f"Победа мирных - 100 коинов\nПобеда мафии - 75 коинов\nВедущий - {ctx.author.mention}\n@everyone", color=0xff0084)
+            embed.set_thumbnail(url="https://krot.info/uploads/posts/2020-01/1579563613_29-p-foni-s-mafiei-60.jpg")
+            await channel.send(embed = embed)
+            await log_hannel.send(f'{ctx.author.mention} запустил ивент мафия')
+        
+        elif event == 'uno':
+            await ctx.guild.create_voice_channel('Уно', category=category)
+            await ctx.guild.create_text_channel('уно', category=category)
+            embed=discord.Embed(title="Проводится ивент уно!", description=f"1 место - 100 коинов\n2 место - 75 коинов\n3 место - 50 коинов\nВедущий - {ctx.author.mention}\n@everyone", color=0x40ff00)
+            embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/532890437858623488/567023305698312202/Uno.png")
+            await channel.send(embed = embed)
+            await log_hannel.send(f'{ctx.author.mention} запустил ивент уно')
     
-
-    elif event == 'uno':
-        await ctx.guild.create_voice_channel('Уно', category=category)
-        await ctx.guild.create_text_channel('уно', category=category)
-        embed=discord.Embed(title="Проводится ивент уно!", description=f"1 место - 100 коинов\n2 место - 75 коинов\n3 место - 50 коинов\nВедущий - {ctx.author.mention}\n@everyone", color=0x40ff00)
-        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/532890437858623488/567023305698312202/Uno.png")
-        await channel.send(embed = embed)
-        await log_hannel.send(f'{ctx.author} запустил ивент уно')
- 
-
-    elif event == 'monopoly':
-        await ctx.guild.create_voice_channel('Монополия', category=category)
-        await ctx.guild.create_text_channel('монополия', category=category)
-        embed=discord.Embed(title="Проводится ивент монополия!", description=f"1 место - 350 коинов\n2 место - 300 коинов\n3 место - 150 коинов\nВедущий - {ctx.author.mention}\n@everyone", color=0xffc500)
-        embed.set_thumbnail(url="https://im0-tub-ru.yandex.net/i?id=013bb6a40f47b1cdee74dd2bc6e6b231&n=13&exp=1")
-        await channel.send(embed = embed)
-        await log_hannel.send(f'{ctx.author} запустил ивент монополия')
-  
-
-
-    else:
-        event = event.lower()
-        await ctx.guild.create_voice_channel(event, category=category)
-        await ctx.guild.create_text_channel(event, category=category)
-        #embed=discord.Embed(title="Такого ивента нет!", description="Все существующие ивенты\nmonopoly\nuno\nmafia", color=0x6efb00)
-        #await ctx.send(embed = embed)
-        await log_hannel.send(f'{ctx.author} запустил ивент {event}')
-
-
-
-
+        elif event == 'monopoly':
+            await ctx.guild.create_voice_channel('Монополия', category=category)
+            await ctx.guild.create_text_channel('монополия', category=category)
+            embed=discord.Embed(title="Проводится ивент монополия!", description=f"1 место - 350 коинов\n2 место - 300 коинов\n3 место - 150 коинов\nВедущий - {ctx.author.mention}\n@everyone", color=0xffc500)
+            embed.set_thumbnail(url="https://im0-tub-ru.yandex.net/i?id=013bb6a40f47b1cdee74dd2bc6e6b231&n=13&exp=1")
+            await channel.send(embed = embed)
+            await log_hannel.send(f'{ctx.author.mention} запустил ивент монополия')
+    
+        else:
+            await ctx.guild.create_voice_channel(str(event), category=category)
+            await ctx.guild.create_text_channel(str(event), category=category)
+            await ctx.send(f'Вы {ctx.author.mention} создали ивент не имеющий описания,напишите описание сами')
+            await log_hannel.send(f'{ctx.author.mention} запустил ивент {event}')
+    except Exception as error:
+        print(error)
 
 
 @bot.command()
@@ -280,27 +254,13 @@ async def case(ctx):
     try:
         if key_role in ctx.author.roles:
             roles = (
-            'олег',
-            'олег',
-            'олег',
-            'олег',
-            'добрый',
-            'бездарь',
-            'бездарь',
-            'бездарь',
-            'звонишь',
-            'добрый',
-            'олег',
-            'бездарь',
-            'бездарь',
-            'олег',
-            'олег',
-            '🔮',
-            'добрый',
-            'добрый',
-            'Майнкрафт',
-            'Майнкрафт'
-            'добрый') 
+            'олег','олег','олег','олег',
+            'добрый','бездарь','бездарь',
+            'бездарь','звонишь','добрый',
+            'олег','бездарь','бездарь',
+            'олег','олег','🔮','добрый',
+            'добрый','Майнкрафт','Майнкрафт'
+            'добрый','Майнкрафт') 
             generate_roles = random.choice(roles)
             
             if generate_roles == 'бездарь':
@@ -346,7 +306,6 @@ async def case(ctx):
 
 
 
-
 @bot.command()
 @commands.has_role(moder_role)
 async def mute(ctx, member : discord.Member, *, reason=None):
@@ -354,8 +313,6 @@ async def mute(ctx, member : discord.Member, *, reason=None):
     mute_role = discord.utils.get(ctx.author.guild.roles, id=727228695277732063)
     await member.add_roles(mute_role)
     await channel.send(f'{ctx.author.mention} дал мут {member.mention}')
-
-
 
 
 @bot.command()
@@ -367,10 +324,9 @@ async def unmute(ctx, member : discord.Member, *, reason=None):
     await channel.send(f'{ctx.author.mention} снял мут {member.mention}')
 
 
-author_rooms = {
-    'автор': 343532
-} #проверка через список созданных рум
-
+author_rooms = [
+    
+ ] 
 
 @bot.command()
 @commands.has_role(room_creator)
@@ -382,22 +338,11 @@ async def create_room(ctx):
             await ctx.send(f'{ctx.author.mention} Вы не можете создать более 1 комнаты!Удалите старую комнату и сможете создать новую!')
         else:
             name = f'room {ctx.author}'
-            await ctx.guild.create_voice_channel(name, category=category)
-            author_rooms.append(str(author))
+            channel = await ctx.guild.create_voice_channel(name, category=category)
+            author_rooms.append(str(name))
             await ctx.author.send('Вы создали приватную руму,удалить руму >endroom')
     except Exception as error:
         print(error)
-
-#voice_channel = client.get_channel(channel_id)
-@bot.command()
-@commands.has_role(room_creator)
-async def endroom(ctx):
-    try:
-        category = discord.utils.get(ctx.guild.categories, name='Румы участников🍥')
-        channel = discord.utils.get(ctx.author.guild.voice_channels,category=category, name=f"room {ctx.author}")
-        #await channel.edit(channel, name='~1 - ~2 - 3~')
-        await ctx.guild.get_channel(channel).delete()
-    except Exception as error:
-        print(error)
-
+    
+            
 bot.run(TOKEN)         
