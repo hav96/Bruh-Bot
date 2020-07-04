@@ -104,9 +104,21 @@ async def on_voice_state_update(member, before, after):
 @bot.command()
 async def help(ctx):
     await ctx.message.delete()
-    embed=discord.Embed(title="Помощь", description=('''Префикс бота >\n\nРофлан команды.\nmanga - рандомная хентай манга.\ngif слово - получить гифку.\ncase - открыть кейс(нужна роль key).
-    \nМодер команды.\nban упоминание - выдать бан-роль.\nwarn упоминание - выдать варн.\nmute упоминание - дать мут\nunmute упоминание - размутить\n
-    \nКоманды ведущего.\nevent название ивента - запустить ивент.\nkill упоминание - кого убила мафия.\nhanged упоминание - не поверили и повесили.\n'''))
+    embed=discord.Embed(title="Помощь", description=('''Префикс бота >
+    \n\nРофлан команды.
+    manga - рандомная хентай манга.
+    gif слово - получить гифку.
+    case - открыть кейс(нужна роль key).
+    \nМодер команды.
+    ban упоминание - выдать бан-роль.
+    warn упоминание - выдать варн.
+    mute упоминание - дать мут
+    unmute упоминание - размутить\n
+    \nКоманды ведущего.
+    event название ивента - запустить ивент.
+    kill упоминание - кого убила мафия.
+    hanged упоминание - не поверили и повесили.
+    rename id канала - изменить игрокам ник по количеству'''))
     await ctx.send(embed=embed)
 
 
@@ -206,6 +218,25 @@ async def manga(ctx):
         await ctx.send(f'Сгенерировал для {ctx.author.mention} рандомную хентай мангу - {random_manga}')
  
 
+
+
+@bot.command()
+@commands.has_role(leader_role)
+async def rename(ctx,channel: int):
+    voice_channel = discord.utils.get(ctx.author.guild.channels, id=channel)
+    members = voice_channel.members
+    try:
+        for member in members:
+            count += 1
+            await member.edit(nick=count)
+    except:
+        await ctx.send(f'не смог сменить ник {member.mention},не достаточно прав!')
+
+        
+
+
+
+
 @bot.command()
 @commands.has_role(leader_role)
 async def event(ctx, event: str):
@@ -242,7 +273,7 @@ async def event(ctx, event: str):
             await ctx.guild.create_voice_channel(str(event), category=category)
             await ctx.guild.create_text_channel(str(event), category=category)
             await ctx.send(f'Вы {ctx.author.mention} создали ивент не имеющий описания,напишите описание сами')
-            await log_hannel.send(f'{ctx.author.mention} запустил ивент {event}')
+            await log_channel.send(f'{ctx.author.mention} запустил ивент {event}')
     except Exception as error:
         print(error)
 
