@@ -232,11 +232,6 @@ async def rename(ctx,channel: int):
     except:
         await ctx.send(f'не смог сменить ник {member.mention},не достаточно прав!')
 
-        
-
-
-
-
 @bot.command()
 @commands.has_role(leader_role)
 async def event(ctx, event: str):
@@ -277,7 +272,6 @@ async def event(ctx, event: str):
     except Exception as error:
         print(error)
 
-
 @bot.command()
 async def case(ctx):
     await ctx.message.delete()
@@ -291,7 +285,8 @@ async def case(ctx):
             'олег','бездарь','бездарь',
             'олег','олег','🔮','добрый',
             'добрый','Майнкрафт','Майнкрафт'
-            'добрый','Майнкрафт') 
+            'добрый','Майнкрафт','бездарь',
+            'бездарь','олег','бездарь','бездарь') 
             generate_roles = random.choice(roles)
             
             if generate_roles == 'бездарь':
@@ -335,8 +330,6 @@ async def case(ctx):
          #в конце просто забераем роль key
         await ctx.author.remove_roles(key_role)
 
-
-
 @bot.command()
 @commands.has_role(moder_role)
 async def mute(ctx, member : discord.Member, *, reason=None):
@@ -359,21 +352,30 @@ author_rooms = [
     
  ] 
 
-@bot.command()
-@commands.has_role(room_creator)
-async def create_room(ctx):
-    try:
-        author = ctx.author.id
-        category = discord.utils.get(ctx.guild.categories, name='Румы участников🍥') #где будет создаваться приват рума
-        if str(author) in author_rooms:
-            await ctx.send(f'{ctx.author.mention} Вы не можете создать более 1 комнаты!Удалите старую комнату и сможете создать новую!')
-        else:
-            name = f'room {ctx.author}'
-            channel = await ctx.guild.create_voice_channel(name, category=category)
-            author_rooms.append(str(name))
-            await ctx.author.send('Вы создали приватную руму,удалить руму >endroom')
-    except Exception as error:
-        print(error)
-    
+#@bot.command()
+#@commands.has_role(room_creator)
+#async def create_room(ctx):
+#    try:
+#        author = ctx.author
+#        category = discord.utils.get(ctx.guild.categories, name='Румы участников🍥') #где будет создаваться приват рума
+#        if str(author) in author_rooms:
+#            await ctx.send(f'{ctx.author.mention} Вы не можете создать более 1 комнаты!Удалите старую комнату и сможете создать новую!')
+#       else:
+#            name = f'room {ctx.author}'
+#            channel = await ctx.guild.create_voice_channel(name, category=category)
+#           author_rooms.append(str(name,channel.id))
+#            await ctx.author.send('Вы создали приватную руму,удалить руму >endroom')
+#    except Exception as error:
+#        print(error)
+
+#@bot.command()
+#@commands.has_role(room_creator)
+#async def end_room(ctx):
+#    author = ctx.author
+#    for author in author_rooms:
+#        if author in author_rooms:
+#            channel_id = author.replace(author)
+#            channel = bot.get_channel(channel_id)
+#            await channel.delete()   
             
 bot.run(TOKEN)         
