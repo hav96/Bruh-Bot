@@ -47,6 +47,11 @@ async def on_ready():
     
 
 
+
+
+
+
+
 @bot.event
 async def on_member_join(member):
     log_channel = discord.utils.get(member.guild.channels, id=723196150961930343) #куда будет логироватся
@@ -110,9 +115,10 @@ async def help(ctx):
     gif слово - получить гифку.
     case - открыть кейс(нужна роль key).
     \nМодер команды.
+    clear количество  - удалить сообщения
     ban упоминание - выдать бан-роль.
     warn упоминание - выдать варн.
-    mute упоминание - дать мут
+    mute упоминание - дать мут.
     unmute упоминание - размутить\n
     \nКоманды ведущего.
     event название ивента - запустить ивент.
@@ -223,6 +229,7 @@ async def manga(ctx):
 @bot.command()
 @commands.has_role(leader_role)
 async def rename(ctx,channel: int):
+    await ctx.message.delete()
     voice_channel = discord.utils.get(ctx.author.guild.channels, id=channel)
     members = voice_channel.members
     try:
@@ -333,6 +340,7 @@ async def case(ctx):
 @bot.command()
 @commands.has_role(moder_role)
 async def mute(ctx, member : discord.Member, *, reason=None):
+    await ctx.message.delete()
     channel = discord.utils.get(ctx.author.guild.channels, id=723196150961930343) #куда будет логироватся 
     mute_role = discord.utils.get(ctx.author.guild.roles, id=727228695277732063)
     await member.add_roles(mute_role)
@@ -342,15 +350,27 @@ async def mute(ctx, member : discord.Member, *, reason=None):
 @bot.command()
 @commands.has_role(moder_role)
 async def unmute(ctx, member : discord.Member, *, reason=None):
+    await ctx.message.delete()
     channel = discord.utils.get(ctx.author.guild.channels, id=723196150961930343) #куда будет логироватся 
     mute_role = discord.utils.get(ctx.author.guild.roles, id=727228695277732063)
     await member.remove_roles(mute_role)
     await channel.send(f'{ctx.author.mention} снял мут {member.mention}')
 
 
-author_rooms = [
-    
- ] 
+
+
+@bot.command()
+@commands.has_role(moder_role)
+async def clear(ctx, amount=None):
+    if int(amount) > 50:
+        await ctx.send(embed = discord.Embed(description = f'{ctx.author.mention} Вы не можете удалять более 50 сообщений за раз', colorur = 0x000000))
+    else:
+        await ctx.channel.purge(limit=int(amount))
+        await ctx.channel.send(embed = discord.Embed(description = f"**{ctx.author.mention} успешно удалено {amount} сообщений**", colour = 0xff0000))
+ 
+
+   
+
 
 #@bot.command()
 #@commands.has_role(room_creator)
