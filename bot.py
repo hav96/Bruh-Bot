@@ -9,7 +9,7 @@ from colorama import init
 from termcolor import colored
 import random
 from Cybernator import Paginator
-
+import datetime
 
 version = '0.0.1'
 
@@ -42,8 +42,9 @@ leaders = []
 
 @bot.event
 async def on_ready():
+    time_start = datetime.datetime.today().strftime("%H:%M:%S")
     init()
-    print(colored(f'-------------\nBruh Bot started\nVersion bot {version}\nDeveloper saywex bruh\n-------------', 'green'))
+    print(colored(f'-------------\nBruh Bot started\nVersion bot {version}\nВремя запуска бота {time_start}\nDeveloper saywex bruh\n-------------', 'green'))
     
 
 
@@ -57,7 +58,7 @@ async def on_member_join(member):
     log_channel = discord.utils.get(member.guild.channels, id=723196150961930343) #куда будет логироватся
     channel = discord.utils.get(member.guild.channels, id=722577485589381150)
     role = discord.utils.get(member.guild.roles, id=722554994670305321)
-    embed=discord.Embed(title=f"Добро пожаловать {member}", description="Привествуем на нашем сервере!Выдал вам роль новичка =)", color=0x8206f3)
+    embed=discord.Embed(title=f"Добро пожаловать {member.mention}", description="Привествуем на нашем сервере!Выдал вам роль новичка =)", color=0x8206f3)
     embed.set_thumbnail(url="https://thumbs.gfycat.com/FrighteningPlasticHuman-small.gif")
     await channel.send(embed = embed)
     await member.add_roles(role)
