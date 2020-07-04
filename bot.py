@@ -44,7 +44,7 @@ leaders = []
 async def on_ready():
     time_start = datetime.datetime.today().strftime("%H:%M:%S")
     init()
-    print(colored(f'-------------\nBruh Bot started\nVersion bot {version}\nВремя запуска бота {time_start}\nDeveloper saywex bruh\n-------------', 'green'))
+    print(colored(f'-------------\nBruh Bot started\nVersion bot {version}\nTime start {time_start}\nDeveloper saywex bruh\n-------------', 'green'))
     
 
 
