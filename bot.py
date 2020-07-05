@@ -10,6 +10,9 @@ from termcolor import colored
 import random
 from Cybernator import Paginator
 import datetime
+import pyowm
+
+
 
 version = '0.0.1'
 
@@ -115,6 +118,7 @@ async def help(ctx):
     manga - рандомная хентай манга.
     gif слово - получить гифку.
     case - открыть кейс(нужна роль key).
+    weather город - узнать погоду.
     \nМодер команды.
     clear количество  - удалить сообщения
     ban упоминание - выдать бан-роль.
@@ -210,6 +214,7 @@ async def hanged(ctx, member : discord.Member, *, reason=None):
 async def close_chat(ctx):
     await ctx.message.delete()
     embed=discord.Embed(title="ЧАТ ЗАКРЫТ!", description="Система фолов активна!", color=0xff0000)
+    embed.set_footer(text = f"Запросил {ctx.author}({ctx.author.display_name})", icon_url = f'{ctx.author.avatar_url}')
     await ctx.send(embed=embed)
    
 
@@ -223,7 +228,7 @@ async def manga(ctx):
         random_number = random.randint(100,1600)
         random_manga = f'{main_url}{random_number}'
         await ctx.send(f'Сгенерировал для {ctx.author.mention} рандомную хентай мангу - {random_manga}')
- 
+        
 
 
 
@@ -363,6 +368,7 @@ async def unmute(ctx, member : discord.Member, *, reason=None):
 @bot.command()
 @commands.has_role(moder_role)
 async def clear(ctx, amount=None):
+    await ctx.message.delete()
     if int(amount) > 50:
         await ctx.send(embed = discord.Embed(description = f'{ctx.author.mention} Вы не можете удалять более 50 сообщений за раз', colorur = 0x000000))
     else:
@@ -370,7 +376,22 @@ async def clear(ctx, amount=None):
         await ctx.channel.send(embed = discord.Embed(description = f"**{ctx.author.mention} успешно удалено {amount} сообщений**", colour = 0xff0000))
  
 
-   
+@bot.command()
+async def weather(ctx, city: str):
+    await ctx.message.delete()
+    owm = pyowm.OWM('c899ddf826f6f9d0c08e8794f989c69e',language = "RU")
+
+    observation = owm.weather_at_place(city)
+
+    w = observation.get_weather()
+
+    temp = w.get_temperature('celsius')["temp"]
+
+    embed=discord.Embed(title="Погода", description=f"В городе  {city} сейчас {w.get_detailed_status()}\nTемпература {temp} °C", color=0x004099)
+    embed.set_footer(text = f"Запросил {ctx.author}({ctx.author.display_name})", icon_url = f'{ctx.author.avatar_url}')
+
+    await ctx.send(embed = embed)
+
 
 
 #@bot.command()
