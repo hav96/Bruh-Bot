@@ -11,6 +11,7 @@ import random
 from Cybernator import Paginator
 import datetime
 import pyowm
+import time
 
 
 
@@ -49,12 +50,6 @@ async def on_ready():
     init()
     print(colored(f'-------------\nBruh Bot started\nVersion bot {version}\nTime start {time_start}\nDeveloper saywex bruh\n-------------', 'green'))
     
-
-
-
-
-
-
 
 @bot.event
 async def on_member_join(member):
@@ -97,7 +92,19 @@ async def on_voice_state_update(member, before, after):
     else:
         voice_channel = discord.utils.get(member.guild.channels, id=after.channel.id)
         members = voice_channel.members
-        if after.channel != '🤫Помолчанка' and len(members) != 1:
+        if after.channel.id == 730733768465186886: #рума для создания приватов
+            for guild in bot.guilds:
+                category = discord.utils.get(guild.categories, id=727688569962889287)
+                channelmember = await guild.create_voice_channel(f'Приват {member}', category=category)
+                await log_channel.send(f'{member.mention} создал приват')         
+                await channelmember.set_permissions(member,connect=True)
+                await member.move_to(channelmember)
+                def check(a,b,c): #3 обязательных аогумента рот ебал
+                    return len(channelmember.members) == 0
+                await bot.wait_for('voice_state_update',check=check)
+                await channelmember.delete()
+
+        elif after.channel != '🤫Помолчанка' and len(members) != 1:
             await member.add_roles(voice_role)
             await log_channel.send(f'{member.mention} зашел в {after.channel}')
             #добавление коинов позже
@@ -212,10 +219,14 @@ async def hanged(ctx, member : discord.Member, *, reason=None):
 @bot.command()
 @commands.has_role(leader_role)
 async def close_chat(ctx):
-    await ctx.message.delete()
-    embed=discord.Embed(title="ЧАТ ЗАКРЫТ!", description="Система фолов активна!", color=0xff0000)
-    embed.set_footer(text = f"Запросил {ctx.author}({ctx.author.display_name})", icon_url = f'{ctx.author.avatar_url}')
-    await ctx.send(embed=embed)
+    try:
+        await ctx.message.delete()
+        embed=discord.Embed(title="ЧАТ ЗАКРЫТ!", description="Система фолов активна!", color=0xff0000)
+        embed.set_footer(text = f"Запросил {ctx.author}({ctx.author.display_name})", icon_url = f'{ctx.author.avatar_url}')
+        await ctx.send(embed=embed)
+        await ctx.channel.set_permissions(ctx.guild.default_role, send_messages=False)
+    except Exception as error:
+        print(error)
    
 
 @bot.command()
@@ -229,9 +240,6 @@ async def manga(ctx):
         random_manga = f'{main_url}{random_number}'
         await ctx.send(f'Сгенерировал для {ctx.author.mention} рандомную хентай мангу - {random_manga}')
         
-
-
-
 @bot.command()
 @commands.has_role(leader_role)
 async def rename(ctx,channel: int):
@@ -254,36 +262,41 @@ async def event(ctx, event: str):
     log_channel = discord.utils.get(ctx.author.guild.channels, id=723196150961930343) #ЛОГ канал 
     try:
         if event == 'mafia':
-            await ctx.guild.create_voice_channel('Мафия', category=category)
+            channel_mafia = await ctx.guild.create_voice_channel('Мафия', category=category)
             await ctx.guild.create_text_channel('мафия', category=category)
             embed=discord.Embed(title=f"Проводится ивент мафия!", description=f"Победа мирных - 100 коинов\nПобеда мафии - 75 коинов\nВедущий - {ctx.author.mention}\n@everyone", color=0xff0084)
             embed.set_thumbnail(url="https://krot.info/uploads/posts/2020-01/1579563613_29-p-foni-s-mafiei-60.jpg")
             await channel.send(embed = embed)
             await log_hannel.send(f'{ctx.author.mention} запустил ивент мафия')
+            await ctx.author.move_to(channel_mafia)
         
         elif event == 'uno':
-            await ctx.guild.create_voice_channel('Уно', category=category)
+            channel_yno = await ctx.guild.create_voice_channel('Уно', category=category)
             await ctx.guild.create_text_channel('уно', category=category)
             embed=discord.Embed(title="Проводится ивент уно!", description=f"1 место - 100 коинов\n2 место - 75 коинов\n3 место - 50 коинов\nВедущий - {ctx.author.mention}\n@everyone", color=0x40ff00)
             embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/532890437858623488/567023305698312202/Uno.png")
             await channel.send(embed = embed)
             await log_hannel.send(f'{ctx.author.mention} запустил ивент уно')
+            await ctx.author.move_to(channel_yno)
     
         elif event == 'monopoly':
-            await ctx.guild.create_voice_channel('Монополия', category=category)
+            channel_monopoly = await ctx.guild.create_voice_channel('Монополия', category=category)
             await ctx.guild.create_text_channel('монополия', category=category)
             embed=discord.Embed(title="Проводится ивент монополия!", description=f"1 место - 350 коинов\n2 место - 300 коинов\n3 место - 150 коинов\nВедущий - {ctx.author.mention}\n@everyone", color=0xffc500)
             embed.set_thumbnail(url="https://im0-tub-ru.yandex.net/i?id=013bb6a40f47b1cdee74dd2bc6e6b231&n=13&exp=1")
             await channel.send(embed = embed)
             await log_hannel.send(f'{ctx.author.mention} запустил ивент монополия')
+            await ctx.author.move_to(channel_monopoly)
     
         else:
-            await ctx.guild.create_voice_channel(str(event), category=category)
-            await ctx.guild.create_text_channel(str(event), category=category)
-            await ctx.send(f'Вы {ctx.author.mention} создали ивент не имеющий описания,напишите описание сами')
+            otherchannel = await ctx.guild.create_voice_channel(event, category=category)
+            await ctx.guild.create_text_channel(event, category=category)
+            await ctx.send(embed = discord.Embed(description = f'**Вы {ctx.author.mention} создали ивент не имеющий описания,напишите описание сами**'))
             await log_channel.send(f'{ctx.author.mention} запустил ивент {event}')
+            await ctx.author.move_to(otherchannel)
     except Exception as error:
         print(error)
+
 
 @bot.command()
 async def case(ctx):
@@ -392,32 +405,14 @@ async def weather(ctx, city: str):
 
     await ctx.send(embed = embed)
 
+    #time.sleep(10)
+
+    #await ctx.message.delete()
 
 
-#@bot.command()
-#@commands.has_role(room_creator)
-#async def create_room(ctx):
-#    try:
-#        author = ctx.author
-#        category = discord.utils.get(ctx.guild.categories, name='Румы участников🍥') #где будет создаваться приват рума
-#        if str(author) in author_rooms:
-#            await ctx.send(f'{ctx.author.mention} Вы не можете создать более 1 комнаты!Удалите старую комнату и сможете создать новую!')
-#       else:
-#            name = f'room {ctx.author}'
-#            channel = await ctx.guild.create_voice_channel(name, category=category)
-#           author_rooms.append(str(name,channel.id))
-#            await ctx.author.send('Вы создали приватную руму,удалить руму >endroom')
-#    except Exception as error:
-#        print(error)
-
-#@bot.command()
-#@commands.has_role(room_creator)
-#async def end_room(ctx):
-#    author = ctx.author
-#    for author in author_rooms:
-#        if author in author_rooms:
-#            channel_id = author.replace(author)
-#            channel = bot.get_channel(channel_id)
-#            await channel.delete()   
+@bot.command()
+@commands.has_role(room_creator)
+async def skick(ctx, member : discord.Member, *, reason=None):
+    pass
             
 bot.run(TOKEN)         
