@@ -405,10 +405,6 @@ async def weather(ctx, city: str):
 
     await ctx.send(embed = embed)
 
-    #time.sleep(10)
-
-    #await ctx.message.delete()
-
 
 @bot.command()
 @commands.has_role(room_creator)
