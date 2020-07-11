@@ -13,8 +13,6 @@ import datetime
 import pyowm
 import time
 import random
-
-
 version = '0.0.1'
 
 TOKEN = 'NzI0NjQyNjgwMTI2MDQ2MzM5.XvDbTg.7tmEJ94cyQtJIsEqw7aMbowsNSg'
@@ -36,6 +34,8 @@ discord_server_id = 722548853173125162
 key_role = 727021729553317928
 
 room_creator = 727690980341317632 #дает возможность создавать приват румы
+
+case_add_role = 731423666704744450 #дает возможность выдавать key
 
 admins = []
 
@@ -132,14 +132,15 @@ async def help(ctx):
     weather город - узнать погоду.
     \nМодер команды.
     clear количество  - удалить сообщения
-    ban упоминание - выдать бан-роль.
-    warn упоминание - выдать варн.
-    mute упоминание - дать мут.
-    unmute упоминание - размутить\n
+    ban @упоминание - выдать бан-роль.
+    warn @упоминание - выдать варн.
+    mute @упоминание - дать мут.
+    key @упоминание - выдать ключ к кейсу.
+    unmute @упоминание - размутить\n
     \nКоманды ведущего.
     event название ивента - запустить ивент.
-    kill упоминание - кого убила мафия.
-    hanged упоминание - не поверили и повесили.
+    kill @упоминание - кого убила мафия.
+    hanged @упоминание - не поверили и повесили.
     rename id канала - изменить игрокам ник по количеству'''))
     await ctx.send(embed=embed)
 
@@ -404,18 +405,39 @@ async def clear(ctx, amount=None):
 @bot.command()
 async def weather(ctx, city: str):
     await ctx.message.delete()
-    owm = pyowm.OWM('c899ddf826f6f9d0c08e8794f989c69e',language = "RU")
+    try:
+        owm = pyowm.OWM('c899ddf826f6f9d0c08e8794f989c69e',language = "RU")
+        observation = owm.weather_at_place(city)
+        w = observation.get_weather()
+        temp = w.get_temperature('celsius')["temp"]
+        embed=discord.Embed(title="Погода", description=f"В городе  {city} сейчас {w.get_detailed_status()}\nTемпература {temp} °C", color=0x004099)
+        embed.set_footer(text = f"Запросил {ctx.author}({ctx.author.display_name})", icon_url = f'{ctx.author.avatar_url}')
+        await ctx.send(embed = embed)
+    except Exception as error:
+        ctx.send(f'{author.ctx.mention} что пошло не так\nОшибка {errorяё}')
 
-    observation = owm.weather_at_place(city)
 
-    w = observation.get_weather()
 
-    temp = w.get_temperature('celsius')["temp"]
 
-    embed=discord.Embed(title="Погода", description=f"В городе  {city} сейчас {w.get_detailed_status()}\nTемпература {temp} °C", color=0x004099)
-    embed.set_footer(text = f"Запросил {ctx.author}({ctx.author.display_name})", icon_url = f'{ctx.author.avatar_url}')
+@bot.command()
+async def request(ctx, event: str):
+    try:
+        request_channel = discord.utils.get(ctx.author.guild.channels, id=727040205210517505)
+        await request_channel.send(embed = discord.Embed(description = f'**{ctx.author.mention} просит запустить {event}**', color=0x942ba3))
+    except Exception as error:
+        print(error)
 
-    await ctx.send(embed = embed)
+
+@bot.command()
+@commands.has_role(case_add_role)
+async def key(ctx, member : discord.Member, *, reason=None):
+    key_role = discord.utils.get(ctx.author.guild.roles, id=727021729553317928)
+    await member.add_roles(key_role)
+
+
+
+
+
 
 @bot.command()
 @commands.has_role(room_creator)
