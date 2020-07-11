@@ -12,7 +12,7 @@ from Cybernator import Paginator
 import datetime
 import pyowm
 import time
-
+import random
 
 
 version = '0.0.1'
@@ -147,7 +147,7 @@ async def help(ctx):
 async def ban(ctx, member : discord.Member, *, reason=None):
     await ctx.message.delete()
     try:
-        if member not in moders or admins or leaders:
+        if member not in moders or member not in admins or member not in leaders:
             ban_role = discord.utils.get(member.guild.roles, id=726255138926362704)
             await member.add_roles(ban_role)
             await ctx.send(f'{ctx.author} забанил {member}')
@@ -160,14 +160,17 @@ async def ban(ctx, member : discord.Member, *, reason=None):
 @commands.has_role(moder_role)
 async def warn(ctx, member : discord.Member, *, reason=None):
     await ctx.message.delete()
+    warn_role = discord.utils.get(member.guild.roles, id=726853781001863299)
+    log_channel = discord.utils.get(member.guild.channels, id=723196150961930343)
     try:
-        if member not in moders or admins or leaders:
+        if member not in moders or member not in admins or member not in leaders:
             await ctx.send(f'{ctx.author.mention} дал варн {member.mention}')
-            log_channel = discord.utils.get(member.guild.channels, id=723196150961930343)
+            await member.add_roles(warn_role)
+            await log_channel.send(f'{ctx.author.mention} дал варн {member.mention}')
         else:
             await ctx.send(f'Не удалось дать варн {member} ,не достаточно прав!')
     except:
-        await ctx.send(f'Не удалось дать варн {member} ,не достаточно прав!')
+        await ctx.send(f'{ctx.author.mention} что-то пошло не так...')
 
 
 @bot.command()
@@ -376,13 +379,17 @@ async def unmute(ctx, member : discord.Member, *, reason=None):
     await channel.send(f'{ctx.author.mention} снял мут {member.mention}')
 
 
+@bot.command()
+async def randomchoice(ctx, a, b): #рандомные числа от a до b
+    random_choice = random.randint(a,b)
+    await ctx.send(f'Рандомное число {random_choice} от {a} до {b}')
 
 
 @bot.command()
 @commands.has_role(moder_role)
 async def clear(ctx, amount=None):
     await ctx.message.delete()
-    if int(amount) > 50:
+    if int(amount) >= 50:
         await ctx.send(embed = discord.Embed(description = f'{ctx.author.mention} Вы не можете удалять более 50 сообщений за раз', colorur = 0x000000))
     else:
         await ctx.channel.purge(limit=int(amount))
