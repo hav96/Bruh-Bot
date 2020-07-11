@@ -77,7 +77,11 @@ async def on_member_remove(member):
 @bot.event
 async def on_command_error(ctx, error):
     if isinstance(error, commands.CommandNotFound):
-        await ctx.send(embed = discord.Embed(description = f'** {ctx.author.mention}, данной команды не существует\nпропиши >help.**', color=0x0c0c0c))
+        await ctx.send(embed = discord.Embed(description = f'** {ctx.author.mention}, данной команды не существует\nпропишите >help.**', color=0xff0000))
+    elif isinstance(error, commands.MissingRequiredArgument):
+        await ctx.send(embed = discord.Embed(description = f'** {ctx.author.mention}, вы не указали нужное количество аргументов!\nпропишите >help.**', color=0xff0000))
+
+
         
  
 
@@ -169,7 +173,8 @@ async def warn(ctx, member : discord.Member, *, reason=None):
             await log_channel.send(f'{ctx.author.mention} дал варн {member.mention}')
         else:
             await ctx.send(f'Не удалось дать варн {member} ,не достаточно прав!')
-    except:
+    except Exception as error:
+        print(error)
         await ctx.send(f'{ctx.author.mention} что-то пошло не так...')
 
 
@@ -411,7 +416,6 @@ async def weather(ctx, city: str):
     embed.set_footer(text = f"Запросил {ctx.author}({ctx.author.display_name})", icon_url = f'{ctx.author.avatar_url}')
 
     await ctx.send(embed = embed)
-
 
 @bot.command()
 @commands.has_role(room_creator)
