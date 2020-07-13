@@ -187,16 +187,16 @@ async def warn(ctx, member : discord.Member, *, reason=None):
     warn_role2 = discord.utils.get(member.guild.roles, id=726853849352241213) #роль 2 варна сервера
     ban_role = discord.utils.get(member.guild.roles, id=726255138926362704) #бан роль сервера
     log_channel = discord.utils.get(member.guild.channels, id=723196150961930343) #лог ченнал канала
-    try:
-        if warn_role1 in member.roles:
+    try:        
+        if warn_role1 in member.roles and warn_role2 not in member.roles:
             await member.send(f'**{ctx.author.mention} дал вам варн {member.mention} варнов у вас 2/3**')
             await member.add_roles(warn_role2)
-            await log_channel.send(f'{ctx.author.mention} дал варн {member.mention} варнов 2/3**')
-        if warn_role2 in member.roles: 
+            await log_channel.send(f'**{ctx.author.mention} дал варн {member.mention} варнов 2/3**')
+        elif warn_role2 in member.roles: 
             await member.send(f'**{ctx.author.mention} дал вам варн {member.mention} варнов у вас 3/3 и вы получаете бан роль на сервере\nНапишите @Tanaka для разбана**')
             await member.add_roles(ban_role)
             await log_channel.send(f'**{ctx.author.mention} дал варн {member.mention} варнов 3/3**')
-        if warn_role1 not in member.roles:
+        elif warn_role1 not in member.roles and warn_role2 not in member.roles:
             await member.send(f'**{ctx.author.mention} дал вам варн {member.mention} варнов у вас 1/3**')
             await member.add_roles(warn_role1)
             await log_channel.send(f'**{ctx.author.mention} дал варн {member.mention} варнов 1/3**')
