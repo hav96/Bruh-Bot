@@ -169,22 +169,19 @@ async def warn(ctx, member : discord.Member, *, reason=None):
     ban_role = discord.utils.get(member.guild.roles, id=726255138926362704)
     log_channel = discord.utils.get(member.guild.channels, id=723196150961930343)
     try:
-        if member not in moders or member not in admins or member not in leaders:
-            if warn_role1 in member.roles:
+        if warn_role1 in member.roles:
             await ctx.send(f'**{ctx.author.mention} дал варн {member.mention} варнов 2/3**')
             await member.add_roles(warn_role2)
             await log_channel.send(f'{ctx.author.mention} дал варн {member.mention} варнов 2/3**')
-            elif warn_role2 in member.roles: 
-                 await ctx.send(f'**{ctx.author.mention} дал варн {member.mention} варнов 3/3**')
-                 await member.add_roles(ban_role)
-                 await log_channel.send(f'{ctx.author.mention} дал варн {member.mention} варнов 3/3**')
-            elif warn_role1 not in member.roles:
-                await ctx.send(f'**{ctx.author.mention} дал варн {member.mention} варнов 1/3**')
-                await member.add_roles(warn_role1)
-                await log_channel.send(f'{ctx.author.mention} дал варн {member.mention} варнов 1/3**')
+        if warn_role2 in member.roles: 
+            await ctx.send(f'**{ctx.author.mention} дал варн {member.mention} варнов 3/3**')
+            await member.add_roles(ban_role)
+            await log_channel.send(f'**{ctx.author.mention} дал варн {member.mention} варнов 3/3**')
+        if warn_role1 not in member.roles:
+            await ctx.send(f'**{ctx.author.mention} дал варн {member.mention} варнов 1/3**')
+            await member.add_roles(warn_role1)
+            await log_channel.send(f'**{ctx.author.mention} дал варн {member.mention} варнов 1/3**')
 
-        else:
-            await ctx.send(f'Не удалось дать варн {member},не достаточно прав!')
     except Exception as error:
         print(error)
         await ctx.send(f'{ctx.author.mention} что-то пошло не так...')
