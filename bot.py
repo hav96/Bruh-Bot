@@ -440,7 +440,7 @@ async def weather(ctx, city: str):
         embed.set_footer(text = f"Запросил {ctx.author}({ctx.author.display_name})", icon_url = f'{ctx.author.avatar_url}')
         await ctx.send(embed = embed)
     except Exception as error:
-        ctx.send(f'{author.ctx.mention} что пошло не так\nОшибка {errorяё}')
+        ctx.send(f'{author.ctx.mention} что пошло не так\nОшибка {error}')
 
 
 
