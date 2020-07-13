@@ -150,15 +150,15 @@ async def help(ctx):
 @commands.has_role(moder_role)
 async def ban(ctx, member : discord.Member, *, reason=None):
     await ctx.message.delete()
+    log_channel = discord.utils.get(member.guild.channels, id=723196150961930343)
+    ban_role = discord.utils.get(member.guild.roles, id=726255138926362704)
     try:
-        if member not in moders or member not in admins or member not in leaders:
-            ban_role = discord.utils.get(member.guild.roles, id=726255138926362704)
-            await member.add_roles(ban_role)
-            await ctx.send(f'{ctx.author} забанил {member}')
-        else:
-            await ctx.send(f'Не удалось забанить {member} ,не достаточно прав!')
+        await member.add_roles(ban_role)
+        await log_channel.send(f'**{ctx.author.mention} забанил {member.mention}**')
+        await member.send(f'**{author.ctx.mention} дал вам бан на сервере\nЧто бы получить разбан напишите @Tanaka**')
+
     except:
-        await ctx.send(f'Не удалось забанить {member} ,не достаточно прав!')       
+        await ctx.send(f'**Не удалось забанить {member.mention} ,не достаточно прав!**')       
 
 @bot.command()
 @commands.has_role(moder_role)
@@ -183,7 +183,7 @@ async def warn(ctx, member : discord.Member, *, reason=None):
             await log_channel.send(f'**{ctx.author.mention} дал варн {member.mention} варнов 1/3**')
     except Exception as error:
         print(error)
-        await ctx.send(f'{ctx.author.mention} что-то пошло не так...')
+        await ctx.send(f'**{ctx.author.mention} что-то пошло не так...**')
 
 
 @bot.command()
