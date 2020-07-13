@@ -130,7 +130,7 @@ async def help(ctx):
     case - открыть кейс(нужна роль key).
     weather город - узнать погоду.
     \nАдмин команды.
-    unban - разбанить человека на сервере.
+    unban @упоминание - разбанить человека на сервере.
     \nМодер команды.
     clear количество  - удалить сообщения
     ban @упоминание - выдать бан-роль.
@@ -146,7 +146,7 @@ async def help(ctx):
 
 
 
-
+      
 @bot.command()
 @commands.has_role(moder_role)
 async def ban(ctx, member : discord.Member, *, reason=None):
