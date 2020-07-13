@@ -171,7 +171,7 @@ async def unban(ctx, member : discord.Member, *, reason=None):
     await ctx.message.delete()
     ban_role = discord.utils.get(member.guild.roles, id=726255138926362704)
     log_channel = discord.utils.get(member.guild.channels, id=723196150961930343)
-    await member.remove.roles(ban_role)
+    await member.remove_roles(ban_role)
     await log_channel.send(f'**{ctx.author.mention} разбанил {member.mention}**')
 
 
