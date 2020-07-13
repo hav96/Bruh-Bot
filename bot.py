@@ -337,9 +337,7 @@ async def event(ctx, event: str):
 async def case(ctx):
     await ctx.message.delete()
     key_role = discord.utils.get(ctx.author.guild.roles, id=727021729553317928)
-    try:
-        if key_role in ctx.author.roles:
-            roles = (
+    roles = (
             'олег','олег','олег','олег',
             'добрый','бездарь','бездарь',
             'бездарь','звонишь','добрый',
@@ -348,6 +346,8 @@ async def case(ctx):
             'добрый','Майнкрафт','Майнкрафт'
             'добрый','Майнкрафт','бездарь',
             'бездарь','олег','бездарь','бездарь') 
+    try:
+        if key_role in ctx.author.roles:
             generate_roles = random.choice(roles)
             
             if generate_roles == 'бездарь':
@@ -412,9 +412,12 @@ async def unmute(ctx, member : discord.Member, *, reason=None):
 
 
 @bot.command()
-async def randomchoice(ctx, a, b): #рандомные числа от a до b
-    random_choice = random.randint(a,b)
-    await ctx.send(f'Рандомное число {random_choice} от {a} до {b}')
+async def randomchoice(ctx, a: int, b: int): #рандомные числа от a до b
+    try:
+        random_choice = random.randint(a, b)
+        await ctx.send(f'Рандомное число {random_choice} от {a} до {b}')
+    except Exception as error:
+        print(error)
 
 
 @bot.command()
