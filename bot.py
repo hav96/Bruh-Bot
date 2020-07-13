@@ -50,7 +50,6 @@ async def on_ready():
     init()
     print(colored(f'-------------\nBruh Bot started\nVersion bot {version}\nTime start {time_start}\nDeveloper saywex bruh\n-------------', 'green'))
     
-
 @bot.event
 async def on_member_join(member):
     log_channel = discord.utils.get(member.guild.channels, id=723196150961930343) #куда будет логироватся
@@ -165,15 +164,27 @@ async def ban(ctx, member : discord.Member, *, reason=None):
 @commands.has_role(moder_role)
 async def warn(ctx, member : discord.Member, *, reason=None):
     await ctx.message.delete()
-    warn_role = discord.utils.get(member.guild.roles, id=726853781001863299)
+    warn_role1 = discord.utils.get(member.guild.roles, id=726853781001863299) 
+    warn_role2 = discord.utils.get(member.guild.roles, id=726853849352241213) 
+    ban_role = discord.utils.get(member.guild.roles, id=726255138926362704)
     log_channel = discord.utils.get(member.guild.channels, id=723196150961930343)
     try:
         if member not in moders or member not in admins or member not in leaders:
-            await ctx.send(f'{ctx.author.mention} дал варн {member.mention}')
-            await member.add_roles(warn_role)
-            await log_channel.send(f'{ctx.author.mention} дал варн {member.mention}')
+            if warn_role1 in member.roles:
+            await ctx.send(f'**{ctx.author.mention} дал варн {member.mention} варнов 2/3**')
+            await member.add_roles(warn_role2)
+            await log_channel.send(f'{ctx.author.mention} дал варн {member.mention} варнов 2/3**')
+            elif warn_role2 in member.roles: 
+                 await ctx.send(f'**{ctx.author.mention} дал варн {member.mention} варнов 3/3**')
+                 await member.add_roles(ban_role)
+                 await log_channel.send(f'{ctx.author.mention} дал варн {member.mention} варнов 3/3**')
+            elif warn_role1 not in member.roles:
+                await ctx.send(f'**{ctx.author.mention} дал варн {member.mention} варнов 1/3**')
+                await member.add_roles(warn_role1)
+                await log_channel.send(f'{ctx.author.mention} дал варн {member.mention} варнов 1/3**')
+
         else:
-            await ctx.send(f'Не удалось дать варн {member} ,не достаточно прав!')
+            await ctx.send(f'Не удалось дать варн {member},не достаточно прав!')
     except Exception as error:
         print(error)
         await ctx.send(f'{ctx.author.mention} что-то пошло не так...')
