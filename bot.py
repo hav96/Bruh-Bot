@@ -446,6 +446,7 @@ async def weather(ctx, city: str):
 
 @bot.command()
 async def request(ctx, event: str):
+    await ctx.message.delete()
     try:
         request_channel = discord.utils.get(ctx.author.guild.channels, id=727040205210517505)
         await request_channel.send(embed = discord.Embed(description = f'**{ctx.author.mention} просит запустить {event}**', color=0x942ba3))
@@ -455,9 +456,10 @@ async def request(ctx, event: str):
 
 @bot.command()
 @commands.has_role(help_role)
-async def key(ctx, member : discord.Member, *, reason=None):
+async def key(ctx):
+    await ctx.message.delete()
     key_role = discord.utils.get(ctx.author.guild.roles, id=727021729553317928)
-    await member.add_roles(key_role)
+    await ctx.author.add_roles(key_role)
 
 
 
@@ -466,6 +468,7 @@ async def key(ctx, member : discord.Member, *, reason=None):
 @bot.command()
 @commands.has_role(room_creator)
 async def skick(ctx, member : discord.Member, *, reason=None):
+    await ctx.message.delete()
     pass
             
 bot.run(TOKEN)         
