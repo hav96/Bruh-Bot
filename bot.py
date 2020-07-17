@@ -37,7 +37,7 @@ key_role = 727021729553317928
 
 room_creator = 727690980341317632 #дает возможность создавать приват румы
 
-case_add_role = 731423666704744450 #дает возможность выдавать key
+
 
 
 
@@ -123,14 +123,13 @@ async def help(ctx):
     await ctx.message.delete()
     embed=discord.Embed(title="Помощь", description=('''Префикс бота >
     \n\nРофлан команды.
-    (нужно иметь роль выдачи кейсов)
-    key @упоминание - выдать ключ к кейсу.
     manga - рандомная хентай манга.
     gif слово - получить гифку.
     case - открыть кейс(нужна роль key).
     weather город - узнать погоду.
     \nАдмин команды.
     unban @упоминание - разбанить человека на сервере.
+    key @упоминание - выдать ключ к кейсу.
     \nМодер команды.
     clear количество  - удалить сообщения
     ban @упоминание - выдать бан-роль.
@@ -416,14 +415,6 @@ async def unmute(ctx, member : discord.Member, *, reason=None):
     await channel.send(f'{ctx.author.mention} снял мут {member.mention}')
 
 
-@bot.command()
-async def randomchoice(ctx, a: int, b: int): #рандомные числа от a до b
-    try:
-        random_choice = random.randint(a, b)
-        await ctx.send(f'Рандомное число {random_choice} от {a} до {b}')
-    except Exception as error:
-        print(error)
-
 
 @bot.command()
 @commands.has_role(moder_role)
@@ -463,11 +454,10 @@ async def request(ctx, event: str):
 
 
 @bot.command()
-@commands.has_role(case_add_role)
+@commands.has_role(help_role)
 async def key(ctx, member : discord.Member, *, reason=None):
     key_role = discord.utils.get(ctx.author.guild.roles, id=727021729553317928)
     await member.add_roles(key_role)
-
 
 
 
