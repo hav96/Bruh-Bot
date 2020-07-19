@@ -148,14 +148,14 @@ async def help(ctx):
       
 @bot.command()
 @commands.has_role(moder_role)
-async def ban(ctx, member : discord.Member, *, reason=None):
+async def ban(ctx, member : discord.Member, *, reason=None, reason: str):
     await ctx.message.delete()
     log_channel = discord.utils.get(member.guild.channels, id=723196150961930343)
     ban_role = discord.utils.get(member.guild.roles, id=726255138926362704)
     try:
         await member.add_roles(ban_role)
         await log_channel.send(f'**{ctx.author.mention} забанил {member.mention}**')
-        await member.send(f'**{author.ctx.mention} дал вам бан на сервере\nЧто бы получить разбан напишите @Tanaka**')
+        await member.send(f'**{author.ctx.mention} дал вам бан на сервере\nЧто бы получить разбан напишите @Tanaka\nПричина {reason}**')
 
     except:
         await ctx.send(f'**Не удалось забанить {member.mention} ,не достаточно прав!**')       
@@ -180,7 +180,7 @@ async def unban(ctx, member : discord.Member, *, reason=None):
 
 @bot.command()
 @commands.has_role(moder_role)
-async def warn(ctx, member : discord.Member, *, reason=None):
+async def warn(ctx, member : discord.Member, *, reason=None, reason: str):
     await ctx.message.delete()
     warn_role1 = discord.utils.get(member.guild.roles, id=726853781001863299) #роль 1 варна сервера
     warn_role2 = discord.utils.get(member.guild.roles, id=726853849352241213) #роль 2 варна сервера
@@ -195,15 +195,15 @@ async def warn(ctx, member : discord.Member, *, reason=None):
             if warn_role1 in member.roles and warn_role2 not in member.roles:
                 await member.send(f'**{ctx.author.mention} дал вам варн {member.mention} варнов у вас 2/3**')
                 await member.add_roles(warn_role2)
-                await log_channel.send(f'**{ctx.author.mention} дал варн {member.mention} варнов 2/3**')
+                await log_channel.send(f'**{ctx.author.mention} дал варн {member.mention} варнов 2/3**\nПричина {reason}')
             elif warn_role2 in member.roles: 
                 await member.send(f'**{ctx.author.mention} дал вам варн {member.mention} варнов у вас 3/3 и вы получаете бан роль на сервере\nНапишите @Tanaka для разбана**')
                 await member.add_roles(ban_role)
-                await log_channel.send(f'**{ctx.author.mention} дал варн {member.mention} варнов 3/3**')
+                await log_channel.send(f'**{ctx.author.mention} дал варн {member.mention} варнов 3/3**\nПричина {reason}')
             elif warn_role1 not in member.roles and warn_role2 not in member.roles:
                 await member.send(f'**{ctx.author.mention} дал вам варн {member.mention} варнов у вас 1/3**')
                 await member.add_roles(warn_role1)
-                await log_channel.send(f'**{ctx.author.mention} дал варн {member.mention} варнов 1/3**')
+                await log_channel.send(f'**{ctx.author.mention} дал варн {member.mention} варнов 1/3**\nПричина {reason}')
     except Exception as error:
         print(error)
         await ctx.send(f'**{ctx.author.mention} что-то пошло не так...**')
