@@ -127,6 +127,7 @@ async def help(ctx):
     gif слово - получить гифку.
     case - открыть кейс(нужна роль key).
     weather город - узнать погоду.
+    request ивент - попросить провести ивент
     \nАдмин команды.
     unban @упоминание - разбанить человека на сервере.
     key @упоминание - выдать ключ к кейсу.
@@ -148,20 +149,21 @@ async def help(ctx):
       
 @bot.command()
 @commands.has_role(moder_role)
-async def ban(ctx, member : discord.Member, *, reason=None, reason: str):
+async def ban(ctx, member : discord.Member, *, reason=None):
     await ctx.message.delete()
     log_channel = discord.utils.get(member.guild.channels, id=723196150961930343)
     ban_role = discord.utils.get(member.guild.roles, id=726255138926362704)
     try:
         await member.add_roles(ban_role)
         await log_channel.send(f'**{ctx.author.mention} забанил {member.mention}**')
-        await member.send(f'**{author.ctx.mention} дал вам бан на сервере\nЧто бы получить разбан напишите @Tanaka\nПричина {reason}**')
+        await member.send(f'**{author.ctx.mention} дал вам бан на сервере\nЧто бы получить разбан напишите @Tanaka**')
 
     except:
         await ctx.send(f'**Не удалось забанить {member.mention} ,не достаточно прав!**')       
 
 
 
+                   
 
 
 @bot.command()
@@ -180,7 +182,7 @@ async def unban(ctx, member : discord.Member, *, reason=None):
 
 @bot.command()
 @commands.has_role(moder_role)
-async def warn(ctx, member : discord.Member, *, reason=None, reason: str):
+async def warn(ctx, member : discord.Member, *, reason=None):
     await ctx.message.delete()
     warn_role1 = discord.utils.get(member.guild.roles, id=726853781001863299) #роль 1 варна сервера
     warn_role2 = discord.utils.get(member.guild.roles, id=726853849352241213) #роль 2 варна сервера
@@ -195,15 +197,15 @@ async def warn(ctx, member : discord.Member, *, reason=None, reason: str):
             if warn_role1 in member.roles and warn_role2 not in member.roles:
                 await member.send(f'**{ctx.author.mention} дал вам варн {member.mention} варнов у вас 2/3**')
                 await member.add_roles(warn_role2)
-                await log_channel.send(f'**{ctx.author.mention} дал варн {member.mention} варнов 2/3**\nПричина {reason}')
+                await log_channel.send(f'**{ctx.author.mention} дал варн {member.mention} варнов 2/3**')
             elif warn_role2 in member.roles: 
                 await member.send(f'**{ctx.author.mention} дал вам варн {member.mention} варнов у вас 3/3 и вы получаете бан роль на сервере\nНапишите @Tanaka для разбана**')
                 await member.add_roles(ban_role)
-                await log_channel.send(f'**{ctx.author.mention} дал варн {member.mention} варнов 3/3**\nПричина {reason}')
+                await log_channel.send(f'**{ctx.author.mention} дал варн {member.mention} варнов 3/3**')
             elif warn_role1 not in member.roles and warn_role2 not in member.roles:
                 await member.send(f'**{ctx.author.mention} дал вам варн {member.mention} варнов у вас 1/3**')
                 await member.add_roles(warn_role1)
-                await log_channel.send(f'**{ctx.author.mention} дал варн {member.mention} варнов 1/3**\nПричина {reason}')
+                await log_channel.send(f'**{ctx.author.mention} дал варн {member.mention} варнов 1/3**')
     except Exception as error:
         print(error)
         await ctx.send(f'**{ctx.author.mention} что-то пошло не так...**')
@@ -238,6 +240,7 @@ async def kill(ctx, member : discord.Member, *, reason=None):
         embed=discord.Embed(title='Bruh Bot' , description=f'Не смог сменить ник {member.mention},не достаточно прав!', color=0xff0035)
         embed.set_footer(text = f"Запросил {ctx.author}({ctx.author.display_name})", icon_url = f'{ctx.author.avatar_url}')
         await ctx.send(embed = embed)
+
 
 
 @bot.command()
@@ -445,11 +448,12 @@ async def weather(ctx, city: str):
 
 
 @bot.command()
-async def request(ctx, event: str):
+async def request(ctx, *event: str):
     await ctx.message.delete()
+    request_channel = discord.utils.get(ctx.author.guild.channels, id=731392759939858452)
     try:
-        request_channel = discord.utils.get(ctx.author.guild.channels, id=727040205210517505)
-        await request_channel.send(embed = discord.Embed(description = f'**{ctx.author.mention} просит запустить {event}**', color=0x942ba3))
+        event = ' '.join(event)
+        await request_channel.send(embed = discord.Embed(description = f'**{ctx.author.mention}\n{event}**', color=0x942ba3))
     except Exception as error:
         print(error)
 
@@ -469,6 +473,10 @@ async def key(ctx):
 @commands.has_role(room_creator)
 async def skick(ctx, member : discord.Member, *, reason=None):
     await ctx.message.delete()
-    pass
+    author = ctx.message.author
+    channel = author.voice_channel
+    afk_room = discord.utils.get(ctx.author.guild.channels, id=722563220291715183)
+    if member in channel:
+        await member.move_to(afk_room)
             
 bot.run(TOKEN)         
