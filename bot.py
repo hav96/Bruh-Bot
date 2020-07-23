@@ -47,6 +47,7 @@ async def on_ready():
     time_start = datetime.datetime.today().strftime("%H:%M:%S")
     init()
     print(colored(f'-------------\nBruh Bot started\nVersion bot {version}\nTime start {time_start}\nDeveloper saywex bruh\n-------------', 'green'))
+   
     
 @bot.event
 async def on_member_join(member):
@@ -471,12 +472,14 @@ async def key(ctx):
 
 @bot.command()
 @commands.has_role(room_creator)
-async def skick(ctx, member : discord.Member, *, reason=None):
+async def move(ctx, member : discord.Member, channel):
     await ctx.message.delete()
-    author = ctx.message.author
-    channel = author.voice_channel
-    afk_room = discord.utils.get(ctx.author.guild.channels, id=722563220291715183)
-    if member in channel:
-        await member.move_to(afk_room)
+    try:
+        await member.move_to(int(channel))
+    except Exception as error:
+        print(error)
+   
+   
             
 bot.run(TOKEN)         
+                          
