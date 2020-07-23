@@ -78,6 +78,8 @@ async def on_command_error(ctx, error):
         await ctx.send(embed = discord.Embed(description = f'** {ctx.author.mention}, данной команды не существует\nпропишите >help.**', color=0xff0000))
     elif isinstance(error, commands.MissingRequiredArgument):
         await ctx.send(embed = discord.Embed(description = f'** {ctx.author.mention}, вы не указали нужное количество аргументов!\nпропишите >help.**', color=0xff0000))
+    elif isinstance(error, commands.MissingPermissions):
+        await ctx.send(f'{ctx.author.name}, вы не обладаете такими правами!')
 
 
         
@@ -465,21 +467,6 @@ async def key(ctx):
     await ctx.message.delete()
     key_role = discord.utils.get(ctx.author.guild.roles, id=727021729553317928)
     await ctx.author.add_roles(key_role)
-
-
-
-
-
-@bot.command()
-@commands.has_role(room_creator)
-async def move(ctx, member : discord.Member, channel):
-    await ctx.message.delete()
-    try:
-        await member.move_to(int(channel))
-    except Exception as error:
-        print(error)
-   
-   
-            
+             
 bot.run(TOKEN)         
                           
