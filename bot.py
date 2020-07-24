@@ -35,19 +35,32 @@ discord_server_id = 722548853173125162
 
 key_role = 727021729553317928
 
-room_creator = 727690980341317632 #дает возможность создавать приват румы
+room_creator = 727690980341317632 #дает возможность создавать приват румы 
 
 
-
-
-
+spam = {
+    'discord.com',
+    'com',
+    'vk',
+    'ru',
+    'https',
+    'http',
+    'discord.com//',
+    '//',
+    '\\',
+}
 
 @bot.event
 async def on_ready():
     time_start = datetime.datetime.today().strftime("%H:%M:%S")
     init()
     print(colored(f'-------------\nBruh Bot started\nVersion bot {version}\nTime start {time_start}\nDeveloper saywex bruh\n-------------', 'green'))
-   
+    
+@bot.event
+async def on_message(message):
+    if message.content in spam:
+        await message.delete()  
+     
     
 @bot.event
 async def on_member_join(member):
@@ -101,7 +114,7 @@ async def on_voice_state_update(member, before, after):
                 category = discord.utils.get(guild.categories, id=727688569962889287)
                 channelmember = await guild.create_voice_channel(f'Приват {member}', category=category)
                 await log_channel.send(f'{member.mention} создал приват')         
-                await channelmember.set_permissions(member,connect=True)
+                await channelmember.set_permissions(member,connect=True,)
                 await member.move_to(channelmember)
                 def check(a,b,c): #3 обязательных аогумента рот ебал
                     return len(channelmember.members) == 0
@@ -164,9 +177,6 @@ async def ban(ctx, member : discord.Member, *, reason=None):
     except:
         await ctx.send(f'**Не удалось забанить {member.mention} ,не достаточно прав!**')       
 
-
-
-                   
 
 
 @bot.command()
@@ -445,7 +455,7 @@ async def weather(ctx, city: str):
         embed.set_footer(text = f"Запросил {ctx.author}({ctx.author.display_name})", icon_url = f'{ctx.author.avatar_url}')
         await ctx.send(embed = embed)
     except Exception as error:
-        ctx.send(f'{author.ctx.mention} что пошло не так\nОшибка {error}')
+        ctx.send(f'{ctx.author.mention} что пошло не так\nОшибка {error}')
 
 
 
@@ -467,6 +477,14 @@ async def key(ctx):
     await ctx.message.delete()
     key_role = discord.utils.get(ctx.author.guild.roles, id=727021729553317928)
     await ctx.author.add_roles(key_role)
-             
+
+@bot.command()
+async def time(ctx):
+    time_role = discord.utils.get(ctx.author.guild.roles, id=727186390416228423)
+    await ctx.author.add_roles(time_role)
+    time.sleep(20)
+    await ctx.author.remove_roles(time_role)
+    await ctx.send(f'забрал роль {author.mention}')
+            
 bot.run(TOKEN)         
                           
