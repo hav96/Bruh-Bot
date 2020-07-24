@@ -136,6 +136,7 @@ async def help(ctx):
     await ctx.message.delete()
     embed=discord.Embed(title="Помощь", description=('''Префикс бота >
     \n\nРофлан команды.
+    roll - рандом число от 1 до 50.
     manga - рандомная хентай манга.
     gif слово - получить гифку.
     case - открыть кейс(нужна роль key).
@@ -475,6 +476,8 @@ async def key(ctx):
     key_role = discord.utils.get(ctx.author.guild.roles, id=727021729553317928)
     await ctx.author.add_roles(key_role)
 
-help
+@bot.command()
+async def roll(ctx):
+    random_number = random.randint(0,50)
 bot.run(TOKEN)         
                           
