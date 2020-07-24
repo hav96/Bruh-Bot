@@ -54,14 +54,11 @@ spam = {
 async def on_ready():
     time_start = datetime.datetime.today().strftime("%H:%M:%S")
     init()
-    print(colored(f'-------------\nBruh Bot started\nVersion bot {version}\nTime start {time_start}\nDeveloper saywex bruh\n-------------', 'green'))
+    print(colored(f'-------------\nBruh Bot started\nVersion bot {version}\nTime start {time_start}\nDeveloper saywex bruh\n-------------', 'red'))
     
-@bot.event
-async def on_message(message):
-    if message.content in spam:
-        await message.delete()  
+
      
-    
+
 @bot.event
 async def on_member_join(member):
     log_channel = discord.utils.get(member.guild.channels, id=723196150961930343) #куда будет логироватся
@@ -114,7 +111,7 @@ async def on_voice_state_update(member, before, after):
                 category = discord.utils.get(guild.categories, id=727688569962889287)
                 channelmember = await guild.create_voice_channel(f'Приват {member}', category=category)
                 await log_channel.send(f'{member.mention} создал приват')         
-                await channelmember.set_permissions(member,connect=True,)
+                await channelmember.set_permissions(member,connect=True,kick_members=True)
                 await member.move_to(channelmember)
                 def check(a,b,c): #3 обязательных аогумента рот ебал
                     return len(channelmember.members) == 0
@@ -478,13 +475,6 @@ async def key(ctx):
     key_role = discord.utils.get(ctx.author.guild.roles, id=727021729553317928)
     await ctx.author.add_roles(key_role)
 
-@bot.command()
-async def time(ctx):
-    time_role = discord.utils.get(ctx.author.guild.roles, id=727186390416228423)
-    await ctx.author.add_roles(time_role)
-    time.sleep(20)
-    await ctx.author.remove_roles(time_role)
-    await ctx.send(f'забрал роль {author.mention}')
-            
+help
 bot.run(TOKEN)         
                           
