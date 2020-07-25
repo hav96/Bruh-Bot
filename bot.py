@@ -452,7 +452,7 @@ async def weather(ctx, city: str):
         embed.set_footer(text = f"Запросил {ctx.author}({ctx.author.display_name})", icon_url = f'{ctx.author.avatar_url}')
         await ctx.send(embed = embed)
     except Exception as error:
-        ctx.send(f'{ctx.author.mention} что пошло не так\nОшибка {error}')
+        await ctx.send(f'{ctx.author.mention} что пошло не так\nОшибка {error}')
 
 
 
@@ -479,5 +479,5 @@ async def key(ctx):
 async def roll(ctx):
     random_number = random.randint(0,50)
 
-    
+
 bot.run(TOKEN)
