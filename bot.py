@@ -478,6 +478,7 @@ async def key(ctx):
 @bot.command()
 async def roll(ctx):
     random_number = random.randint(0,50)
+    await ctx.send(f'{ctx.author.mention} - {random_number}')
 
 
 bot.run(TOKEN)
