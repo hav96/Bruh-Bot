@@ -478,4 +478,6 @@ async def key(ctx):
 @bot.command()
 async def roll(ctx):
     random_number = random.randint(0,50)
+
+    
 bot.run(TOKEN)
