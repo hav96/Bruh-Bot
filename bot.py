@@ -12,7 +12,8 @@ import datetime
 import pyowm
 import time
 import random
-version = '0.0.1'
+
+version = '0.0.4'
 
 TOKEN = 'NzI0NjQyNjgwMTI2MDQ2MzM5.XvDbTg.7tmEJ94cyQtJIsEqw7aMbowsNSg'
 
@@ -20,40 +21,28 @@ bot = commands.Bot(command_prefix='>')
 
 bot.remove_command('help')
 
-tenorpy = tenorpy.Tenor() #for gifs
+tenorpy = tenorpy.Tenor() 
 
-moder_role = 722554357186560061  #роль модератора
+moder_role = 722554357186560061 
 
-leader_role = 722787700146700412 # роль ведущего 
+leader_role = 722787700146700412
 
-admin_role = 723198849434386462 # роль гл.админ
+admin_role = 723198849434386462
 
-help_role = 723198849434386462 #роль админа
+help_role = 723198849434386462 
 
 discord_server_id = 722548853173125162 
 
 key_role = 727021729553317928
 
-room_creator = 727690980341317632 #дает возможность создавать приват румы 
+room_creator = 727690980341317632 
 
-
-spam = {
-    'discord.com',
-    'com',
-    'vk',
-    'ru',
-    'https',
-    'http',
-    'discord.com//',
-    '//',
-    '\\',
-}
 
 @bot.event
 async def on_ready():
     time_start = datetime.datetime.today().strftime("%H:%M:%S")
     init()
-    print(colored(f'-------------\nBruh Bot started\nVersion bot {version}\nTime start {time_start}\nDeveloper saywex bruh\n-------------', 'red'))
+    print(colored(f'-/-/-/-/-/-/-\nBruh Bot started\nVersion bot {version}\nTime start {time_start}\nDeveloper saywex bruh\n/-/-/-/-/-/-/', 'green'))
     
 
      
@@ -88,13 +77,13 @@ async def on_command_error(ctx, error):
     elif isinstance(error, commands.MissingRequiredArgument):
         await ctx.send(embed = discord.Embed(description = f'** {ctx.author.mention}, вы не указали нужное количество аргументов!\nпропишите >help.**', color=0xff0000))
     elif isinstance(error, commands.MissingPermissions):
-        await ctx.send(f'{ctx.author.name}, вы не обладаете такими правами!')
+        await ctx.send(f'{ctx.author.mention}, вы не обладаете такими правами!')
  
 
 
 @bot.event
 async def on_voice_state_update(member, before, after):
-    log_channel = discord.utils.get(member.guild.channels, id=723196150961930343) #куда будет логироватся
+    log_channel = discord.utils.get(member.guild.channels, id=723196150961930343)
     voice_role = discord.utils.get(member.guild.roles, id=728160775851606037)
     if after.channel is None:
         await member.remove_roles(voice_role)
@@ -102,9 +91,9 @@ async def on_voice_state_update(member, before, after):
     else:
         voice_channel = discord.utils.get(member.guild.channels, id=after.channel.id)
         members = voice_channel.members
+        category = discord.utils.get(guild.categories, id=727688569962889287)
         if after.channel.id == 730733768465186886: #рума для создания приватов
             for guild in bot.guilds:
-                category = discord.utils.get(guild.categories, id=727688569962889287)
                 channelmember = await guild.create_voice_channel(f'Приват {member}', category=category)
                 await log_channel.send(f'{member.mention} создал приват')         
                 await channelmember.set_permissions(member,connect=True,kick_members=True)
@@ -153,6 +142,9 @@ async def help(ctx):
     event название ивента - запустить ивент.
     kill @упоминание - кого убила мафия.
     hanged @упоминание - не поверили и повесили.
+    kom @упоминание - выдать роль комисара.
+    maf @упоминание - выдать роль мафии.
+    doctor @упоминание - выдать роль доктора.
     rename id канала - изменить игрокам ник по количеству'''))
     await ctx.send(embed=embed)
 
@@ -193,10 +185,10 @@ async def unban(ctx, member : discord.Member, *, reason=None):
 @commands.has_role(moder_role)
 async def warn(ctx, member : discord.Member, *, reason=None):
     await ctx.message.delete()
-    warn_role1 = discord.utils.get(member.guild.roles, id=726853781001863299) #роль 1 варна сервера
-    warn_role2 = discord.utils.get(member.guild.roles, id=726853849352241213) #роль 2 варна сервера
-    ban_role = discord.utils.get(member.guild.roles, id=726255138926362704) #бан роль сервера
-    log_channel = discord.utils.get(member.guild.channels, id=723196150961930343) #лог ченнал канала
+    warn_role1 = discord.utils.get(member.guild.roles, id=726853781001863299) 
+    warn_role2 = discord.utils.get(member.guild.roles, id=726853849352241213) 
+    ban_role = discord.utils.get(member.guild.roles, id=726255138926362704) 
+    log_channel = discord.utils.get(member.guild.channels, id=723196150961930343) 
     gladmin_role = discord.utils.get(member.guild.channels, id=722553559329144833)
     admin_role = discord.utils.get(member.guild.channels, id=723198849434386462)   
     try:
@@ -320,7 +312,7 @@ async def event(ctx, event: str):
             embed=discord.Embed(title=f"Проводится ивент мафия!", description=f"Победа мирных - 100 коинов\nПобеда мафии - 75 коинов\nВедущий - {ctx.author.mention}", color=0xff0084)
             embed.set_thumbnail(url="https://krot.info/uploads/posts/2020-01/1579563613_29-p-foni-s-mafiei-60.jpg")
             await channel.send(embed = embed)
-            await log_hannel.send(f'{ctx.author.mention} запустил ивент мафия')
+            await log_сhannel.send(f'{ctx.author.mention} запустил ивент мафия')
             await ctx.author.move_to(channel_mafia)
         
         elif event == 'uno':
@@ -329,7 +321,7 @@ async def event(ctx, event: str):
             embed=discord.Embed(title="Проводится ивент уно!", description=f"1 место - 100 коинов\n2 место - 75 коинов\n3 место - 50 коинов\nВедущий - {ctx.author.mention}", color=0x40ff00)
             embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/532890437858623488/567023305698312202/Uno.png")
             await channel.send(embed = embed)
-            await log_hannel.send(f'{ctx.author.mention} запустил ивент уно')
+            await log_сhannel.send(f'{ctx.author.mention} запустил ивент уно')
             await ctx.author.move_to(channel_yno)
     
         elif event == 'monopoly':
@@ -338,7 +330,7 @@ async def event(ctx, event: str):
             embed=discord.Embed(title="Проводится ивент монополия!", description=f"1 место - 350 коинов\n2 место - 300 коинов\n3 место - 150 коинов\nВедущий - {ctx.author.mention}", color=0xffc500)
             embed.set_thumbnail(url="https://im0-tub-ru.yandex.net/i?id=013bb6a40f47b1cdee74dd2bc6e6b231&n=13&exp=1")
             await channel.send(embed = embed)
-            await log_hannel.send(f'{ctx.author.mention} запустил ивент монополия')
+            await log_сhannel.send(f'{ctx.author.mention} запустил ивент монополия')
             await ctx.author.move_to(channel_monopoly)
     
         else:
@@ -469,6 +461,36 @@ async def request(ctx, *event: str):
         print(error)
 
 
+
+@bot.command()
+@commands.has_role(leader_role)
+async def maf(ctx, member : discord.Member, *, reason=None):
+    url = ''
+    log_channel = discord.utils.get(ctx.author.guild.channels, id=723196150961930343)
+    await member.send(f'**Вам выпала роль мафии\nСсылка на дискорд сервер мафии -\n{url}**')
+    await log_channel.send(f'{ctx.author.mention} выдал роль мафии игроку {member.mention}')
+
+
+@bot.command()
+@commands.has_role(leader_role)
+async def doctor(ctx, member : discord.Member, *, reason=None):
+    log_channel = discord.utils.get(ctx.author.guild.channels, id=723196150961930343)
+    await member.send('**Вам выпала роль доктора!**')
+    await log_channel.send(f'{ctx.author.mention} выдал роль доктора игроку {member.mention}')
+
+
+
+@bot.command()
+@commands.has_role(leader_role)
+async def kom(ctx, member : discord.Member, *, reason=None):
+    log_channel = discord.utils.get(ctx.author.guild.channels, id=723196150961930343)
+    await member.send('**Вам выпала роль шериф(коммисар)**')
+    await log_channel.send(f'{ctx.author.mention} выдал роль комисара игроку {member.mention}')
+    
+
+
+
+
 @bot.command()
 @commands.has_role(help_role)
 async def key(ctx):
@@ -478,8 +500,14 @@ async def key(ctx):
 
 @bot.command()
 async def roll(ctx):
-    random_number = random.randint(0,50)
+    random_number = random.randint(1,50)
     await ctx.send(f'{ctx.author.mention} - {random_number}')
+
+#@bot.command()
+#@commands.has_role(room_creator)
+#async def kick(ctx, member : discord.Member, *, reason=None):
+    #await .set_permissions(member,connect=False)
+
 
 
 bot.run(TOKEN)
