@@ -467,7 +467,7 @@ async def request(ctx, *event: str):
 async def maf(ctx, member : discord.Member, *, reason=None):
     url = ''
     log_channel = discord.utils.get(ctx.author.guild.channels, id=723196150961930343)
-    await member.send(f'**Вам выпала роль мафии\nСсылка на дискорд сервер мафии -\n{url}**')
+    await member.send(f'**Ваша роль мафия\nСсылка на дискорд сервер мафии -\n{url}**')
     await log_channel.send(f'{ctx.author.mention} выдал роль мафии игроку {member.mention}')
 
 
@@ -475,7 +475,7 @@ async def maf(ctx, member : discord.Member, *, reason=None):
 @commands.has_role(leader_role)
 async def doctor(ctx, member : discord.Member, *, reason=None):
     log_channel = discord.utils.get(ctx.author.guild.channels, id=723196150961930343)
-    await member.send('**Вам выпала роль доктора!**')
+    await member.send('**Ваша роль доктор!**')
     await log_channel.send(f'{ctx.author.mention} выдал роль доктора игроку {member.mention}')
 
 
@@ -484,7 +484,7 @@ async def doctor(ctx, member : discord.Member, *, reason=None):
 @commands.has_role(leader_role)
 async def kom(ctx, member : discord.Member, *, reason=None):
     log_channel = discord.utils.get(ctx.author.guild.channels, id=723196150961930343)
-    await member.send('**Вам выпала роль шериф(коммисар)**')
+    await member.send('**Ваша роль шериф(коммисар)**')
     await log_channel.send(f'{ctx.author.mention} выдал роль комисара игроку {member.mention}')
     
 
