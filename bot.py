@@ -2,7 +2,6 @@ import asyncio
 import os
 import discord
 from discord.ext import commands
-from pyowm import OWM
 import tenorpy
 from colorama import init
 from termcolor import colored
@@ -114,12 +113,6 @@ async def on_voice_state_update(member, before, after):
             await log_channel.send(f'{member.mention} зашел в AFK')
             #afk не добавляем коины
 
-
-
-@bot.event
-async def on_message(message):
-    if message.content.startswith('привет'):
-        await message.channel.send(f'Привет {message.author.mention}')
 
 @bot.command()
 async def help(ctx):
@@ -441,16 +434,7 @@ async def clear(ctx, amount=None):
 @bot.command()
 async def weather(ctx, city: str):
     await ctx.message.delete()
-    try:
-        owm = OWM('c899ddf826f6f9d0c08e8794f989c69e')
-        observation = owm.weather_at_place(city)
-        w = observation.get_weather()
-        temp = w.get_temperature('celsius')["temp"]
-        embed=discord.Embed(title="Погода", description=f"В городе  {city} сейчас {w.get_detailed_status()}\nTемпература {temp} °C", color=0x004099)
-        embed.set_footer(text = f"Запросил {ctx.author}({ctx.author.display_name})", icon_url = f'{ctx.author.avatar_url}')
-        await ctx.send(embed = embed)
-    except Exception as error:
-        await ctx.send(f'{ctx.author.mention} что пошло не так\nОшибка {error}')
+    
 
 
 
