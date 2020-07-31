@@ -163,6 +163,7 @@ async def ban(ctx, member : discord.Member, *, reason=None):
         await member.send(f'**{ctx.author.mention} дал вам бан на сервере\nЧто бы получить разбан напишите @Tanaka**')
 
     except:
+        await log_channel.send(f'**{ctx.author.mention} не смог забанил {member.mention}**')
         await ctx.send(f'**Не удалось забанить {member.mention} ,не достаточно прав!**')       
 
 
