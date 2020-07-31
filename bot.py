@@ -209,7 +209,7 @@ async def warn(ctx, member : discord.Member, *, reason=None):
                 await log_channel.send(f'**{ctx.author.mention} дал варн {member.mention} варнов 1/3**')
     except Exception as error:
         print(error)
-        await ctx.send(f'**{ctx.author.mention} что-то пошло не так...**')
+        await ctx.send(f'**{ctx.author.mention} что-то пошло не так...\nОшибка {error}**')
 
 
 
@@ -258,7 +258,9 @@ async def hanged(ctx, member : discord.Member, *, reason=None):
     except:
         embed=discord.Embed(title='Bruh Bot' , description=f'Не смог сменить ник {member.mention},не достаточно прав!', color=0xff0035)
         embed.set_footer(text = f"Запросил {ctx.author}({ctx.author.display_name})", icon_url = f'{ctx.author.avatar_url}')
-        await ctx.send(embed = embed)
+        message_error = await ctx.send(embed = embed)
+        time.sleep(3)
+        await ctx.message_error.delete()
 
 
 @bot.command()
