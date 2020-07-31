@@ -195,6 +195,7 @@ async def warn(ctx, member : discord.Member, *, reason=None):
     try:
         if admin_role in member.roles or gladmin_role in member.roles:
             print(f'{ctx.author.mention} попытался дать варн админам')
+            await log_channel.send(f'**{ctx.author.mention} попытался дать варн админу -  {member.mention}**')
         else:       
             if warn_role1 in member.roles and warn_role2 not in member.roles:
                 await member.send(f'**{ctx.author.mention} дал вам варн {member.mention} варнов у вас 2/3**')
