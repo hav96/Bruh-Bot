@@ -127,7 +127,8 @@ async def help(ctx):
     request ивент - попросить провести ивент
     \nАдмин команды.
     unban @упоминание - разбанить человека на сервере.
-    key @упоминание - выдать ключ к кейсу.
+    key - выдать ключ к кейсу себе.
+    give_key @упоминание - выдать key участнику сервера.
     \nМодер команды.
     clear количество  - удалить сообщения
     ban @упоминание - выдать бан-роль.
@@ -300,16 +301,16 @@ async def rename(ctx,channel: int):
 @commands.has_role(leader_role)
 async def event(ctx, event: str):
     await ctx.message.delete()
-    category = discord.utils.get(ctx.guild.categories, id=736941485135495219) #где будет создаваться ивент
-    channel = discord.utils.get(ctx.author.guild.channels, id=736947827892289707) #куда будут писаться все ивенты
-    log_channel = discord.utils.get(ctx.author.guild.channels, id=723196150961930343) #ЛОГ канал 
+    log_channel = discord.utils.get(ctx.author.guild.channels, id=723196150961930343)
+    category = discord.utils.get(ctx.guild.categories, id=736941485135495219) 
+    info_channel = discord.utils.get(ctx.author.guild.channels, id=736947827892289707) 
     try:
         if event == 'mafia':
             channel_mafia = await ctx.guild.create_voice_channel('Мафия', category=category)
             await ctx.guild.create_text_channel('мафия', category=category)
             embed=discord.Embed(title=f"Проводится ивент мафия!", description=f"Победа мирных - 100 коинов\nПобеда мафии - 75 коинов\nВедущий - {ctx.author.mention}", color=0xff0084)
             embed.set_thumbnail(url="https://krot.info/uploads/posts/2020-01/1579563613_29-p-foni-s-mafiei-60.jpg")
-            await channel.send(embed = embed)
+            await info_channel.send(embed = embed)
             await log_сhannel.send(f'{ctx.author.mention} запустил ивент мафия')
             await ctx.author.move_to(channel_mafia)
         
@@ -318,7 +319,7 @@ async def event(ctx, event: str):
             await ctx.guild.create_text_channel('уно', category=category)
             embed=discord.Embed(title="Проводится ивент уно!", description=f"1 место - 100 коинов\n2 место - 75 коинов\n3 место - 50 коинов\nВедущий - {ctx.author.mention}", color=0x40ff00)
             embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/532890437858623488/567023305698312202/Uno.png")
-            await channel.send(embed = embed)
+            await info_channel.send(embed = embed)
             await log_сhannel.send(f'{ctx.author.mention} запустил ивент уно')
             await ctx.author.move_to(channel_yno)
     
@@ -327,11 +328,12 @@ async def event(ctx, event: str):
             await ctx.guild.create_text_channel('монополия', category=category)
             embed=discord.Embed(title="Проводится ивент монополия!", description=f"1 место - 350 коинов\n2 место - 300 коинов\n3 место - 150 коинов\nВедущий - {ctx.author.mention}", color=0xffc500)
             embed.set_thumbnail(url="https://im0-tub-ru.yandex.net/i?id=013bb6a40f47b1cdee74dd2bc6e6b231&n=13&exp=1")
-            await channel.send(embed = embed)
+            await info_channel.send(embed = embed)
             await log_сhannel.send(f'{ctx.author.mention} запустил ивент монополия')
             await ctx.author.move_to(channel_monopoly)
     
         else:
+            log_channel = discord.utils.get(ctx.author.guild.channels, id=723196150961930343)
             otherchannel = await ctx.guild.create_voice_channel(event, category=category)
             await ctx.guild.create_text_channel(event, category=category)
             await ctx.send(embed = discord.Embed(description = f'**Вы {ctx.author.mention} создали ивент не имеющий описания,напишите описание сами**'))
@@ -353,7 +355,8 @@ async def case(ctx):
             'олег','олег','🔮','добрый',
             'добрый','Майнкрафт','Майнкрафт'
             'добрый','Майнкрафт','бездарь',
-            'бездарь','олег','бездарь','бездарь') 
+            'бездарь','олег','бездарь','бездарь'
+            ) 
     try:
         if key_role in ctx.author.roles:
             generate_roles = random.choice(roles)
@@ -396,27 +399,26 @@ async def case(ctx):
             await ctx.send(f'У вас {ctx.author.mention} нет роли key для открытия кейса с ролями!')
 
     finally:
-         #в конце просто забераем роль key
         await ctx.author.remove_roles(key_role)
 
 @bot.command()
 @commands.has_role(moder_role)
 async def mute(ctx, member : discord.Member, *, reason=None):
     await ctx.message.delete()
-    channel = discord.utils.get(ctx.author.guild.channels, id=723196150961930343) #куда будет логироватся 
+    log_channel = discord.utils.get(ctx.author.guild.channels, id=723196150961930343) 
     mute_role = discord.utils.get(ctx.author.guild.roles, id=727228695277732063)
     await member.add_roles(mute_role)
-    await channel.send(f'{ctx.author.mention} дал мут {member.mention}')
+    await log_channel.send(f'{ctx.author.mention} дал мут {member.mention}')
 
 
 @bot.command()
 @commands.has_role(moder_role)
 async def unmute(ctx, member : discord.Member, *, reason=None):
     await ctx.message.delete()
-    channel = discord.utils.get(ctx.author.guild.channels, id=723196150961930343) #куда будет логироватся 
+    log_channel = discord.utils.get(ctx.author.guild.channels, id=723196150961930343) 
     mute_role = discord.utils.get(ctx.author.guild.roles, id=727228695277732063)
     await member.remove_roles(mute_role)
-    await channel.send(f'{ctx.author.mention} снял мут {member.mention}')
+    await log_channel.send(f'{ctx.author.mention} снял мут {member.mention}')
 
 
 
@@ -454,9 +456,9 @@ async def request(ctx, *event: str):
 @bot.command()
 @commands.has_role(leader_role)
 async def maf(ctx, member : discord.Member, *, reason=None):
-    await ctx.delete.message()
     url = ''
     log_channel = discord.utils.get(ctx.author.guild.channels, id=723196150961930343)
+    await ctx.delete.message()
     await member.send(f'**Ваша роль мафия\nСсылка на дискорд сервер мафии -\n{url}**')
     await log_channel.send(f'{ctx.author.mention} выдал роль мафии игроку {member.mention}')
 
@@ -464,8 +466,8 @@ async def maf(ctx, member : discord.Member, *, reason=None):
 @bot.command()
 @commands.has_role(leader_role)
 async def doctor(ctx, member : discord.Member, *, reason=None):
-    await ctx.delete.message()
     log_channel = discord.utils.get(ctx.author.guild.channels, id=723196150961930343)
+    await ctx.delete.message()
     await member.send('**Ваша роль доктор!**')
     await log_channel.send(f'{ctx.author.mention} выдал роль доктора игроку {member.mention}')
 
@@ -489,6 +491,15 @@ async def key(ctx):
     await ctx.message.delete()
     key_role = discord.utils.get(ctx.author.guild.roles, id=727021729553317928)
     await ctx.author.add_roles(key_role)
+
+
+@bot.command()
+@commands.has_role(help_role)
+async def give_key(ctx, member : discord.Member, *, reason=None):
+    await ctx.message.delete()
+    key_role = discord.utils.get(ctx.author.guild.roles, id=727021729553317928)
+    await member.add_roles(key_role)
+
 
 @bot.command()
 async def roll(ctx):
