@@ -42,7 +42,7 @@ room_creator = 727690980341317632
 async def on_ready():
     time_start = datetime.datetime.today().strftime("%H:%M:%S")
     init()
-    print(colored(f'-/-/-/-/-/-/-\nBruh Bot started\nVersion bot {version}\nTime start {time_start}\nDeveloper saywex bruh\n/-/-/-/-/-/-/', 'green'))
+    print(colored(f'-/-/-/-/-/-/\nBruh Bot started\nVersion bot {version}\nTime start {time_start}\nDeveloper saywex bruh\n/-/-/-/-/-/-/', 'green'))
     
 
      
@@ -91,7 +91,7 @@ async def on_voice_state_update(member, before, after):
     else:
         voice_channel = discord.utils.get(member.guild.channels, id=after.channel.id)
         members = voice_channel.members
-        category = discord.utils.get(guild.categories, id=727688569962889287)
+        category = discord.utils.get(guilds.categories, id=727688569962889287)
         if after.channel.id == 730733768465186886: #рума для создания приватов
             for guild in bot.guilds:
                 channelmember = await guild.create_voice_channel(f'Приват {member}', category=category)
@@ -160,7 +160,7 @@ async def ban(ctx, member : discord.Member, *, reason=None):
     try:
         await member.add_roles(ban_role)
         await log_channel.send(f'**{ctx.author.mention} забанил {member.mention}**')
-        await member.send(f'**{author.ctx.mention} дал вам бан на сервере\nЧто бы получить разбан напишите @Tanaka**')
+        await member.send(f'**{ctx.author.mention} дал вам бан на сервере\nЧто бы получить разбан напишите @Tanaka**')
 
     except:
         await ctx.send(f'**Не удалось забанить {member.mention} ,не достаточно прав!**')       
@@ -437,7 +437,7 @@ async def clear(ctx, amount=None):
 async def weather(ctx, city: str):
     await ctx.message.delete()
     try:
-        owm = pyowm.OWM('c899ddf826f6f9d0c08e8794f989c69e',language = "RU")
+        owm = pyowm.OWM('c899ddf826f6f9d0c08e8794f989c69e',language ="ru")
         observation = owm.weather_at_place(city)
         w = observation.get_weather()
         temp = w.get_temperature('celsius')["temp"]
