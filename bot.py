@@ -91,7 +91,7 @@ async def on_voice_state_update(member, before, after):
     else:
         voice_channel = discord.utils.get(member.guild.channels, id=after.channel.id)
         members = voice_channel.members
-        category = discord.utils.get(guilds.categories, id=727688569962889287)
+        category = discord.utils.get(member.guild.categories, id=727688569962889287)
         if after.channel.id == 730733768465186886: #рума для создания приватов
             for guild in bot.guilds:
                 channelmember = await guild.create_voice_channel(f'Приват {member}', category=category)
