@@ -11,10 +11,11 @@ import datetime
 import pyowm
 import time
 import random
+from tokenfile import bot_token
 
 version = '0.0.4'
 
-TOKEN = 'NzI0NjQyNjgwMTI2MDQ2MzM5.XvDbTg.7tmEJ94cyQtJIsEqw7aMbowsNSg'
+TOKEN = bot_token
 
 bot = commands.Bot(command_prefix='>')
 
