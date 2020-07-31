@@ -465,6 +465,7 @@ async def request(ctx, *event: str):
 @bot.command()
 @commands.has_role(leader_role)
 async def maf(ctx, member : discord.Member, *, reason=None):
+    await ctx.delete.message()
     url = ''
     log_channel = discord.utils.get(ctx.author.guild.channels, id=723196150961930343)
     await member.send(f'**Ваша роль мафия\nСсылка на дискорд сервер мафии -\n{url}**')
@@ -474,6 +475,7 @@ async def maf(ctx, member : discord.Member, *, reason=None):
 @bot.command()
 @commands.has_role(leader_role)
 async def doctor(ctx, member : discord.Member, *, reason=None):
+    await ctx.delete.message()
     log_channel = discord.utils.get(ctx.author.guild.channels, id=723196150961930343)
     await member.send('**Ваша роль доктор!**')
     await log_channel.send(f'{ctx.author.mention} выдал роль доктора игроку {member.mention}')
@@ -483,6 +485,7 @@ async def doctor(ctx, member : discord.Member, *, reason=None):
 @bot.command()
 @commands.has_role(leader_role)
 async def kom(ctx, member : discord.Member, *, reason=None):
+    await ctx.delete.message()
     log_channel = discord.utils.get(ctx.author.guild.channels, id=723196150961930343)
     await member.send('**Ваша роль шериф(коммисар)**')
     await log_channel.send(f'{ctx.author.mention} выдал роль комисара игроку {member.mention}')
@@ -500,6 +503,7 @@ async def key(ctx):
 
 @bot.command()
 async def roll(ctx):
+    await ctx.delete.message()
     random_number = random.randint(1,50)
     await ctx.send(f'{ctx.author.mention} - {random_number}')
 
