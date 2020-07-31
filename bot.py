@@ -98,12 +98,12 @@ async def on_voice_state_update(member, before, after):
                 await log_channel.send(f'{member.mention} создал приват')         
                 await channelmember.set_permissions(member,connect=True,kick_members=True)
                 await member.move_to(channelmember)
-                def check(a,b,c): #3 обязательных аогумента рот ебал
+                def check(a,b,c): 
                     return len(channelmember.members) == 0
                 await bot.wait_for('voice_state_update',check=check)
                 await channelmember.delete()
 
-        elif after.channel != '🤫Помолчанка' and len(members) != 1:
+        elif after.channel != '🤫Помолчанка' and len(members) > 1:
             await member.add_roles(voice_role)
             await log_channel.send(f'{member.mention} зашел в {after.channel}')
             #добавление коинов позже
@@ -337,9 +337,11 @@ async def event(ctx, event: str):
             log_channel = discord.utils.get(ctx.author.guild.channels, id=723196150961930343)
             otherchannel = await ctx.guild.create_voice_channel(event, category=category)
             await ctx.guild.create_text_channel(event, category=category)
-            await ctx.send(embed = discord.Embed(description = f'**Вы {ctx.author.mention} создали ивент не имеющий описания,напишите описание сами**'))
+            eventwarning = await ctx.send(embed = discord.Embed(description = f'**Вы {ctx.author.mention} создали ивент не имеющий описания,напишите описание сами**'))
             await log_channel.send(f'{ctx.author.mention} запустил ивент {event}')
             await ctx.author.move_to(otherchannel)
+            time.sleep(3)
+            await ctx.eventwarning.delete()
     except Exception as error:
         print(error)
 
@@ -360,6 +362,7 @@ async def case(ctx):
             ) 
     try:
         if key_role in ctx.author.roles:
+
             generate_roles = random.choice(roles)
             
             if generate_roles == 'бездарь':
