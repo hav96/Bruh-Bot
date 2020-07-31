@@ -2,7 +2,7 @@ import asyncio
 import os
 import discord
 from discord.ext import commands
-import pyowm
+from pyowm import OWM
 import tenorpy
 from colorama import init
 from termcolor import colored
@@ -116,7 +116,10 @@ async def on_voice_state_update(member, before, after):
 
 
 
-
+@bot.event
+async def on_message(message):
+    if message.content.startswith('привет'):
+        await message.channel.send(f'Привет {message.author.mention}')
 
 @bot.command()
 async def help(ctx):
@@ -439,7 +442,7 @@ async def clear(ctx, amount=None):
 async def weather(ctx, city: str):
     await ctx.message.delete()
     try:
-        owm = pyowm.OWM('c899ddf826f6f9d0c08e8794f989c69e',language ="ru")
+        owm = OWM('c899ddf826f6f9d0c08e8794f989c69e')
         observation = owm.weather_at_place(city)
         w = observation.get_weather()
         temp = w.get_temperature('celsius')["temp"]
