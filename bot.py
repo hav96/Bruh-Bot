@@ -10,7 +10,6 @@ from Cybernator import Paginator
 import datetime
 import pyowm
 import time
-import random
 from tokenfile import bot_token
 
 version = '0.0.4'
@@ -40,7 +39,7 @@ room_creator = 727690980341317632
 
 @bot.event
 async def on_ready():
-    time_start = datetime.datetime.today().strftime("%H:%M:%S")
+    time_start = time.strftime("%H:%M:%S")
     init()
     print(colored(f'-/-/-/-/-/-/\nBruh Bot started\nVersion bot {version}\nTime start {time_start}\nDeveloper saywex bruh\n/-/-/-/-/-/-/', 'green'))
     
