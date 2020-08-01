@@ -264,13 +264,13 @@ async def hanged(ctx, member : discord.Member, *, reason=None):
 
 @bot.command()
 @commands.has_role(leader_role)
-async def close_chat(ctx):
+async def close_chat(ctx, channel_id: int):
     try:
         await ctx.message.delete()
         embed=discord.Embed(title="ЧАТ ЗАКРЫТ!", description="Система фолов активна!", color=0xff0000)
         embed.set_footer(text = f"Запросил {ctx.author}({ctx.author.display_name})", icon_url = f'{ctx.author.avatar_url}')
         await ctx.send(embed=embed)
-        await ctx.channel.set_permissions(ctx.guild.default_role, send_messages=False)
+        await ctx.channel_id.set_permissions(ctx.guild.default_role, send_messages=False)
     except Exception as error:
         print(error)
    
@@ -297,7 +297,9 @@ async def rename(ctx,channel: int):
             count += 1
             await member.edit(nick=count)
     except:
-        await ctx.send(f'не смог сменить ник {member.mention},не достаточно прав!')
+        message_error = await ctx.send(f'**Не смог сменить ник {member.mention},не достаточно прав!**')
+        time.sleep(3)
+        await ctx.message_error.delete()
 
 @bot.command()
 @commands.has_role(leader_role)
