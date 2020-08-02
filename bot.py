@@ -69,12 +69,12 @@ async def on_ready():
 @bot.event
 async def on_member_join(member):
     log_channel = discord.utils.get(member.guild.channels, id=723196150961930343) 
-    channel = discord.utils.get(member.guild.channels, id=722577485589381150)
+    welcome_channel = discord.utils.get(member.guild.channels, id=722577485589381150)
     startrole = discord.utils.get(member.guild.roles, id=722554994670305321)
     embed=discord.Embed(title=f"Добро пожаловать {member.mention}", description="Привествуем на нашем сервере!Выдал вам роль новичка =)", color=0x8206f3)
     embed.set_thumbnail(url="https://thumbs.gfycat.com/FrighteningPlasticHuman-small.gif")
     embed.set_footer(text = f"Участник {member}({member.display_name})", icon_url = f'{member.author.avatar_url}')
-    await channel.send(embed = embed)
+    await welcome_channel.send(embed = embed)
     await member.add_roles(startrole)
     await member.send(f'**Добро пожаловать {member.mention} на наш сервер,я выдал вам роль новичка.Не забудьте прочитать правила :)**')
     await log_channel.send(f'{member.mention} зашел на  сервер')
@@ -82,10 +82,10 @@ async def on_member_join(member):
 @bot.event
 async def on_member_remove(member):
     log_channel = discord.utils.get(member.guild.channels, id=723196150961930343) 
-    channel = discord.utils.get(member.guild.channels, id=722577485589381150)
+    welcome_channel = discord.utils.get(member.guild.channels, id=722577485589381150)
     embed=discord.Embed(title=f"Нас покинул {member.mention}", description="Жаль что ты решил(а) покинуть наш сервер((", color=0xf9ff00)
     embed.set_thumbnail(url="https://media1.tenor.com/images/ae35ace17c27909ffb0c0e15f9cb79b6/tenor.gif?itemid=14776523")
-    await channel.send(embed = embed)
+    await welcome_channel.send(embed = embed)
     await member.send(f'**Жаль что ты {member.mention} решил(а) покинуть наш сервер((**')
     await log_channel.send(f'{member.mention} вышел с сервера')
     
