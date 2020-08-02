@@ -435,6 +435,11 @@ async def mute(ctx, member : discord.Member, *, reason=None):
         mute_role = discord.utils.get(ctx.author.guild.roles, id=727228695277732063)
         await member.add_roles(mute_role)
         await log_channel.send(f'{ctx.author.mention} дал мут {member.mention}')
+        message_mute = await ctx.send(f'**{member} получил мут**')
+        time.sleep(3)
+        await ctx.message_mute.delete()
+
+
 
 
 @bot.command()
