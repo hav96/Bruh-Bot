@@ -157,6 +157,7 @@ async def help(ctx):
     clear количество  - удалить сообщения
     ban @упоминание - выдать бан-роль.
     warn @упоминание - выдать варн.
+    unwarn @упоминание - снять варн.
     mute @упоминание - дать мут.
     unmute @упоминание - размутить\n
     \nКоманды ведущего.
@@ -233,7 +234,25 @@ async def warn(ctx, member : discord.Member, *, reason=None):
         time.sleep(3)
         await ctx.message_error.delete()
 
-
+@bot.command()
+@commands.has_role(moder_role)
+async def unwarn(ctx, member : discord.Member, *, reason=None):
+    await ctx.message.delete()
+    log_channel = discord.utils.get(member.guild.channels, id=723196150961930343) 
+    moder_role = discord.utils.get(member.guild.channels, id=722554357186560061)
+    warn_role1 = discord.utils.get(member.guild.roles, id=726853781001863299) 
+    warn_role2 = discord.utils.get(member.guild.roles, id=726853849352241213)
+    if moder_role in member.roles:
+        pass
+    else:
+        if warn_role2 in member.roles:
+            await member.remove_roles(warn_role2)
+            await ctx.send(f'{ctx.author.mention} снял варн {member}')
+            await log_channel.send(f'{ctx.author.mention} снял варн {member}\nВарнов 1/3')
+        elif warn_role1 in member.roles:
+            await member.remove_roles(warn_role1)
+            await ctx.send(f'{ctx.author.mention} снял варн {member}')
+            await log_channel.send(f'{ctx.author.mention} снял варн {member}\nВарнов 0/3')
 
 
 @bot.command()
@@ -519,7 +538,7 @@ async def key(ctx):
     await ctx.message.delete()
     key_role = discord.utils.get(ctx.author.guild.roles, id=727021729553317928)
     await ctx.author.add_roles(key_role)
-    await member.send(f'**Выдал вам ключ к кейсу**')
+    await ctx.author.send(f'**Выдал вам ключ к кейсу**')
 
 @bot.command()
 @commands.has_role(help_role)
