@@ -519,7 +519,7 @@ async def key(ctx):
     await ctx.message.delete()
     key_role = discord.utils.get(ctx.author.guild.roles, id=727021729553317928)
     await ctx.author.add_roles(key_role)
-
+    await member.send(f'**Выдал вам ключ к кейсу**')
 
 @bot.command()
 @commands.has_role(help_role)
@@ -527,6 +527,7 @@ async def give_key(ctx, member : discord.Member, *, reason=None):
     await ctx.message.delete()
     key_role = discord.utils.get(ctx.author.guild.roles, id=727021729553317928)
     await member.add_roles(key_role)
+    await ctx.send(f'**{ctx.author.mention} дал ключ к кейсу {member}**')
 
 
 @bot.command()
