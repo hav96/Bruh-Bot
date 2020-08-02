@@ -84,6 +84,7 @@ async def on_member_remove(member):
     embed=discord.Embed(title=f"Нас покинул {member}", description="Жаль что ты решил(а) покинуть наш сервер((", color=0xf9ff00)
     embed.set_thumbnail(url="https://media1.tenor.com/images/ae35ace17c27909ffb0c0e15f9cb79b6/tenor.gif?itemid=14776523")
     await channel.send(embed = embed)
+    await member.send(f'Жаль что ты {member} решил(а) покинуть наш сервер((')
     await log_channel.send(f'{member.mention} вышел с сервера')
     
     
@@ -125,13 +126,12 @@ async def on_voice_state_update(member, before, after):
         elif after.channel != '🤫Помолчанка' and len(members) > 1:
             await member.add_roles(voice_role)
             await log_channel.send(f'{member.mention} зашел в {after.channel}')
-            #добавление коинов позже
         elif after.channel != '🤫Помолчанка' and len(members) == 1:
             await log_channel.send(f'{member.mention} зашел в {after.channel}')
         elif after.channel == '🤫Помолчанка':
             await member.remove_roles(voice_role)
             await log_channel.send(f'{member.mention} зашел в AFK')
-            #afk не добавляем коины
+            
 
 
 @bot.command()
@@ -225,8 +225,10 @@ async def warn(ctx, member : discord.Member, *, reason=None):
                 await member.add_roles(warn_role1)
                 await log_channel.send(f'**{ctx.author.mention} дал варн {member.mention} варнов 1/3**')
     except Exception as error:
-        print(error)
-        await ctx.send(f'**{ctx.author.mention} что-то пошло не так...\nОшибка {error}**')
+        message_error = await ctx.send(f'**{ctx.author.mention} что-то пошло не так...\nОшибка {error}**')
+        time.sleep(3)
+        await ctx.message_error.delete()
+
 
 
 
@@ -259,7 +261,9 @@ async def kill(ctx, member : discord.Member, *, reason=None):
     except:
         embed=discord.Embed(title='Bruh Bot' , description=f'Не смог сменить ник {member.mention},не достаточно прав!', color=0xff0035)
         embed.set_footer(text = f"Запросил {ctx.author}({ctx.author.display_name})", icon_url = f'{ctx.author.avatar_url}')
-        await ctx.send(embed = embed)
+        message_error = await ctx.send(embed = embed)
+        time.sleep(3)
+        await ctx.message_error.delete()
 
 
 
@@ -420,10 +424,17 @@ async def case(ctx):
 @commands.has_role(moder_role)
 async def mute(ctx, member : discord.Member, *, reason=None):
     await ctx.message.delete()
-    log_channel = discord.utils.get(ctx.author.guild.channels, id=723196150961930343) 
-    mute_role = discord.utils.get(ctx.author.guild.roles, id=727228695277732063)
-    await member.add_roles(mute_role)
-    await log_channel.send(f'{ctx.author.mention} дал мут {member.mention}')
+    gladmin_role = discord.utils.get(member.guild.channels, id=722553559329144833)
+    admin_role = discord.utils.get(member.guild.channels, id=723198849434386462)  
+    if admin_role in member.roles:
+        pass
+    elif gladmin_role in member.roles:
+        pass
+    else:
+        log_channel = discord.utils.get(ctx.author.guild.channels, id=723196150961930343) 
+        mute_role = discord.utils.get(ctx.author.guild.roles, id=727228695277732063)
+        await member.add_roles(mute_role)
+        await log_channel.send(f'{ctx.author.mention} дал мут {member.mention}')
 
 
 @bot.command()
