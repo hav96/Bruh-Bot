@@ -369,36 +369,36 @@ async def case(ctx):
             generate_roles = random.choice(roles)
             
             if generate_roles == 'бездарь':
-                role = discord.utils.get(ctx.author.guild.roles, id=727022337295122485)
-                await ctx.author.add_roles(role)
+                bruhrole = discord.utils.get(ctx.author.guild.roles, id=727022337295122485)
+                await ctx.author.add_roles(bruhrole)
                 await ctx.send(f'{ctx.author.mention} открыл кейс и выбил роль {generate_roles}')
 
             elif generate_roles == 'Майнкрафт':
-                role = discord.utils.get(ctx.author.guild.roles, id=727193170269700167)
-                await ctx.author.add_roles(role)
+                minecraftrole = discord.utils.get(ctx.author.guild.roles, id=727193170269700167)
+                await ctx.author.add_roles(minecraftrole)
                 await ctx.send(f'{ctx.author.mention} открыл кейс и выбил роль {generate_roles}')
 
             elif generate_roles == 'звонишь':
-                role = discord.utils.get(ctx.author.guild.roles, id=727102102396207164)
-                await ctx.author.add_roles(role)
+                raterole = discord.utils.get(ctx.author.guild.roles, id=727102102396207164)
+                await ctx.author.add_roles(raterole)
                 await ctx.send(f'{ctx.author.mention} открыл кейс и выбил роль {generate_roles}')
 
 
             elif generate_roles == 'добрый':
-                role = discord.utils.get(ctx.author.guild.roles, id=724679202313469953)
-                await ctx.author.add_roles(role)
+                frendlyrole = discord.utils.get(ctx.author.guild.roles, id=724679202313469953)
+                await ctx.author.add_roles(frendlyrole)
                 await ctx.send(f'{ctx.author.mention} открыл кейс и выбил роль {generate_roles}')
 
 
             elif generate_roles == 'олег':
-                role = discord.utils.get(ctx.author.guild.roles, id=724666261195194368)
-                await ctx.author.add_roles(role)
+                olegrole = discord.utils.get(ctx.author.guild.roles, id=724666261195194368)
+                await ctx.author.add_roles(olegrole)
                 await ctx.send(f'{ctx.author.mention} открыл кейс и выбил роль {generate_roles}')
 
 
             elif generate_roles == '🔮':
-                role = discord.utils.get(ctx.author.guild.roles, id=727104047433252945)
-                await ctx.author.add_roles(role)
+                ballrole = discord.utils.get(ctx.author.guild.roles, id=727104047433252945)
+                await ctx.author.add_roles(ballrole)
                 await ctx.send(f'{ctx.author.mention} открыл кейс и выбил роль {generate_roles}')
 
 
@@ -466,7 +466,7 @@ async def maf(ctx, member : discord.Member, *, reason=None):
     url = ''
     log_channel = discord.utils.get(ctx.author.guild.channels, id=723196150961930343)
     await ctx.delete.message()
-    await member.send(f'**Ваша роль мафия\nСсылка на дискорд сервер мафии -\n{url}**')
+    await member.send(embed = discord.Embed(description = f'**Ваша роль мафия\nСсылка на дискорд сервер мафии -\n{url}**', color=0xff0000))
     await log_channel.send(f'{ctx.author.mention} выдал роль мафии игроку {member.mention}')
 
 
@@ -475,7 +475,7 @@ async def maf(ctx, member : discord.Member, *, reason=None):
 async def doctor(ctx, member : discord.Member, *, reason=None):
     log_channel = discord.utils.get(ctx.author.guild.channels, id=723196150961930343)
     await ctx.delete.message()
-    await member.send('**Ваша роль доктор!**')
+    await member.send(embed = discord.Embed(description = '**Ваша роль доктор!**', color=0xff0000))
     await log_channel.send(f'{ctx.author.mention} выдал роль доктора игроку {member.mention}')
 
 
@@ -485,7 +485,7 @@ async def doctor(ctx, member : discord.Member, *, reason=None):
 async def kom(ctx, member : discord.Member, *, reason=None):
     await ctx.delete.message()
     log_channel = discord.utils.get(ctx.author.guild.channels, id=723196150961930343)
-    await member.send('**Ваша роль шериф(коммисар)**')
+    await member.send(embed = discord.Embed(description = '**Ваша роль шериф(коммисар)**', color=0xff0000))
     await log_channel.send(f'{ctx.author.mention} выдал роль комисара игроку {member.mention}')
     
 
