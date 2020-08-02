@@ -59,7 +59,11 @@ roles = (
 async def on_ready():
     time_start = time.strftime("%H:%M:%S")
     init()
-    print(colored(f'Bruh Bot started\nVersion bot - {version}\nTime start - {time_start}\nDeveloper saywex', 'green'))
+    print(colored(f'Bruh Bot started', 'green'))
+    print(colored(f'Version bot - {version}', 'blue'))
+    print(colored(f'Time start - {time_start}', 'yellow'))
+    print(colored(f'Developer - saywex', 'cyan'))
+    
     
 
      
