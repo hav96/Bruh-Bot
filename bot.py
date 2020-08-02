@@ -75,7 +75,7 @@ async def on_member_join(member):
     startrole = discord.utils.get(member.guild.roles, id=722554994670305321)
     embed=discord.Embed(title=f"Добро пожаловать {member.mention}", description="Привествуем на нашем сервере!Выдал вам роль новичка =)", color=0x8206f3)
     embed.set_thumbnail(url="https://thumbs.gfycat.com/FrighteningPlasticHuman-small.gif")
-    embed.set_footer(text = f"welcome - {ctx.author}({ctx.author.display_name})", icon_url = f'{ctx.author.avatar_url}')
+    embed.set_footer(text = f"welcome - {member}({member.display_name})", icon_url = f'{member.author.avatar_url}')
     await channel.send(embed = embed)
     await member.add_roles(startrole)
     await member.send(f'Добро пожаловать {member.mention} на наш сервер,я выдал вам роль новичка.Не забудьте прочитать правила :)')
