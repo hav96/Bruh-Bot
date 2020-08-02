@@ -37,6 +37,25 @@ key_role = 727021729553317928
 room_creator = 727690980341317632 
 
 
+request_list = [
+
+]
+
+
+roles = (
+            'олег','олег','олег','олег',    #для команды case 
+            'добрый','бездарь','бездарь',
+            'бездарь','звонишь','добрый',
+            'олег','бездарь','бездарь',
+            'олег','олег','🔮','добрый',
+            'добрый','Майнкрафт','Майнкрафт'
+            'добрый','Майнкрафт','бездарь',
+            'бездарь','олег','бездарь','бездарь'
+            ) 
+
+
+
+
 @bot.event
 async def on_ready():
     time_start = time.strftime("%H:%M:%S")
@@ -157,7 +176,7 @@ async def ban(ctx, member : discord.Member, *, reason=None):
     try:
         await member.add_roles(ban_role)
         await log_channel.send(f'**{ctx.author.mention} забанил {member.mention}**')
-        await member.send(f'**{ctx.author.mention} дал вам бан на сервере\nЧто бы получить разбан напишите @Tanaka**')
+        await member.send(f'**{ctx.author.mention} дал вам бан на сервере\nЧто бы получить разбан напишите заявку**')
 
     except:
         await log_channel.send(f'**{ctx.author.mention} не смог забанил {member.mention}**')
@@ -351,16 +370,6 @@ async def event(ctx, event: str):
 async def case(ctx):
     await ctx.message.delete()
     key_role = discord.utils.get(ctx.author.guild.roles, id=727021729553317928)
-    roles = (
-            'олег','олег','олег','олег',
-            'добрый','бездарь','бездарь',
-            'бездарь','звонишь','добрый',
-            'олег','бездарь','бездарь',
-            'олег','олег','🔮','добрый',
-            'добрый','Майнкрафт','Майнкрафт'
-            'добрый','Майнкрафт','бездарь',
-            'бездарь','олег','бездарь','бездарь'
-            ) 
     try:
         if key_role in ctx.author.roles:
 
@@ -450,11 +459,12 @@ async def weather(ctx, city: str):
 async def request(ctx, *event: str):
     await ctx.message.delete()
     request_channel = discord.utils.get(ctx.author.guild.channels, id=731392759939858452)
-    try:
+    if str(ctx.author.mention) in request_list:
+        pass
+    else:
         event = ' '.join(event)
+        request_list.append(f'{ctx.author.mention},')
         await request_channel.send(embed = discord.Embed(description = f'**{ctx.author.mention}\n{event}**', color=0x942ba3))
-    except Exception as error:
-        print(error)
 
 
 
