@@ -177,14 +177,47 @@ async def ban(ctx, member : discord.Member, *, reason=None):
     await ctx.message.delete()
     log_channel = discord.utils.get(member.guild.channels, id=723196150961930343)
     ban_role = discord.utils.get(member.guild.roles, id=726255138926362704)
-    try:
-        await member.add_roles(ban_role)
-        await log_channel.send(f'**{ctx.author.mention} забанил {member.mention}**')
-        await member.send(f'**{ctx.author.mention} дал вам бан на сервере\nЧто бы получить разбан напишите заявку**')
+    gladmin_role = discord.utils.get(member.guild.channels, id=722553559329144833)
+    admin_role = discord.utils.get(member.guild.channels, id=723198849434386462)
+    moder_role = discord.utils.get(member.guild.channels, id=722554357186560061)
+    if moder_role in ctx.author.roles and admin_role not in ctx.author.roles and gladmin_role not in ctx.author.roles:
+        if admin_role in member.roles:
+            await log_channel.send(f'**{ctx.author.mention} не смог забанил {member.mention}**')
+            await ctx.send(f'**{ctx.author.mention} Модеры не имеют права банить админов!**')
+        elif moder_role in member.roles:
+            await log_channel.send(f'**{ctx.author.mention} не смог забанил {member.mention}**')
+            await ctx.send(f'**{ctx.author.mention} Модеры не имеют права банить модеров.**')
+        elif gladmin_role in member.roles:
+            await log_channel.send(f'**{ctx.author.mention} не смог забанил {member.mention}**')
+            await ctx.send(f'**{ctx.author.mention} Модеры не имеют права банить главных админов.**')
+        else:
+            await member.add_roles(ban_role)
+            await log_channel.send(f'**{ctx.author.mention} забанил {member.mention}**')
+            await member.send(f'**{ctx.author.mention} дал вам бан на сервере\nЧто бы получить разбан напишите заявку**')
 
-    except:
-        await log_channel.send(f'**{ctx.author.mention} не смог забанил {member.mention}**')
-        await ctx.send(f'**Не удалось забанить {member.mention} ,не достаточно прав!**')       
+    elif admin_role in ctx.author.roles:
+        if admin_role in member.roles:
+            await log_channel.send(f'**{ctx.author.mention} не смог забанил {member.mention}**')
+            await ctx.send(f'**{ctx.author.mention} Админы не имеют права банить админов!**')
+        elif gladmin_role in member.roles:
+            await log_channel.send(f'**{ctx.author.mention} не смог забанил {member.mention}**')
+            await ctx.send(f'**{ctx.author.mention} Админы не имеют права банить Гл-админов!**')
+        else:
+            await member.add_roles(ban_role)
+            await log_channel.send(f'**{ctx.author.mention} забанил {member.mention}**')
+            await member.send(f'**{ctx.author.mention} дал вам бан на сервере\nЧто бы получить разбан напишите заявку**')
+
+    elif gladmin_role in ctx.author.roles:
+        if gladmin_role in member.roles:
+            await ctx.send(f'**{ctx.author.mention} Гл-админы не имеют права банить Гл-админов!**')
+        else:
+            await member.add_roles(ban_role)
+            await log_channel.send(f'**{ctx.author.mention} забанил {member.mention}**')
+            await member.send(f'**{ctx.author.mention} дал вам бан на сервере\nЧто бы получить разбан напишите заявку**')
+
+
+
+  
 
 
 
