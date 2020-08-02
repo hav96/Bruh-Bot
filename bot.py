@@ -59,7 +59,7 @@ roles = (
 async def on_ready():
     time_start = time.strftime("%H:%M:%S")
     init()
-    print(colored(f'-/-/-/-/-/-/\nBruh Bot started\nVersion bot {version}\nTime start {time_start}\nDeveloper saywex bruh\n/-/-/-/-/-/-/', 'green'))
+    print(colored(f'Bruh Bot started\nVersion bot - {version}\nTime start - {time_start}\nDeveloper saywex', 'green'))
     
 
      
@@ -73,17 +73,17 @@ async def on_member_join(member):
     embed.set_thumbnail(url="https://thumbs.gfycat.com/FrighteningPlasticHuman-small.gif")
     await channel.send(embed = embed)
     await member.add_roles(startrole)
-    await member.send(f'Добро пожаловать {member} на наш сервер,я выдал вам роль новичка.Не забудьте прочитать правила :)')
+    await member.send(f'Добро пожаловать {member.mention} на наш сервер,я выдал вам роль новичка.Не забудьте прочитать правила :)')
     await log_channel.send(f'{member.mention} зашел на  сервер')
     
 @bot.event
 async def on_member_remove(member):
     log_channel = discord.utils.get(member.guild.channels, id=723196150961930343) 
     channel = discord.utils.get(member.guild.channels, id=722577485589381150)
-    embed=discord.Embed(title=f"Нас покинул {member}", description="Жаль что ты решил(а) покинуть наш сервер((", color=0xf9ff00)
+    embed=discord.Embed(title=f"Нас покинул {member.mention}", description="Жаль что ты решил(а) покинуть наш сервер((", color=0xf9ff00)
     embed.set_thumbnail(url="https://media1.tenor.com/images/ae35ace17c27909ffb0c0e15f9cb79b6/tenor.gif?itemid=14776523")
     await channel.send(embed = embed)
-    await member.send(f'Жаль что ты {member} решил(а) покинуть наш сервер((')
+    await member.send(f'Жаль что ты {member.mention} решил(а) покинуть наш сервер((')
     await log_channel.send(f'{member.mention} вышел с сервера')
     
     
@@ -538,7 +538,7 @@ async def roll(ctx):
 #@bot.command()
 #@commands.has_role(room_creator)
 #async def kick(ctx, member : discord.Member, *, reason=None):
-    #await .set_permissions(member,connect=False)
+    #await ctx.author.channel.set_permissions(member,connect=False)
 
 
 
