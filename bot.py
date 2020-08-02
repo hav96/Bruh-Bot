@@ -75,10 +75,10 @@ async def on_member_join(member):
     startrole = discord.utils.get(member.guild.roles, id=722554994670305321)
     embed=discord.Embed(title=f"Добро пожаловать {member.mention}", description="Привествуем на нашем сервере!Выдал вам роль новичка =)", color=0x8206f3)
     embed.set_thumbnail(url="https://thumbs.gfycat.com/FrighteningPlasticHuman-small.gif")
-    embed.set_footer(text = f"welcome - {member}({member.display_name})", icon_url = f'{member.author.avatar_url}')
+    embed.set_footer(text = f"Участник {member}({member.display_name})", icon_url = f'{member.author.avatar_url}')
     await channel.send(embed = embed)
     await member.add_roles(startrole)
-    await member.send(f'Добро пожаловать {member.mention} на наш сервер,я выдал вам роль новичка.Не забудьте прочитать правила :)')
+    await member.send(f'**Добро пожаловать {member.mention} на наш сервер,я выдал вам роль новичка.Не забудьте прочитать правила :)**')
     await log_channel.send(f'{member.mention} зашел на  сервер')
     
 @bot.event
@@ -88,7 +88,7 @@ async def on_member_remove(member):
     embed=discord.Embed(title=f"Нас покинул {member.mention}", description="Жаль что ты решил(а) покинуть наш сервер((", color=0xf9ff00)
     embed.set_thumbnail(url="https://media1.tenor.com/images/ae35ace17c27909ffb0c0e15f9cb79b6/tenor.gif?itemid=14776523")
     await channel.send(embed = embed)
-    await member.send(f'Жаль что ты {member.mention} решил(а) покинуть наш сервер((')
+    await member.send(f'**Жаль что ты {member.mention} решил(а) покинуть наш сервер((**')
     await log_channel.send(f'{member.mention} вышел с сервера')
     
     
@@ -372,8 +372,7 @@ async def event(ctx, event: str):
             time.sleep(3)
             await ctx.eventwarning.delete()
     except Exception as error:
-        print(error)
-
+        await ctx.send(f'{ctx.author.mention} что-то пошло не так...\nОшибка - {error}')
 
 @bot.command()
 async def case(ctx):
@@ -446,9 +445,6 @@ async def mute(ctx, member : discord.Member, *, reason=None):
         time.sleep(3)
         await ctx.message_mute.delete()
 
-
-
-
 @bot.command()
 @commands.has_role(moder_role)
 async def unmute(ctx, member : discord.Member, *, reason=None):
@@ -474,10 +470,6 @@ async def clear(ctx, amount=None):
 @bot.command()
 async def weather(ctx, city: str):
     await ctx.message.delete()
-    
-
-
-
 
 @bot.command()
 async def request(ctx, *event: str):
@@ -541,7 +533,7 @@ async def give_key(ctx, member : discord.Member, *, reason=None):
 async def roll(ctx):
     await ctx.delete.message()
     random_number = random.randint(1,50)
-    await ctx.send(f'**{ctx.author.mention} - {random_number}**')
+    await ctx.send(f'**{ctx.author.mention} - рандомное число({random_number})**')
 
 #@bot.command()
 #@commands.has_role(room_creator)
