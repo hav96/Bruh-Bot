@@ -177,8 +177,6 @@ async def unban(ctx, member : discord.Member, *, reason=None):
 
 
 
- 
-
 @bot.command()
 @commands.has_role(moder_role)
 async def warn(ctx, member : discord.Member, *, reason=None):
@@ -192,18 +190,18 @@ async def warn(ctx, member : discord.Member, *, reason=None):
     try:
         if admin_role in member.roles or gladmin_role in member.roles:
             print(f'{ctx.author.mention} попытался дать варн админам')
-            await log_channel.send(f'**{ctx.author.mention} попытался дать варн админу -  {member.mention}**')
+            await log_channel.send(f'**@Tanaka\n{ctx.author.mention} попытался дать варн админу -  {member.mention}**')
         else:       
             if warn_role1 in member.roles and warn_role2 not in member.roles:
-                await member.send(f'**{ctx.author.mention} дал вам варн {member.mention} варнов у вас 2/3**')
+                await member.send(embed = discord.Embed(description = f'**{ctx.author.mention} дал вам варн {member.mention} варнов у вас 2/3**', color=0xff0000))
                 await member.add_roles(warn_role2)
                 await log_channel.send(f'**{ctx.author.mention} дал варн {member.mention} варнов 2/3**')
             elif warn_role2 in member.roles: 
-                await member.send(f'**{ctx.author.mention} дал вам варн {member.mention} варнов у вас 3/3 и вы получаете бан роль на сервере\nНапишите @Tanaka для разбана**')
+                await member.send(embed = discord.Embed(description = f'**{ctx.author.mention} дал вам варн {member.mention} варнов у вас 3/3**', color=0xff0000))
                 await member.add_roles(ban_role)
                 await log_channel.send(f'**{ctx.author.mention} дал варн {member.mention} варнов 3/3**')
             elif warn_role1 not in member.roles and warn_role2 not in member.roles:
-                await member.send(f'**{ctx.author.mention} дал вам варн {member.mention} варнов у вас 1/3**')
+                await member.send(embed = discord.Embed(description = f'**{ctx.author.mention} дал вам варн {member.mention} варнов у вас 1/3**', color=0xff0000))
                 await member.add_roles(warn_role1)
                 await log_channel.send(f'**{ctx.author.mention} дал варн {member.mention} варнов 1/3**')
     except Exception as error:
@@ -488,9 +486,6 @@ async def kom(ctx, member : discord.Member, *, reason=None):
     await member.send(embed = discord.Embed(description = '**Ваша роль шериф(коммисар)**', color=0xff0000))
     await log_channel.send(f'{ctx.author.mention} выдал роль комисара игроку {member.mention}')
     
-
-
-
 
 @bot.command()
 @commands.has_role(help_role)
