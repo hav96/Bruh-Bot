@@ -244,9 +244,13 @@ async def warn(ctx, member : discord.Member, *, reason=None):
     gladmin_role = discord.utils.get(member.guild.channels, id=722553559329144833)
     admin_role = discord.utils.get(member.guild.channels, id=723198849434386462)   
     try:
-        if admin_role in member.roles or gladmin_role in member.roles:
+        if admin_role in member.roles:
             print(f'{ctx.author.mention} попытался дать варн админам')
             await log_channel.send(f'**@Tanaka\n{ctx.author.mention} попытался дать варн админу -  {member.mention}**')
+        elif gladmin_role in member.roles:
+            await log_channel.send(f'**@Tanaka\n{ctx.author.mention} попытался дать варн Гл-админу -  {member.mention}**')
+        elif moder_role in member.roles:
+            await ctx.send(f'**{ctx.author.mention} Модер не может выдать варн модеру!')
         else:       
             if warn_role1 in member.roles and warn_role2 not in member.roles:
                 await member.send(embed = discord.Embed(description = f'**{ctx.author.mention} дал вам варн {member.mention} варнов у вас 2/3**', color=0xff0000))
