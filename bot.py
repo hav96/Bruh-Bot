@@ -429,16 +429,19 @@ async def case(ctx):
 async def mute(ctx, member : discord.Member, *, reason=None):
     await ctx.message.delete()
     gladmin_role = discord.utils.get(member.guild.channels, id=722553559329144833)
-    admin_role = discord.utils.get(member.guild.channels, id=723198849434386462)  
+    admin_role = discord.utils.get(member.guild.channels, id=723198849434386462)
+    moder_role = discord.utils.get(member.guild.channels, id=722554357186560061)   
     if admin_role in member.roles:
         pass
     elif gladmin_role in member.roles:
+        pass
+    elif moder_role in member.roles:
         pass
     else:
         log_channel = discord.utils.get(ctx.author.guild.channels, id=723196150961930343) 
         mute_role = discord.utils.get(ctx.author.guild.roles, id=727228695277732063)
         await member.add_roles(mute_role)
-        await log_channel.send(f'{ctx.author.mention} дал мут {member.mention}')
+        await log_channel.send(f'**{ctx.author.mention} дал мут {member.mention}**')
         message_mute = await ctx.send(f'**{member} получил мут**')
         time.sleep(3)
         await ctx.message_mute.delete()
@@ -453,7 +456,7 @@ async def unmute(ctx, member : discord.Member, *, reason=None):
     log_channel = discord.utils.get(ctx.author.guild.channels, id=723196150961930343) 
     mute_role = discord.utils.get(ctx.author.guild.roles, id=727228695277732063)
     await member.remove_roles(mute_role)
-    await log_channel.send(f'{ctx.author.mention} снял мут {member.mention}')
+    await log_channel.send(f'**{ctx.author.mention} снял мут {member.mention}**')
 
 
 
@@ -544,6 +547,7 @@ async def roll(ctx):
 #@commands.has_role(room_creator)
 #async def kick(ctx, member : discord.Member, *, reason=None):
     #await ctx.author.channel.set_permissions(member,connect=False)
+    #await ctx.send(f'**{member.mention} успешно кикнут из привата**')
 
 
 
