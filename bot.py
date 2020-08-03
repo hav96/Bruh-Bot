@@ -171,7 +171,12 @@ async def help(ctx):
 
 
 
-      
+'''
+Новая система банов...
+Она сделана так что бы
+модер не мог забанить модера
+админ не смог забанить админа и тд.
+'''    
 @bot.command()
 @commands.has_role(moder_role)
 async def ban(ctx, member : discord.Member, *, reason=None):
@@ -640,7 +645,7 @@ async def profile(ctx):
         roles_user.append(roles)
     roles_user = ' \n'.join(roles_user)
     info = f'''Количество варнов 0\nВаше имя - {ctx.author.name}\nВаши роли - {roles_user}'''
-    await ctx.author.send(info)
+    await ctx.send(f'{ctx.author.mention}\n{info})
 
 
 bot.run(TOKEN)
