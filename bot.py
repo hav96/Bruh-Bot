@@ -196,7 +196,7 @@ async def ban(ctx, member : discord.Member, *, reason=None):
             await log_channel.send(f'**{ctx.author.mention} забанил {member.mention}**')
             await member.send(f'**{ctx.author.mention} дал вам бан на сервере\nЧто бы получить разбан напишите заявку**')
 
-    elif admin_role in ctx.author.roles:
+    elif admin_role in ctx.author.roles and gladmin_role not in ctx.author.roles:
         if admin_role in member.roles:
             await log_channel.send(f'**{ctx.author.mention} не смог забанил {member.mention}**')
             await ctx.send(f'**{ctx.author.mention} Админы не имеют права банить админов!**')
@@ -218,10 +218,6 @@ async def ban(ctx, member : discord.Member, *, reason=None):
 
 
 
-  
-
-
-
 @bot.command()
 @commands.has_role(help_role)
 async def unban(ctx, member : discord.Member, *, reason=None):
@@ -230,7 +226,6 @@ async def unban(ctx, member : discord.Member, *, reason=None):
     log_channel = discord.utils.get(member.guild.channels, id=723196150961930343)
     await member.remove_roles(ban_role)
     await log_channel.send(f'**{ctx.author.mention} разбанил {member.mention}**')
-
 
 
 
@@ -270,6 +265,8 @@ async def warn(ctx, member : discord.Member, *, reason=None):
         time.sleep(3)
         await ctx.message_error.delete()
 
+
+
 @bot.command()
 @commands.has_role(moder_role)
 async def unwarn(ctx, member : discord.Member, *, reason=None):
@@ -278,17 +275,63 @@ async def unwarn(ctx, member : discord.Member, *, reason=None):
     moder_role = discord.utils.get(member.guild.channels, id=722554357186560061)
     warn_role1 = discord.utils.get(member.guild.roles, id=726853781001863299) 
     warn_role2 = discord.utils.get(member.guild.roles, id=726853849352241213)
-    if moder_role in member.roles:
-        pass
-    else:
-        if warn_role2 in member.roles:
-            await member.remove_roles(warn_role2)
-            await ctx.send(f'{ctx.author.mention} снял варн {member}')
-            await log_channel.send(f'{ctx.author.mention} снял варн {member}\nВарнов 1/3')
-        elif warn_role1 in member.roles:
-            await member.remove_roles(warn_role1)
-            await ctx.send(f'{ctx.author.mention} снял варн {member}')
-            await log_channel.send(f'{ctx.author.mention} снял варн {member}\nВарнов 0/3')
+    gladmin_role = discord.utils.get(member.guild.channels, id=722553559329144833)
+    admin_role = discord.utils.get(member.guild.channels, id=723198849434386462)
+    if moder_role in ctx.author.roles and admin_role not in ctx.author.roles and gladmin_role not in ctx.author.roles:
+        if moder_role in member.roles:
+            await log_channel.send(f'@Tanaka\n{ctx.author.mention} попытался снять варн {member.mention}')
+            await ctx.send(f'Модеры не могут снимать варны с модеров!')
+        elif admin_role in member.roles:
+            await log_channel.send(f'@Tanaka\n{ctx.author.mention} попытался снять варн {member.mention}')
+            await ctx.send(f'Модеры не могут снимать варны с админов!')
+
+        elif gladmin_role in member.roles:
+            await log_channel.send(f'@Tanaka\n{ctx.author.mention} попытался снять варн {member.mention}')
+            await ctx.send(f'Модеры не могут снимать варны с Гл-админов!')
+        else:
+            if warn_role2 in member.roles:
+                await member.remove_roles(warn_role2)
+                await ctx.send(f'{ctx.author.mention} снял варн {member.mention}')
+                await log_channel.send(f'{ctx.author.mention} снял варн {member.mention}\nВарнов 1/3')
+            elif warn_role1 in member.roles:
+                await member.remove_roles(warn_role1)
+                await ctx.send(f'{ctx.author.mention} снял варн {member.mention}')
+                await log_channel.send(f'{ctx.author.mention} снял варн {member.mention}\nВарнов 0/3')
+
+
+    elif admin_role in ctx.author.roles and gladmin_role not in ctx.author.roles:
+        if admin_role in member.roles:
+            await log_channel.send(f'@Tanaka\n{ctx.author.mention} попытался снять варн {member.mention}')
+            await ctx.send(f'Админы не могут снимать варны с админов!')
+        elif gladmin_role in member.roles:
+            await log_channel.send(f'@Tanaka\n{ctx.author.mention} попытался снять варн {member.mention}')
+            await ctx.send(f'Админы не могут снимать варны с Гл-админов!')
+        else:
+            if warn_role2 in member.roles:
+                await member.remove_roles(warn_role2)
+                await ctx.send(f'{ctx.author.mention} снял варн {member.mention}')
+                await log_channel.send(f'{ctx.author.mention} снял варн {member.mention}\nВарнов 1/3')
+            elif warn_role1 in member.roles:
+                await member.remove_roles(warn_role1)
+                await ctx.send(f'{ctx.author.mention} снял варн {member.mention}')
+                await log_channel.send(f'{ctx.author.mention} снял варн {member.mention}\nВарнов 0/3')
+
+    elif gladmin_role in ctx.author.roles:
+        if gladmin_role in member.roles:
+            await log_channel.send(f'@Tanaka\n{ctx.author.mention} попытался снять варн {member.mention}')
+            await ctx.send(f'Гл-админы не могут снимать варны с Гл-админов!')
+        else:
+            if warn_role2 in member.roles:
+                await member.remove_roles(warn_role2)
+                await ctx.send(f'{ctx.author.mention} снял варн {member.mention}')
+                await log_channel.send(f'{ctx.author.mention} снял варн {member.mention}\nВарнов 1/3')
+            elif warn_role1 in member.roles:
+                await member.remove_roles(warn_role1)
+                await ctx.send(f'{ctx.author.mention} снял варн {member.mention}')
+                await log_channel.send(f'{ctx.author.mention} снял варн {member.mention}\nВарнов 0/3')
+
+
+
 
 
 @bot.command()
@@ -580,7 +623,7 @@ async def give_key(ctx, member : discord.Member, *, reason=None):
     await ctx.message.delete()
     key_role = discord.utils.get(ctx.author.guild.roles, id=727021729553317928)
     await member.add_roles(key_role)
-    await ctx.send(f'**{ctx.author.mention} дал ключ к кейсу {member}**')
+    await ctx.send(f'**{ctx.author.mention} дал ключ к кейсу {member.mention}**')
 
 
 @bot.command()
