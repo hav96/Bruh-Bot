@@ -10,6 +10,8 @@ from Cybernator import Paginator
 import pyowm
 import time
 from tokenfile import bot_token
+from datetime import datetime
+
 
 version = '0.0.4'
 
@@ -33,6 +35,7 @@ key_role = 727021729553317928
 
 room_creator = 727690980341317632 
 
+now = datetime.now()
 
 request_list = [
 
@@ -56,12 +59,7 @@ roles = (
 
 @bot.event
 async def on_ready():
-    time_start = time.strftime("%H:%M:%S")
-    init()
-    print(colored(f'Bruh Bot started', 'green'))
-    print(colored(f'Version bot - {version}', 'blue'))
-    print(colored(f'Time start - {time_start}', 'yellow'))
-    print(colored(f'Developer - saywex', 'cyan'))
+    print(f'Bruh Bot запущен')
     
     
 
@@ -369,6 +367,7 @@ async def kill(ctx, member : discord.Member, *, reason=None):
         await member.edit(nick='умер')
         embed=discord.Embed(title='Bruh Bot' , description=f'Сменил ник {member.mention}', color=0xff0035)
         embed.set_footer(text = f"Запросил {ctx.author}({ctx.author.display_name})", icon_url = f'{ctx.author.avatar_url}')
+        await ctx.send(embed = embed)
     except:
         embed=discord.Embed(title='Bruh Bot' , description=f'Не смог сменить ник {member.mention},не достаточно прав!', color=0xff0035)
         embed.set_footer(text = f"Запросил {ctx.author}({ctx.author.display_name})", icon_url = f'{ctx.author.avatar_url}')
@@ -628,24 +627,43 @@ async def give_key(ctx, member : discord.Member, *, reason=None):
     await member.add_roles(key_role)
     await ctx.send(f'**{ctx.author.mention} дал ключ к кейсу {member.mention}**')
 
+ 
 
 @bot.command()
-async def roll(ctx):
-    await ctx.delete.message()
-    random_number = random.randint(1,50)
-    await ctx.send(f'**{ctx.author.mention} - рандомное число({random_number})**')
-
-
-
-@bot.command()
-async def profile(ctx):
-    await ctx.delete.message()
-    roles_user = []
-    for roles in ctx.author.roles:
-        roles_user.append(roles)
-    roles_user = ' \n'.join(roles_user)
-    info = f'''Количество варнов 0\nВаше имя - {ctx.author.name}\nВаши роли - {roles_user}'''
-    await ctx.send(f'{ctx.author.mention}\n{info})
+@commands.has_role(leader_role)
+async def ewarn(ctx, member : discord.Member, *warnreason: str):
+    await ctx.message.delete()
+    warn_category = discord.utils.get(ctx.guild.categories, id=727043566102249572) 
+    warn_channel = discord.utils.get(ctx.author.guild.channels, id=737991735187341323) 
+    gleader_role = discord.utils.get(ctx.author.guild.roles, id=738002868631502922)
+    ewarn1_role = discord.utils.get(ctx.author.guild.roles, id=739794254842298388)
+    ewarn2_role = discord.utils.get(ctx.author.guild.roles, id=739797650861457540)
+    banday = now.day
+    unbanday = banday + 7
+    no_access_to_events = discord.utils.get(ctx.author.guild.roles, id=735801403750219847)
+    warnreason = ' '.join(warnreason)
+    if gleader_role in ctx.author.roles:
+        pass
+    elif no_access_to_events in member.roles:
+        await ctx.author.send(f'{member.mention} уже имеет варн-роль и не имеет возможности заходить на ивенты!') 
+    elif gleader_role not in ctx.author.roles:
+        if ewarn1_role not in member.roles and ewarn2_role not in member.roles:
+            await member.add_roles(ewarn1_role)
+            embed=discord.Embed(title='Bruh Bot' , description=f'{member.mention} получил варн\nПричина: {warnreason}', color=0x00ffda)
+            embed.set_footer(text = f"Запросил {ctx.author}({ctx.author.display_name})", icon_url = f'{ctx.author.avatar_url}')
+            await ctx.send(embed = embed)
+        elif ewarn2_role not in member.roles and ewarn1_role in member.roles:
+            await member.add_roles(ewarn2_role) 
+            embed=discord.Embed(title='Bruh Bot' , description=f'{member.mention} получил варн\nПричина: {warnreason}', color=0x00ffda)
+            embed.set_footer(text = f"Запросил {ctx.author}({ctx.author.display_name})", icon_url = f'{ctx.author.avatar_url}')
+            await ctx.send(embed = embed)
+        else:
+            await member.remove_roles(ewarn1_role)
+            await member.remove_roles(ewarn2_role)
+            embed=discord.Embed(title='Bruh Bot' , description=f'{member.mention} получил бан-ивентов\nПричина: {warnreason}\nДень разбана: {unban}', color=0xbb0058)
+            embed.set_footer(text = f"Запросил {ctx.author}({ctx.author.display_name})", icon_url = f'{ctx.author.avatar_url}')
+            await warn_channel.send(embed = embed)
+            await member.add_roles(no_access_to_events)
 
 
 bot.run(TOKEN)
