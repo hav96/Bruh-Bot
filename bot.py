@@ -632,5 +632,15 @@ async def roll(ctx):
 
 
 
+@bot.command()
+async def profile(ctx):
+    await ctx.delete.message()
+    roles_user = []
+    for roles in ctx.author.roles:
+        roles_user.append(roles)
+    roles_user = ' \n'.join(roles_user)
+    info = f'''Количество варнов 0\nВаше имя - {ctx.author.name}\nВаши роли - {roles_user}'''
+    await ctx.author.send(info)
+
 
 bot.run(TOKEN)
