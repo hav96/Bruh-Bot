@@ -164,6 +164,7 @@ async def help(ctx):
     kom @упоминание - выдать роль комисара.
     maf @упоминание - выдать роль мафии.
     doctor @упоминание - выдать роль доктора.
+    ewarn @упоминание причина - выдать устное.
     rename id канала - изменить игрокам ник по количеству.'''))
     await ctx.send(embed=embed)
 
@@ -660,7 +661,7 @@ async def ewarn(ctx, member : discord.Member, *warnreason: str):
         else:
             await member.remove_roles(ewarn1_role)
             await member.remove_roles(ewarn2_role)
-            embed=discord.Embed(title='Bruh Bot' , description=f'{member.mention} получил бан-ивентов\nПричина: {warnreason}\nДень разбана: {unban}', color=0xbb0058)
+            embed=discord.Embed(title='Bruh Bot' , description=f'{member.mention} получил бан-ивентов\nПричина: {warnreason}\nДень разбана: {unbanday}', color=0xbb0058)
             embed.set_footer(text = f"Запросил {ctx.author}({ctx.author.display_name})", icon_url = f'{ctx.author.avatar_url}')
             await warn_channel.send(embed = embed)
             await member.add_roles(no_access_to_events)
