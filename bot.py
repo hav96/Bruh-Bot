@@ -155,7 +155,7 @@ async def help(ctx):
     ban @упоминание - выдать бан-роль.
     warn @упоминание - выдать варн.
     unwarn @упоминание - снять варн.
-    mute @упоминание - дать мут.
+    mute @упоминание причина - дать мут.
     unmute @упоминание - размутить\n
     \nКоманды ведущего.
     event название ивента - запустить ивент.
@@ -417,8 +417,10 @@ async def manga(ctx):
         main_url = 'https://9hentai.com/g/'
         random_number = random.randint(100,1600)
         random_manga = f'{main_url}{random_number}'
-        await ctx.send(f'Сгенерировал для {ctx.author.mention} рандомную хентай мангу - {random_manga}')
-        
+        embed=discord.Embed(title="Bruh Bot", description=f"Рандомная манга - {random_manga}\nСоздатель - PirPix", color=0x5cfa75)
+        embed.set_footer(text = f"Запросил {ctx.author}({ctx.author.display_name})", icon_url = f'{ctx.author.avatar_url}')
+        await ctx.send(embed = embed)
+    
 @bot.command()
 @commands.has_role(leader_role)
 async def rename(ctx,channel: int):
@@ -467,10 +469,9 @@ async def event(ctx, event: str):
     else:
         otherchannel = await ctx.guild.create_voice_channel(event, category=category)
         await ctx.guild.create_text_channel(event, category=category)
-        eventwarning = await ctx.send(embed = discord.Embed(description = f'**Вы {ctx.author.mention} создали ивент не имеющий описания,напишите описание сами**'))
+        await ctx.send(embed = discord.Embed(description = f'**Вы {ctx.author.mention} создали ивент не имеющий описания,напишите описание сами**'))
         await ctx.author.move_to(otherchannel)
-        time.sleep(3)
-        await ctx.eventwarning.delete()
+        
     
 
 @bot.command()
@@ -524,7 +525,7 @@ async def case(ctx):
 
 @bot.command()
 @commands.has_role(moder_role)
-async def mute(ctx, member : discord.Member, *, reason=None):
+async def mute(ctx, member : discord.Member, *mute_reason: str):
     await ctx.message.delete()
     gladmin_role = discord.utils.get(member.guild.channels, id=722553559329144833)
     admin_role = discord.utils.get(member.guild.channels, id=723198849434386462)
@@ -536,13 +537,16 @@ async def mute(ctx, member : discord.Member, *, reason=None):
     elif moder_role in member.roles:
         pass
     else:
+        mute_reason = ' '.join(mute_reason)
         log_channel = discord.utils.get(ctx.author.guild.channels, id=723196150961930343) 
         mute_role = discord.utils.get(ctx.author.guild.roles, id=727228695277732063)
         await member.add_roles(mute_role)
-        await log_channel.send(f'**{ctx.author.mention} дал мут {member.mention}**')
-        message_mute = await ctx.send(f'**{member} получил мут**')
-        time.sleep(3)
-        await ctx.message_mute.delete()
+        await log_channel.send(f'**{ctx.author.mention} дал мут {member.mention}\nПричина: {mute_reason}**')
+        embed=discord.Embed(title="Bruh Bot", description=f"**{member.mention} получил мут\nПричина: {mute_reason}**", color=0xfaff86)
+        message_mute = await ctx.send(embed = embed)
+        await message_mute.add_reaction('😳')
+        await message_mute.add_reaction('😨')
+        await message_mute.add_reaction('😢')
 
 @bot.command()
 @commands.has_role(moder_role)
