@@ -31,15 +31,11 @@ admin_role = 723198849434386462
 
 help_role = 723198849434386462 
 
-key_role = 727021729553317928
+key_role = 727021729553317928 
 
 room_creator = 727690980341317632 
 
 now = datetime.now()
-
-request_list = [
-
-]
 
 
 roles = (
@@ -152,7 +148,7 @@ async def help(ctx):
     give_key @упоминание - выдать key участнику сервера.
     \nМодер команды.
     clear количество  - удалить сообщения.
-    ban @упоминание - выдать бан-роль.
+    ban @упоминание причина - выдать бан-роль.
     warn @упоминание - выдать варн.
     unwarn @упоминание - снять варн.
     mute @упоминание причина - дать мут.
@@ -179,9 +175,10 @@ async def help(ctx):
 '''    
 @bot.command()
 @commands.has_role(moder_role)
-async def ban(ctx, member : discord.Member, *, reason=None):
+async def ban(ctx, member : discord.Member, *ban_reason):
     await ctx.message.delete()
     log_channel = discord.utils.get(member.guild.channels, id=723196150961930343)
+    ban_channel = discord.utils.get(member.guild.channels, id=737992252365996033) 
     ban_role = discord.utils.get(member.guild.roles, id=726255138926362704)
     gladmin_role = discord.utils.get(member.guild.channels, id=722553559329144833)
     admin_role = discord.utils.get(member.guild.channels, id=723198849434386462)
@@ -199,7 +196,9 @@ async def ban(ctx, member : discord.Member, *, reason=None):
         else:
             await member.add_roles(ban_role)
             await log_channel.send(f'**{ctx.author.mention} забанил {member.mention}**')
+            await ban_channel.send(f'**{ctx.author.mention} забанил {member.mention}\nПричина {ban_reason}**')
             await member.send(f'**{ctx.author.mention} дал вам бан на сервере\nЧто бы получить разбан напишите заявку**')
+
 
     elif admin_role in ctx.author.roles and gladmin_role not in ctx.author.roles:
         if admin_role in member.roles:
@@ -211,6 +210,7 @@ async def ban(ctx, member : discord.Member, *, reason=None):
         else:
             await member.add_roles(ban_role)
             await log_channel.send(f'**{ctx.author.mention} забанил {member.mention}**')
+            await ban_channel.send(f'**{ctx.author.mention} забанил {member.mention}\nПричина {ban_reason}**')
             await member.send(f'**{ctx.author.mention} дал вам бан на сервере\nЧто бы получить разбан напишите заявку**')
 
     elif gladmin_role in ctx.author.roles:
@@ -219,6 +219,7 @@ async def ban(ctx, member : discord.Member, *, reason=None):
         else:
             await member.add_roles(ban_role)
             await log_channel.send(f'**{ctx.author.mention} забанил {member.mention}**')
+            await ban_channel.send(f'**{ctx.author.mention} забанил {member.mention}\nПричина {ban_reason}**')
             await member.send(f'**{ctx.author.mention} дал вам бан на сервере\nЧто бы получить разбан напишите заявку**')
 
 
@@ -579,12 +580,9 @@ async def weather(ctx, city: str):
 async def request(ctx, *event: str):
     await ctx.message.delete()
     request_channel = discord.utils.get(ctx.author.guild.channels, id=731392759939858452)
-    if str(ctx.author.mention) in request_list:
-        pass
-    else:
-        event = ' '.join(event)
-        request_list.append(f'{ctx.author.mention},')
-        await request_channel.send(embed = discord.Embed(description = f'**@Ведущий\nИгрок - {ctx.author.mention} просит ивент - {event}**', color=0x942ba3))
+    event = ' '.join(event)
+    request_list.append(f'{ctx.author.mention},')
+    await request_channel.send(embed = discord.Embed(description = f'**@Ведущий\nИгрок - {ctx.author.mention} просит ивент - {event}**', color=0x942ba3))
 
 
 
@@ -696,13 +694,9 @@ async def start(ctx, channel_id: int):
                 else:
                     await ctx.send(f'Ведущий {ctx.author.mention}')
                     await ctx.author.send(f'Все участники перемейнововны\n3,2,9 мафы\n4 доктор\n7 комиссар')
-        except Exception as error:
-            print(members)
-            print(error)
+        except MissingPermissions as error:
+            await ctx.send(error)
 
-
-        
-        
 
 
 bot.run(TOKEN)
