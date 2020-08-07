@@ -164,6 +164,7 @@ async def help(ctx):
     kom @упоминание - выдать роль комисара.
     maf @упоминание - выдать роль мафии.
     doctor @упоминание - выдать роль доктора.
+    start channel_id - перемеиновать участников,выдать роли.
     ewarn @упоминание причина - выдать устное.
     rename id канала - изменить игрокам ник по количеству.'''))
     await ctx.send(embed=embed)
@@ -669,6 +670,39 @@ async def ewarn(ctx, member : discord.Member, *warnreason: str):
             embed.set_footer(text = f"Запросил {ctx.author}({ctx.author.display_name})", icon_url = f'{ctx.author.avatar_url}')
             await warn_channel.send(embed = embed)
             await member.add_roles(no_access_to_events)
+
+
+
+@bot.command()
+@commands.has_role(leader_role)
+async def start(ctx, channel_id: int):
+    voice_channel = discord.utils.get(ctx.author.guild.channels, id=channel_id)
+    members = voice_channel.members
+    author = ctx.author
+    count = 0
+    for member in members:
+        try:
+            if member == author:
+                pass
+            else:
+                count += 1
+                await member.edit(nick=count)
+                if count == 3 or count == 2 or count == 9 and member != author: #мафия
+                    await member.send(f'{member.mention} тебе выпала роль мафии - ссылка на канал мафии')
+                elif count == 4 and member != author: #доктор
+                    await member.send(f'{member.mention} тебе выпала роль доктора')
+                elif count == 7 and member != author: #коммисар
+                    await member.send(f'{member.mention} тебе выпала роль комисара')
+                else:
+                    await ctx.send(f'Ведущий {ctx.author.mention}')
+                    await ctx.author.send(f'Все участники перемейнововны\n3,2,9 мафы\n4 доктор\n7 комиссар')
+        except Exception as error:
+            print(members)
+            print(error)
+
+
+        
+        
 
 
 bot.run(TOKEN)
