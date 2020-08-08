@@ -588,7 +588,6 @@ async def request(ctx, *event: str):
     await ctx.message.delete()
     request_channel = discord.utils.get(ctx.author.guild.channels, id=731392759939858452)
     event = ' '.join(event)
-    request_list.append(f'{ctx.author.mention},')
     await request_channel.send(embed = discord.Embed(description = f'**@Ведущий\nИгрок - {ctx.author.mention} просит ивент - {event}**', color=0x942ba3))
 
 
@@ -721,8 +720,12 @@ async def hentai(ctx, target: str):
     if ctx.message.channel.is_nsfw() == False:
         await ctx.send(embed = discord.Embed(description = f"**{ctx.author.mention} используй команду только в NSWF канале!**", colour = 0xff0000))
     else:
-        hentai_url = nekos.img(f'{target}')
-        await ctx.send(hentai_url)
+        try:
+            hentai_url = nekos.img(f'{target}')
+            message_hentai = await ctx.send(hentai_url)
+            await message_hentai.add_reaction('💞')
+        except:
+            await ctx.send(f'Такого тега - {target} нет.\nНапиши >hentaihelp')
     
 @bot.command()
 async def hentaihelp(ctx):
@@ -738,5 +741,6 @@ async def hentaihelp(ctx):
     pwankg, classic, kuni, waifu, pat, 8ball, kiss, femdom,
     neko, spank, cuddle, erok, fox_girl, boobs, random_hentai_gif,
     smallboobs, hug, ero, smug, goose, baka, woof**''')
+     
 
 bot.run(TOKEN)
