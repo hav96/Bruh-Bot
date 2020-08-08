@@ -1,7 +1,9 @@
 import asyncio
 import os
+from discord import File
 import discord
 from discord.ext import commands
+from discord.ext.commands import has_permissions, MissingPermissions
 import tenorpy
 from colorama import init
 from termcolor import colored
@@ -12,6 +14,7 @@ import time
 from tokenfile import bot_token
 from datetime import datetime
 import json
+import nekos
 
 version = '0.0.4'
 
@@ -123,7 +126,6 @@ async def on_voice_state_update(member, before, after):
                     return len(channelmember.members) == 0
                 await bot.wait_for('voice_state_update',check=check)
                 await channelmember.delete()
-
         elif after.channel != '🤫Помолчанка' and len(members) > 1:
             await member.add_roles(voice_role)
             await log_channel.send(f'{member.mention} зашел в {after.channel}')
@@ -142,6 +144,8 @@ async def help(ctx):
     \n\nРофлан команды.
     roll - рандом число от 1 до 50.
     manga - рандомная хентай манга.
+    hentai жанр(eng) - рандомный хентай арт.
+    hentaihelp - узнать все теги хентай артов/
     gif слово - получить гифку.
     case - открыть кейс(нужна роль key).
     weather город - узнать погоду.
@@ -271,9 +275,8 @@ async def warn(ctx, member : discord.Member, *, reason=None):
                 await member.add_roles(warn_role1)
                 await log_channel.send(f'**{ctx.author.mention} дал варн {member.mention} варнов 1/3**')
     except Exception as error:
-        message_error = await ctx.send(f'**{ctx.author.mention} что-то пошло не так...\nОшибка {error}**')
+        await ctx.send(f'**{ctx.author.mention} что-то пошло не так...\nОшибка {error}**')
         time.sleep(3)
-        await ctx.message_error.delete()
 
 
 '''Такая система сделана для того что бы
@@ -450,7 +453,7 @@ async def event(ctx, event: str):
     info_channel = discord.utils.get(ctx.author.guild.channels, id=736947827892289707) 
     if event == 'mafia':
         channel_mafia = await ctx.guild.create_voice_channel('Мафия', category=category)
-        await ctx.guild.create_text_channel('мафия', category=category)
+        textchannel_mafia = await ctx.guild.create_text_channel('мафия', category=category)
         embed=discord.Embed(title=f"Проводится ивент мафия!", description=f"Победа мирных - 100 коинов\nПобеда мафии - 75 коинов\nВедущий - {ctx.author.mention}", color=0xff0084)
         embed.set_thumbnail(url="https://krot.info/uploads/posts/2020-01/1579563613_29-p-foni-s-mafiei-60.jpg")
         await info_channel.send(embed = embed)
@@ -678,6 +681,7 @@ async def ewarn(ctx, member : discord.Member, *warnreason: str):
 @bot.command()
 @commands.has_role(leader_role)
 async def start(ctx, channel_id: int):
+    await ctx.message.delete()
     voice_channel = discord.utils.get(ctx.author.guild.channels, id=channel_id)
     members = voice_channel.members
     author = ctx.author
@@ -702,5 +706,37 @@ async def start(ctx, channel_id: int):
             await ctx.send(error)
 
 
+
+@bot.command()
+async def bruh(ctx):
+    await ctx.message.delete()
+    with open('/home/pirpix/Документы/GitHub/Bruh-Bot/roles.jpg', 'rb') as f:
+        await ctx.send(file=File(f, 'roles.jpg'))
+
+
+
+@bot.command()
+async def hentai(ctx, target: str):
+    await ctx.message.delete()
+    if ctx.message.channel.is_nsfw() == False:
+        await ctx.send(embed = discord.Embed(description = f"**{ctx.author.mention} используй команду только в NSWF канале!**", colour = 0xff0000))
+    else:
+        hentai_url = nekos.img(f'{target}')
+        await ctx.send(hentai_url)
+    
+@bot.command()
+async def hentaihelp(ctx):
+    await ctx.message.delete()
+    await ctx.send(f'''
+    **{ctx.author.mention} Все теги hentai
+    feet, yuri, trap, futanaru, hololewd, lewdkemo,
+    solog, feetg, 'cum', erokemo, les, wallpaper, lewdk,
+    ngif, tickle, lewd, feed, gecg', eroyuri, eron,
+    cum_jpg, bj, nsfw_neko_gif, solo, kemonomimi, nsfw_avatar,
+    gasm, poke, anal, slap, hentai, avatar, erofeet, holo,
+    keta, blowjob, pussy, tits, holoero, lizard, pussy_jpg,
+    pwankg, classic, kuni, waifu, pat, 8ball, kiss, femdom,
+    neko, spank, cuddle, erok, fox_girl, boobs, random_hentai_gif,
+    smallboobs, hug, ero, smug, goose, baka, woof**''')
 
 bot.run(TOKEN)
