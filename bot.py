@@ -725,7 +725,7 @@ async def hentai(ctx, target: str):
             message_hentai = await ctx.send(hentai_url)
             await message_hentai.add_reaction('💞')
         except:
-            await ctx.send(f'Такого тега - {target} нет.\nНапиши >hentaihelp')
+            await ctx.send(embed = discord.Embed(description = f'**{ctx.author.mention}Такого тега - {target} нет.\nНапиши >hentaihelp**', colour = 0xff0000))
     
 @bot.command()
 async def hentaihelp(ctx):
