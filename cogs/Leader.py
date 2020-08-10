@@ -203,3 +203,7 @@ class Leader(commands.Cog):
             embed=discord.Embed(title='Bruh Bot' , description=f'Не смог сменить ник {member.mention},не достаточно прав!', color=0xff0035)
             embed.set_footer(text = f"Запросил {ctx.author}({ctx.author.display_name})", icon_url = f'{ctx.author.avatar_url}')
             await ctx.send(embed = embed)
+
+
+def setup(bot):
+    bot.add_cog(Leader(bot))  
