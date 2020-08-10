@@ -9,7 +9,7 @@ from tokenfile import bot_token
 
 TOKEN = bot_token
 
- 
+
 
 def load_cogs(bot):
     try:
@@ -32,4 +32,5 @@ class Bot(commands.Bot):
 
 if __name__ == "__main__":
     bot = Bot(command_prefix='>')
+    bot.remove_command('help')
     bot.run(TOKEN)

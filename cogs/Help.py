@@ -6,9 +6,7 @@ from discord.ext import commands
 class Help(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-
-
-
+    
     @commands.command()
     async def help(self, ctx):
         await ctx.message.delete()
@@ -44,7 +42,6 @@ class Help(commands.Cog):
         ewarn @упоминание причина - выдать устное.
         rename id канала - изменить игрокам ник по количеству.'''))
         await ctx.send(embed=embed)
-
 
 
 def setup(bot):
