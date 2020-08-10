@@ -68,5 +68,13 @@ class Events(commands.Cog):
 
 
 
+    @commands.Cog.listener()
+    async def on_command_error(self, ctx, error):
+        if isinstance(error, commands.CommandNotFound):
+            await ctx.send(embed = discord.Embed(description = f'** {ctx.author.mention}, данной команды не существует\nпропишите >help.**', color=0xff0000))
+        elif isinstance(error, commands.MissingRequiredArgument):
+            await ctx.send(embed = discord.Embed(description = f'** {ctx.author.mention}, вы не указали нужное количество аргументов!\nпропишите >help.**', color=0xff0000))
+        elif isinstance(error, commands.MissingPermissions):
+            await ctx.send(f'{ctx.author.mention}, вы не обладаете такими правами!')
 def setup(bot):
     bot.add_cog(Events(bot))
