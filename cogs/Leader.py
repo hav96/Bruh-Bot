@@ -9,8 +9,6 @@ class Leader(commands.Cog):
     
     leader_role = 722787700146700412
 
-
-
     @commands.command()
     @commands.has_role(leader_role)
     async def close_chat(self, ctx):
@@ -125,7 +123,7 @@ class Leader(commands.Cog):
     async def event(self, ctx, *, event: str):
         await ctx.message.delete()
         category = discord.utils.get(ctx.guild.categories, id=736941485135495219) 
-        info_channel = discord.utils.get(ctx.author.guild.channels, id=736947827892289707) 
+        info_channel = discord.utils.get(ctx.author.guild.channels, id=736947827892289707)
         if event == 'mafia':
             channel_mafia = await ctx.guild.create_voice_channel('Мафия', category=category)
             textchannel_mafia = await ctx.guild.create_text_channel('мафия', category=category)
