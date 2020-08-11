@@ -89,6 +89,8 @@ class Fun(commands.Cog):
             await ctx.send(embed = embed)
 
 
+
+
     @commands.command()
     async def case(self, ctx):
         await ctx.message.delete()
