@@ -25,7 +25,7 @@ class Bot(commands.Bot):
     
     async def on_ready(self):
         load_cogs(self)
-        print('Bruh Bot запущен!Версия бота: 0.0.8')
+        print('Bruh Bot запущен!\nВерсия бота: 𝟬.𝟬.𝟴\nАвтор бота: 𝐒𝐚𝐲𝐰𝐞𝐱𝟖𝟗')
         #for guild in bot.guilds:
             #for member in guild.members:
                
