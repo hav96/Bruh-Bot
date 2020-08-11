@@ -1,4 +1,3 @@
-import asyncio
 import os
 import discord
 from discord.ext import commands
@@ -26,7 +25,7 @@ class Bot(commands.Bot):
     
     async def on_ready(self):
         load_cogs(self)
-        print('Bruh Bot запущен!')
+        print('Bruh Bot запущен!Версия бота: 0.0.8')
         #for guild in bot.guilds:
             #for member in guild.members:
                

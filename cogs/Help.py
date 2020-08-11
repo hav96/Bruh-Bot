@@ -6,12 +6,13 @@ from discord.ext import commands
 class Help(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-    
+        
     @commands.command()
     async def help(self, ctx):
         await ctx.message.delete()
         embed=discord.Embed(title="Помощь", description=('''Префикс бота >
         \n\nРофлан команды.
+        member - рандомный человек с сервера)).
         roll - рандом число от 1 до 50.
         manga - рандомная хентай манга.
         hentai жанр(eng) - рандомный хентай арт.
