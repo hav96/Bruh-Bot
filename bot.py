@@ -26,6 +26,9 @@ class Bot(commands.Bot):
     
     async def on_ready(self):
         load_cogs(self)
+        for guild in self.bot.guilds:
+            for member in guild.members:
+                print(member)
         print('Bruh Bot запущен!')
 
 
