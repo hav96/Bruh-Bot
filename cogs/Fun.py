@@ -30,6 +30,37 @@ class Fun(commands.Cog):
         await request_channel.send(embed = discord.Embed(description = f'**@Ведущий\nИгрок - {ctx.author.mention} просит ивент - {args}**', color=0x942ba3))
 
 
+    @commands.command()
+    async def weather(self, ctx, *, city):
+        import pyowm
+        from pyowm.commons.enums import SubscriptionTypeEnum
+        from pyowm.utils.measurables import kelvin_to_celsius
+
+        config = {
+            'subscription_type': SubscriptionTypeEnum.FREE,
+            'language': 'ru',
+            'connection': {
+                'use_ssl': True,
+                'verify_ssl_certs': True,
+                'use_proxy': False,
+                'timeout_secs': 5
+            },
+            'proxies': {
+                'http': 'http://user:pass@host:port',
+                'https': 'socks5://user:pass@host:port'
+            }
+        }
+        owm = pyowm.OWM('a99967bc9ee70d5b4bd387902982f400', config=config)
+        mgr = owm.weather_manager()
+        observation = mgr.weather_at_place(city)
+        w = observation.weather
+        embed=discord.Embed(title="Bruh Bot", description="В городе " + city + " сейчас температура: " + str(kelvin_to_celsius(w.temp['temp'])) + "°C.", color=0x1100fd)
+        embed.set_footer(text="Создатель команды - PirPix")
+        await ctx.send(embed = embed)
+
+
+
+
 
     @commands.command()
     @commands.has_role(help_role)
@@ -89,8 +120,17 @@ class Fun(commands.Cog):
             await ctx.send(embed = embed)
 
 
+    @commands.command()
+    async def member(self, ctx):
+        members_list = []
+        for guild in self.bot.guilds:
+            for member in guild.members:
+                members_list.append(f'{member.mention}')
 
+        random_member = random.choice(members_list)
+        await ctx.send(f'{random_member} Главный еблан сервера ))9')
 
+    
     @commands.command()
     async def case(self, ctx):
         await ctx.message.delete()
@@ -151,6 +191,9 @@ class Fun(commands.Cog):
         finally:
             await ctx.author.remove_roles(key_role)
 
+    @commands.command()
+    async def avatar(self, ctx):
+        await ctx.send(f'{ctx.author.avatar_url}')
 
 
 def setup(bot):

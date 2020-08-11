@@ -3,7 +3,7 @@ import os
 import discord
 from discord.ext import commands
 from tokenfile import bot_token
-
+import json
 
 
 TOKEN = bot_token
@@ -26,11 +26,12 @@ class Bot(commands.Bot):
     
     async def on_ready(self):
         load_cogs(self)
-        for guild in self.bot.guilds:
-            for member in guild.members:
-                print(member)
         print('Bruh Bot запущен!')
-
+        #for guild in bot.guilds:
+            #for member in guild.members:
+               
+                
+              
 
 if __name__ == "__main__":
     bot = Bot(command_prefix='>')
