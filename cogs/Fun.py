@@ -205,14 +205,16 @@ class Fun(commands.Cog):
         private = f'Приват {ctx.author}'
         voice_channel = discord.utils.get(ctx.author.guild.channels, id=channel_id)
         channel_name = voice_channel.name
-        members = voice_channel.members  
-        if member in members and channel_name == private:
-            await voice_channel.set_permissions(member,connect=False)
-            await member.move_to(None)
+        members = voice_channel.members
+        if member == ctx.author and channel_name == private:
+            await ctx.send(f'{ctx.author.mention} вы не можете кикнуть самого себя из своего привата!')  
         elif channel_name != private:
             pass
         elif member not in members:
-             await ctx.send(f'{ctx.author.mention} Этого человека нет у вас в привате!')
+            await ctx.send(f'{ctx.author.mention} Этого человека нет у вас в привате!')
+        elif member in members and channel_name == private:
+            await voice_channel.set_permissions(member,connect=False)
+            await member.move_to(None)
            
 
 
