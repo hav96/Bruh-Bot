@@ -216,6 +216,17 @@ class Fun(commands.Cog):
             await voice_channel.set_permissions(member,connect=False)
             await member.move_to(None)
            
+    @commands.command()
+    async def report(self, ctx, *, member : discord.Member, reason_report):
+        await ctx.message.delete()
+        report_channel = discord.utils.get(ctx.author.guild.channels, id=743161903680847942)
+        await report_channel.send(f'{ctx.author.mention} написал репорт на {member.mention},роичина : {reason_report}')
+
+
+
+
+
+
 
 
 def setup(bot):
