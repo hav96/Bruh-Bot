@@ -13,6 +13,7 @@ class Fun(commands.Cog):
 
 
     help_role = 723198849434386462 
+    room_creator = 727690980341317632
 
 
 
@@ -64,7 +65,7 @@ class Fun(commands.Cog):
 
     @commands.command()
     @commands.has_role(help_role)
-    async def give_key(self, ctx, member : discord.Member, *, reason=None):
+    async def give_key(self, ctx, *, member : discord.Member):
         await ctx.message.delete()
         key_role = discord.utils.get(ctx.author.guild.roles, id=727021729553317928)
         await member.add_roles(key_role)
@@ -193,7 +194,26 @@ class Fun(commands.Cog):
 
     @commands.command()
     async def avatar(self, ctx):
+        await ctx.message.delete()
         await ctx.send(f'{ctx.author.avatar_url}')
+    
+    @commands.command()
+    @commands.has_any_role(room_creator)
+    async def kick(self, ctx, *, member : discord.Member):
+        await ctx.message.delete()
+        channel_id = ctx.author.voice.channel.id
+        private = f'Приват {ctx.author}'
+        voice_channel = discord.utils.get(ctx.author.guild.channels, id=channel_id)
+        channel_name = voice_channel.name
+        members = voice_channel.members  
+        if member in members and channel_name == private:
+            await voice_channel.set_permissions(member,connect=False)
+            await member.move_to(None)
+        elif channel_name != private:
+            pass
+        elif member not in members:
+             await ctx.send(f'{ctx.author.mention} Этого человека нет у вас в привате!')
+           
 
 
 def setup(bot):

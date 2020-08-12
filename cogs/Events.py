@@ -18,6 +18,7 @@ class Events(commands.Cog):
         else:
             voice_channel = discord.utils.get(member.guild.channels, id=after.channel.id)
             members = voice_channel.members
+            guest_role = voice_role = discord.utils.get(member.guild.roles, id=743104984744460368) 
             category = discord.utils.get(member.guild.categories, id=727688569962889287)
             if after.channel.id == 730733768465186886: #рума для создания приватов
                 for guild in self.bot.guilds:
@@ -29,6 +30,10 @@ class Events(commands.Cog):
                         return len(channelmember.members) == 0
                     await self.bot.wait_for('voice_state_update',check=check)
                     await channelmember.delete()
+            elif after.channel.id == 743105773030342716:
+                await member.remove_roles(guest_role)
+                await member.move_to(None)
+                await log_channel.send(f'Забрал постояльца у {member.mention}')
             elif after.channel != '🤫Помолчанка' and len(members) > 1:
                 await member.add_roles(voice_role)
                 await log_channel.send(f'{member.mention} зашел в {after.channel}')
