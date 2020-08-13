@@ -53,37 +53,39 @@ class Leader(commands.Cog):
 
     @commands.command()
     @commands.has_role(leader_role)
-    async def ewarn(self, ctx, *, member : discord.Member, warnreason: str):
+    async def ewarn(self, ctx, *, member : discord.Member):
         await ctx.message.delete()
-        warn_category = discord.utils.get(ctx.guild.categories, id=727043566102249572) 
-        warn_channel = discord.utils.get(ctx.author.guild.channels, id=737991735187341323) 
-        gleader_role = discord.utils.get(ctx.author.guild.roles, id=738002868631502922)
-        ewarn1_role = discord.utils.get(ctx.author.guild.roles, id=739794254842298388)
-        ewarn2_role = discord.utils.get(ctx.author.guild.roles, id=739797650861457540)
-        no_access_to_events = discord.utils.get(ctx.author.guild.roles, id=735801403750219847)
-        warnreason = ' '.join(warnreason)
-        if gleader_role in ctx.author.roles:
-            pass
-        elif no_access_to_events in member.roles:
-            await ctx.author.send(f'{member.mention} уже имеет варн-роль и не имеет возможности заходить на ивенты!') 
-        elif gleader_role not in ctx.author.roles:
-            if ewarn1_role not in member.roles and ewarn2_role not in member.roles:
-                await member.add_roles(ewarn1_role)
-                embed=discord.Embed(title='Bruh Bot' , description=f'{member.mention} получил варн\nПричина: {warnreason}', color=0x00ffda)
-                embed.set_footer(text = f"Запросил {ctx.author}({ctx.author.display_name})", icon_url = f'{ctx.author.avatar_url}')
-                await ctx.send(embed = embed)
-            elif ewarn2_role not in member.roles and ewarn1_role in member.roles:
-                await member.add_roles(ewarn2_role) 
-                embed=discord.Embed(title='Bruh Bot' , description=f'{member.mention} получил варн\nПричина: {warnreason}', color=0x00ffda)
-                embed.set_footer(text = f"Запросил {ctx.author}({ctx.author.display_name})", icon_url = f'{ctx.author.avatar_url}')
-                await ctx.send(embed = embed)
-            else:
-                await member.remove_roles(ewarn1_role)
-                await member.remove_roles(ewarn2_role)
-                embed=discord.Embed(title='Bruh Bot' , description=f'{member.mention} получил бан-ивентов\nПричина: {warnreason}', color=0xbb0058)
-                embed.set_footer(text = f"Запросил {ctx.author}({ctx.author.display_name})", icon_url = f'{ctx.author.avatar_url}')
-                await warn_channel.send(embed = embed)
-                await member.add_roles(no_access_to_events)
+        try:
+            warn_category = discord.utils.get(ctx.guild.categories, id=727043566102249572) 
+            warn_channel = discord.utils.get(ctx.author.guild.channels, id=737991735187341323) 
+            gleader_role = discord.utils.get(ctx.author.guild.roles, id=738002868631502922)
+            ewarn1_role = discord.utils.get(ctx.author.guild.roles, id=739794254842298388)
+            ewarn2_role = discord.utils.get(ctx.author.guild.roles, id=739797650861457540)
+            no_access_to_events = discord.utils.get(ctx.author.guild.roles, id=735801403750219847)
+            if gleader_role in ctx.author.roles:
+                pass
+            elif no_access_to_events in member.roles:
+                await ctx.author.send(f'{member.mention} уже имеет варн-роль и не имеет возможности заходить на ивенты!') 
+            elif gleader_role not in ctx.author.roles:
+                if ewarn1_role not in member.roles and ewarn2_role not in member.roles:
+                    await member.add_roles(ewarn1_role)
+                    embed=discord.Embed(title='Bruh Bot' , description=f'{member.mention} получил варн', color=0x00ffda)
+                    embed.set_footer(text = f"Запросил {ctx.author}({ctx.author.display_name})", icon_url = f'{ctx.author.avatar_url}')
+                    await ctx.send(embed = embed)
+                elif ewarn2_role not in member.roles and ewarn1_role in member.roles:
+                    await member.add_roles(ewarn2_role) 
+                    embed=discord.Embed(title='Bruh Bot' , description=f'{member.mention} получил варн', color=0x00ffda)
+                    embed.set_footer(text = f"Запросил {ctx.author}({ctx.author.display_name})", icon_url = f'{ctx.author.avatar_url}')
+                    await ctx.send(embed = embed)
+                else:
+                    await member.remove_roles(ewarn1_role)
+                    await member.remove_roles(ewarn2_role)
+                    embed=discord.Embed(title='Bruh Bot' , description=f'{member.mention} получил бан-ивентов', color=0xbb0058)
+                    embed.set_footer(text = f"Запросил {ctx.author}({ctx.author.display_name})", icon_url = f'{ctx.author.avatar_url}')
+                    await warn_channel.send(embed = embed)
+                    await member.add_roles(no_access_to_events)
+        except Exception as error:
+            print(error)
 
       
 
