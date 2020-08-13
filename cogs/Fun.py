@@ -34,6 +34,7 @@ class Fun(commands.Cog):
 
     @commands.command()
     async def weather(self, ctx, *, city):
+        await ctx.message.delete()
         import pyowm
         from pyowm.commons.enums import SubscriptionTypeEnum
         from pyowm.utils.measurables import kelvin_to_celsius
