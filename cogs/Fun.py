@@ -215,12 +215,22 @@ class Fun(commands.Cog):
         elif member in members and channel_name == private:
             await voice_channel.set_permissions(member,connect=False)
             await member.move_to(None)
-           
+            
     @commands.command()
-    async def report(self, ctx, *, member : discord.Member, reason_report):
+    async def report(self, ctx, *, member : discord.Member):
         await ctx.message.delete()
         report_channel = discord.utils.get(ctx.author.guild.channels, id=743161903680847942)
-        await report_channel.send(f'{ctx.author.mention} написал репорт на {member.mention},роичина : {reason_report}')
+        moder_role = discord.utils.get(ctx.author.guild.roles, id=722554357186560061)
+        admin_role = discord.utils.get(ctx.author.guild.roles, id=723198849434386462)
+        deputy_role = discord.utils.get(ctx.author.guild.roles, id=722787409015734323)
+        try:
+            if ctx.author == member:
+                pass
+            else:
+                await report_channel.send(f'{moder_role.mention}\n{admin_role.mention}\n{deputy_role.mention}')
+                await report_channel.send(f'{ctx.author.mention} написал репорт на {member.mention}')
+        except Exception as error:
+            await ctx.send(f'произошла ошибка\n{error}')
 
 
 
