@@ -85,7 +85,7 @@ class Fun(commands.Cog):
     async def hentai(self, ctx, *, target: str):
         await ctx.message.delete()
         if ctx.message.channel.is_nsfw() == False:
-            await ctx.send(embed = discord.Embed(description = f"**{ctx.author.mention} используй команду только в NSWF канале!**", colour = 0xff0000))
+            await ctx.send(embed = discord.Embed(description = f"**{ctx.author.mention} используй команду только в NSFW канале!**", colour = 0xff0000))
         else:
             try:
                 hentai_url = nekos.img(f'{target}')
@@ -113,7 +113,7 @@ class Fun(commands.Cog):
     async def manga(self, ctx):
         await ctx.message.delete()
         if ctx.message.channel.is_nsfw() == False:
-            await ctx.send(embed = discord.Embed(description = f"**{ctx.author.mention} используй команду только в NSWF канале!**", colour = 0xff0000))
+            await ctx.send(embed = discord.Embed(description = f"**{ctx.author.mention} используй команду только в NSFW канале!**", colour = 0xff0000))
         else:
             main_url = 'https://9hentai.com/g/'
             random_number = random.randint(100,1600)
