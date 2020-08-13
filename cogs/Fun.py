@@ -27,8 +27,9 @@ class Fun(commands.Cog):
     @commands.command()
     async def request(self, ctx, *, args):
         await ctx.message.delete()
+        leader_role = discord.utils.get(ctx.author.guild.roles, id=722787700146700412)
         request_channel = discord.utils.get(ctx.author.guild.channels, id=731392759939858452)
-        await request_channel.send(embed = discord.Embed(description = f'**@Ведущий\nИгрок - {ctx.author.mention} просит ивент - {args}**', color=0x942ba3))
+        await request_channel.send(embed = discord.Embed(description = f'**{leader_role.mention}\nИгрок - {ctx.author.mention} просит ивент - {args}**', color=0x942ba3))
 
 
     @commands.command()
