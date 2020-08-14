@@ -6,6 +6,9 @@ from discord.ext import commands
 import tenorpy
 import random
 import nekos
+import asyncio
+
+
 
 class Fun(commands.Cog):
     def __init__(self, bot):
@@ -235,7 +238,12 @@ class Fun(commands.Cog):
         except Exception as error:
             await ctx.send(f'произошла ошибка\n{error}')
  
+
     
+
+
+
+
 def setup(bot):
     bot.add_cog(Fun(bot))
 
