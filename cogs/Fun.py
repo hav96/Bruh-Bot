@@ -18,6 +18,7 @@ class Fun(commands.Cog):
     help_role = 723198849434386462
     gladmin = 722553559329144833 
     room_creator = 727690980341317632
+    tester = 743944880564469782
 
 
 
@@ -240,7 +241,15 @@ class Fun(commands.Cog):
  
 
     
-
+    @commands.command()
+    @commands.has_any_role(tester)
+    async def bag(self, ctx, *, args):
+        await ctx.message.delete() 
+        try:   
+            member = discord.utils.get(ctx.author.guild.members, id=625049900924534795)
+            await member.send(f'{ctx.author.mention} написал баг-репорт\n{args}')
+        except Exception as error:
+            print(error)
 
 
 
