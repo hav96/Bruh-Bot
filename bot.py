@@ -3,7 +3,7 @@ import discord
 from discord.ext import commands
 from tokenfile import bot_token
 import json
-
+from discord import Game
 
 TOKEN = bot_token
 
@@ -26,6 +26,7 @@ class Bot(commands.Bot):
     async def on_ready(self):
         load_cogs(self)
         print('Bruh Bot запущен!\nВерсия бота: 𝟬.𝟬.𝟴\nАвтор бота: 𝐒𝐚𝐲𝐰𝐞𝐱𝟖𝟗')
+        await bot.change_presence(activity=Game(name='>help'))
         #for guild in bot.guilds:
             #for member in guild.members:
                
