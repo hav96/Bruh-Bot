@@ -12,7 +12,8 @@ class Fun(commands.Cog):
         self.bot = bot
 
 
-    help_role = 723198849434386462 
+    help_role = 723198849434386462
+    gladmin = 722553559329144833 
     room_creator = 727690980341317632
 
 
@@ -233,14 +234,8 @@ class Fun(commands.Cog):
                 await report_channel.send(f'{ctx.author.mention} написал репорт на {member.mention}')
         except Exception as error:
             await ctx.send(f'произошла ошибка\n{error}')
-
-
-
-
-
-
-
-
+ 
+    
 def setup(bot):
     bot.add_cog(Fun(bot))
 
