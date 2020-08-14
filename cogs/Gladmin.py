@@ -36,6 +36,14 @@ class Gladmin(commands.Cog):
         leader_role = discord.utils.get(ctx.author.guild.roles, id=722787700146700412)
         await member.remove_roles(leader_role)
 
+         
+    @commands.command()
+    @commands.has_any_role(gladmin)       
+    async def tester(self, ctx, *, member : discord.Member):
+        await ctx.message.delete()
+        testing_role = discord.utils.get(ctx.author.guild.roles, id=743944880564469782)
+        await member.add_roles(testing_role)
+
 
     @commands.command()
     @commands.has_any_role(gladmin)       
