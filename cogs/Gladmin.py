@@ -39,13 +39,11 @@ class Gladmin(commands.Cog):
 
     @commands.command()
     @commands.has_any_role(gladmin)       
-    async def permoment(self, ctx, *, member : discord.Member, reason: None):
+    async def permoment(self, ctx, *, member : discord.Member):
         gladmin_role = discord.utils.get(ctx.author.guild.roles, id=722553559329144833)  
         ban_role = discord.utils.get(ctx.author.guild.roles, id=726255138926362704)
         log_channel = discord.utils.get(ctx.author.guild.channels, id=723196150961930343)
-        if reason == None and ctx.author != member:
-            await ctx.send(f'{ctx.author.mention} ты не указал причину бана!')
-        elif ctx.author == member:
+        if ctx.author == member:
             await ctx.send(f'{ctx.author.mention} ты не можешь забанить сам себя!')
         elif gladmin_role in member.roles and ctx.author != member:    
             await ctx.send(f'{ctx.author.mention} ты не можешь банить других гл-админов!')
@@ -53,8 +51,8 @@ class Gladmin(commands.Cog):
             await ctx.send(f' {ctx.author.mention} этого {member.mention} человека невозможно забанить!')
             await log_channel.send(f'{gladmin_role.mention}\n{ctx.author.mention} попытался забанить без бан-роли!')
         elif ban_role in member.roles and gladmin_role not in member.roles:
-            await member.ban(reason=reason)
-            await log_channel.send(f'{gladmin_role.mention}\n{ctx.author.mention} забанил {member.mention}\nПричина {reason}.')
+            await member.ban(reason='idiot')
+            await log_channel.send(f'{gladmin_role.mention}\n{ctx.author.mention} забанил {member.mention}')
 
 
 
