@@ -225,7 +225,13 @@ class Moder(commands.Cog):
             await ctx.channel.purge(limit=int(amount))
             await ctx.channel.send(embed = discord.Embed(description = f"**{ctx.author.mention} успешно удалено {amount} сообщений**", colour = 0xff0000))
 
-
+    @commands.command()
+    @commands.has_role(moder_role)
+    async def accept_report(self, ctx, *, report_reason: str):
+        await ctx.message.delete()
+        report_channel = discord.utils.get(ctx.author.guild.channels, id=744204245795864606)
+        await report_channel.send(f'{ctx.author.mention} принял репорт,причина репорта {report_reason}')
+              
 
 def setup(bot):
     bot.add_cog(Moder(bot))             
