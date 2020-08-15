@@ -218,6 +218,7 @@ class Moder(commands.Cog):
     @commands.command()
     @commands.has_role(moder_role)
     async def clear(self, ctx, *, amount=None):
+        channels_list = []
         await ctx.message.delete()
         if int(amount) >= 50:
             await ctx.send(embed = discord.Embed(description = f'{ctx.author.mention} Вы не можете удалять более 50 сообщений за раз', colorur = 0x000000))
