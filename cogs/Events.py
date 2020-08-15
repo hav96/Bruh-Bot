@@ -31,7 +31,6 @@ class Events(commands.Cog):
                         await self.bot.wait_for('voice_state_update',check=check)
                         await channelmember.delete()
                 elif after.channel != '🤫Помолчанка' and len(members) > 1:
-                    voice_list.append(f'{member}')
                     await member.add_roles(voice_role)
                     await log_channel.send(f'{member.mention} зашел в {after.channel}') 
                 elif after.channel != '🤫Помолчанка' and len(members) == 1:
@@ -84,5 +83,33 @@ class Events(commands.Cog):
             await ctx.send(embed = discord.Embed(description = f'** {ctx.author.mention}, вы не указали нужное количество аргументов!\nпропишите >help.**', color=0xff0000))
         elif isinstance(error, commands.MissingPermissions):
             await ctx.send(f'{ctx.author.mention}, вы не обладаете такими правами!')
+
+
+
+
+    @commands.Cog.listener()
+    async def on_raw_reaction_add(self, payload):
+        if payload.message_id == 744262818932719748:
+            if payload.emoji.name == '😎':   
+                guild = self.bot.get_guild(payload.guild_id)
+                role = discord.utils.get(guild.roles, id=727184396322603118)
+                member = guild.get_member(payload.user_id)
+                await member.add_roles(role)
+            elif payload.emoji.name == '❤':
+                guild = self.bot.get_guild(payload.guild_id)
+                role2 = discord.utils.get(guild.roles, id=726273302238199898)
+                member = guild.get_member(payload.user_id)
+                await member.add_roles(role2)
+            elif payload.emoji.name == '🌚':
+                guild = self.bot.get_guild(payload.guild_id)
+                role3 = discord.utils.get(guild.roles, id=744258010775552090)
+                member = guild.get_member(payload.user_id)
+                await member.add_roles(role3)
+       
+        else:
+            pass
+        
+
+    
 def setup(bot):
     bot.add_cog(Events(bot))
