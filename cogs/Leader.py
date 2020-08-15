@@ -8,6 +8,7 @@ class Leader(commands.Cog):
         self.bot = bot
     
     leader_role = 722787700146700412
+    gleader_role = 738002868631502922
 
     @commands.command()
     @commands.has_role(leader_role)
@@ -49,7 +50,7 @@ class Leader(commands.Cog):
             except Exception as error:
                 await ctx.send(error)
 
-
+    
 
     @commands.command()
     @commands.has_role(leader_role)
@@ -159,10 +160,8 @@ class Leader(commands.Cog):
                 await ctx.author.move_to(otherchannel)
         except:
             await ctx.send(f'{ctx.author.mention} *Вы не находитесь в голосом канале!Зайдите и напишите эту команду!*')
+          
         
-
-
-     
 
     @commands.command()
     @commands.has_role(leader_role)
@@ -208,6 +207,42 @@ class Leader(commands.Cog):
             embed=discord.Embed(title='Bruh Bot' , description=f'Не смог сменить ник {member.mention},не достаточно прав!', color=0xff0035)
             embed.set_footer(text = f"Запросил {ctx.author}({ctx.author.display_name})", icon_url = f'{ctx.author.avatar_url}')
             await ctx.send(embed = embed)
+
+
+    @commands.command()
+    @commands.has_role(gleader_role)
+    async def uleader(self, ctx, *, member : discord.Member):
+        leader_role = discord.utils.get(ctx.author.guild.roles, id=722787700146700412)
+        log_channel = discord.utils.get(ctx.author.guild.channels, id=723196150961930343)
+        await member.remove_roles(leader_role)
+        await log_channel.send(f'Старший-ведущий {ctx.author.mention} снял ведущего {member.mention}')
+
+
+
+    @commands.command()
+    @commands.has_role(gleader_role)
+    async def leader(self, ctx, *, member : discord.Member):
+        leader_role = discord.utils.get(ctx.author.guild.roles, id=722787700146700412)
+        log_channel = discord.utils.get(ctx.author.guild.channels, id=723196150961930343)
+        await member.add_roles(leader_role)
+        await log_channel.send(f'Старший-ведущий {ctx.author.mention} дал ведущего {member.mention}')
+
+
+
+    @commands.command()
+    @commands.has_role(gleader_role)
+    async def unewarn(self, ctx, *, member : discord.Member):
+        ewarn1_role = discord.utils.get(ctx.author.guild.roles, id=739794254842298388)
+        ewarn2_role = discord.utils.get(ctx.author.guild.roles, id=739797650861457540) 
+        ewarn_role = discord.utils.get(ctx.author.guild.roles, id=735801403750219847) #бан ивентов роль
+        if ewarn1_role in member.roles and ewarn2_role not in member.roles and ewarn_role not in member.roles: 
+            await member.remove_roles(ewarn1_role)
+        elif ewarn1_role in member.roles and ewarn2_role in member.roles and ewarn_role not in member.roles:
+             await member.remove_roles(ewarn2_role)
+        elif ewarn_role in member.roles:
+            await member.remove(ewarn_role)
+
+
 
 
 def setup(bot):
