@@ -109,6 +109,32 @@ class Events(commands.Cog):
         else:
             pass
         
+                      
+           
+    @commands.Cog.listener()
+    async def on_raw_reaction_remove(self, payload):
+        if payload.message_id == 744262818932719748:        
+            if payload.emoji.name == '😎':   
+                guild = self.bot.get_guild(payload.guild_id)
+                role = discord.utils.get(guild.roles, id=727184396322603118)
+                member = guild.get_member(payload.user_id)
+                await member.remove_roles(role)
+            elif payload.emoji.name == '❤':
+                guild = self.bot.get_guild(payload.guild_id)
+                role2 = discord.utils.get(guild.roles, id=726273302238199898)
+                member = guild.get_member(payload.user_id)
+                await member.remove_roles(role2)
+            elif payload.emoji.name == '🌚':
+                guild = self.bot.get_guild(payload.guild_id)
+                role3 = discord.utils.get(guild.roles, id=744258010775552090)
+                member = guild.get_member(payload.user_id)
+                await member.remove_roles(role3)
+       
+        else:
+            pass
+           
+   
+
 
     
 def setup(bot):
