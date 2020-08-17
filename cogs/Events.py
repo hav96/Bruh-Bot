@@ -1,5 +1,7 @@
 from discord.ext import commands
 import discord
+import time
+import math
 
 
 class Events(commands.Cog):
@@ -8,18 +10,23 @@ class Events(commands.Cog):
      
 
 
+
+    
+
     @commands.Cog.listener()
     async def on_voice_state_update(self, member, before, after):
         log_channel = discord.utils.get(member.guild.channels, id=723196150961930343)
         voice_role = discord.utils.get(member.guild.roles, id=728160775851606037)
+        CountUsers = member.guild.members 
+        category = discord.utils.get(member.guild.categories, id=727688569962889287)
         try:
-            if after.channel is None:
+            if after.channel is None:       
                 await member.remove_roles(voice_role)
-                await log_channel.send(f'{member.mention} вышел из голосового')
+                await log_channel.send(f'{member.mention} вышел из голосово')
             else:
-                voice_channel = discord.utils.get(member.guild.channels, id=after.channel.id)
+                #если создать переменную ранее когда человек выйдет она станет None и произойдет ошибка
+                voice_channel = discord.utils.get(member.guild.channels, id=after.channel.id) 
                 members = voice_channel.members
-                category = discord.utils.get(member.guild.categories, id=727688569962889287)
                 if after.channel.id == 730733768465186886: #рума для создания приватов
                     for guild in self.bot.guilds:
                         channelmember = await guild.create_voice_channel(f'Приват {member}', category=category)
@@ -33,8 +40,6 @@ class Events(commands.Cog):
                 elif after.channel != '🤫Помолчанка' and len(members) > 1:
                     await member.add_roles(voice_role)
                     await log_channel.send(f'{member.mention} зашел в {after.channel}') 
-                elif after.channel != '🤫Помолчанка' and len(members) == 1:
-                    await log_channel.send(f'{member.mention} зашел в {after.channel}')
                 elif after.channel == '🤫Помолчанка':
                     await member.remove_roles(voice_role)
                     await log_channel.send(f'{member.mention} зашел в AFK')
