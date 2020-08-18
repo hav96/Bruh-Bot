@@ -22,7 +22,7 @@ class Events(commands.Cog):
         try:
             if after.channel is None:       
                 await member.remove_roles(voice_role)
-                await log_channel.send(f'{member.mention} вышел из голосово')
+                await log_channel.send(f'{member.mention} вышел из голосового чата')
             else:
                 #если создать переменную ранее когда человек выйдет она станет None и произойдет ошибка
                 voice_channel = discord.utils.get(member.guild.channels, id=after.channel.id) 
@@ -39,6 +39,8 @@ class Events(commands.Cog):
                         await channelmember.delete()
                 elif after.channel != '🤫Помолчанка' and len(members) > 1:
                     await member.add_roles(voice_role)
+                    await log_channel.send(f'{member.mention} зашел в {after.channel}') 
+                elif after.channel != '🤫Помолчанка' and len(members) == 1:
                     await log_channel.send(f'{member.mention} зашел в {after.channel}') 
                 elif after.channel == '🤫Помолчанка':
                     await member.remove_roles(voice_role)
