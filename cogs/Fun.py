@@ -252,7 +252,6 @@ class Fun(commands.Cog):
             print(error)
 
 
-
 def setup(bot):
     bot.add_cog(Fun(bot))
 
