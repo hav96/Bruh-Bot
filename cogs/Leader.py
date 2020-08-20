@@ -23,6 +23,9 @@ class Leader(commands.Cog):
     
 
 
+
+
+
     @commands.command()
     @commands.has_role(leader_role)
     async def start(self, ctx, *, channel_id: int):
@@ -35,7 +38,7 @@ class Leader(commands.Cog):
             try:
                 if member == author:
                     pass
-                else:
+                elif member != author and members == 10:
                     count += 1
                     await member.edit(nick=count)
                     if count == 3 or count == 2 or count == 9 and member != author: #мафия
@@ -44,12 +47,13 @@ class Leader(commands.Cog):
                         await member.send(f'{member.mention} тебе выпала роль доктора')
                     elif count == 7 and member != author: #коммисар
                         await member.send(f'{member.mention} тебе выпала роль комисара')
-                    else:
-                        await ctx.send(f'Ведущий {ctx.author.mention}')
-                        await ctx.author.send(f'Все участники перемейнововны\n3,2,9 мафы\n4 доктор\n7 комиссар')
             except Exception as error:
                 await ctx.send(error)
-
+            finally:
+                embed=discord.Embed(title="Bruh Bot", description="Всем участникам изменены никнеймы, роли выданы\n```3 мафии,1 доктор,1 коммисар.```", color=0xb538ff)
+                embed.set_footer(text = f"Запросил {ctx.author}({ctx.author.display_name})", icon_url = f'{ctx.author.avatar_url}')
+                await ctx.send(embed = embed)
+                await ctx.author.send(f'Done\n3,2,9 мафы\n4 доктор\n7 комиссар')
     
 
     @commands.command()
