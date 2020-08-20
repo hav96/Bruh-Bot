@@ -7,21 +7,36 @@ class Leader(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
     
-    leader_role = 722787700146700412
+    
     gleader_role = 738002868631502922
+    leader_role = 722787700146700412
 
     @commands.command()
     @commands.has_role(leader_role)
-    async def close_chat(self, ctx):
+    async def night(self, ctx):
+        leader = discord.utils.get(ctx.author.guild.roles, id=722787700146700412)
         try:
             await ctx.message.delete()
-            embed=discord.Embed(title="ЧАТ ЗАКРЫТ!", description="Система фолов активна!", color=0xff0000)
+            await ctx.channel.set_permissions(ctx.guild.default_role, send_messages=False)
+            await ctx.channel.set_permissions(ctx.author, send_messages=True)
+            embed=discord.Embed(title="Bruh Bot", description="Наступает ночь,просыпаеться мафия.", color=0x000000)
             embed.set_footer(text = f"Запросил {ctx.author}({ctx.author.display_name})", icon_url = f'{ctx.author.avatar_url}')
             await ctx.send(embed=embed)
         except Exception as error:
             print(error)
     
-
+    @commands.command()
+    @commands.has_role(leader_role)
+    async def day(self, ctx):
+        try:
+            await ctx.message.delete()
+            await ctx.channel.set_permissions(ctx.guild.default_role, send_messages=True)
+            embed=discord.Embed(title="Bruh Bot", description="Проснулись улыбнулись.", color=0xffffff)      
+            embed.set_footer(text = f"Запросил {ctx.author}({ctx.author.display_name})", icon_url = f'{ctx.author.avatar_url}')
+            await ctx.send(embed=embed)
+        except Exception as error:
+            print(error)
+    
 
 
 
