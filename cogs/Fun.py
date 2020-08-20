@@ -96,7 +96,8 @@ class Fun(commands.Cog):
                 hentai_url = nekos.img(f'{target}')
                 message_hentai = await ctx.send(hentai_url)
                 await message_hentai.add_reaction('💞')
-            except:
+            except Exception as error:
+                print(error)
                 await ctx.send(embed = discord.Embed(description = f'**{ctx.author.mention}Такого тега - {target} нет.\nНапиши >hentaihelp**', colour = 0xff0000))
     
     @commands.command()
@@ -250,6 +251,10 @@ class Fun(commands.Cog):
             await member.send(f'{ctx.author.mention} написал баг-репорт\n{args}')
         except Exception as error:
             print(error)
+
+  
+
+
 
 
 def setup(bot):
