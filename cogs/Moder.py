@@ -198,6 +198,7 @@ class Moder(commands.Cog):
             log_channel = discord.utils.get(ctx.author.guild.channels, id=723196150961930343) 
             mute_role = discord.utils.get(ctx.author.guild.roles, id=727228695277732063)
             await member.add_roles(mute_role)
+            await member.move_to(None)
             await log_channel.send(f'**{ctx.author.mention} дал мут {member.mention}**')
             embed=discord.Embed(title="Bruh Bot", description=f"**{member.mention} получил мут**", color=0xfaff86)
             message_mute = await ctx.send(embed = embed)
