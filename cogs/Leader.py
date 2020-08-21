@@ -150,7 +150,10 @@ class Leader(commands.Cog):
         events_channel = discord.utils.get(ctx.author.guild.channels, id=736947827892289707)
         category = discord.utils.get(ctx.guild.categories, id=736941485135495219) 
         info_channel = discord.utils.get(ctx.author.guild.channels, id=736947827892289707)
-        if event == 'mafia' and ctx.author.voice.channel != None:
+        if ctx.author.voice.channel == None:
+            await ctx.send(f'{ctx.author.mention} *Вы не находитесь в голосом канале!Зайдите и напишите эту команду!*')
+            
+        elif event == 'mafia' and ctx.author.voice.channel != None:
             channel_mafia = await ctx.guild.create_voice_channel('Мафия', category=category)
             textchannel_mafia = await ctx.guild.create_text_channel('мафия', category=category)
             embed=discord.Embed(title=f"Проводится ивент мафия!", description=f"Победа мирных - 100 коинов\nПобеда мафии - 75 коинов\nВедущий - {ctx.author.mention}", color=0xff0084)
@@ -179,8 +182,7 @@ class Leader(commands.Cog):
             await ctx.guild.create_text_channel(event, category=category)
             await ctx.send(embed = discord.Embed(description = f'**Вы {ctx.author.mention} создали ивент не имеющий описания,напишите описание сами {events_channel.mention}**'))
             await ctx.author.move_to(otherchannel)
-        elif ctx.author.voice.channel == None:
-            await ctx.send(f'{ctx.author.mention} *Вы не находитесь в голосом канале!Зайдите и напишите эту команду!*')
+        
 
         
 
