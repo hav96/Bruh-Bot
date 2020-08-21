@@ -41,6 +41,9 @@ class Leader(commands.Cog):
 
 
 
+
+
+
     @commands.command()
     @commands.has_role(leader_role)
     async def start(self, ctx, *, channel_id: int):
@@ -144,42 +147,41 @@ class Leader(commands.Cog):
     @commands.has_role(leader_role)
     async def event(self, ctx, *, event: str):
         await ctx.message.delete()
+        events_channel = discord.utils.get(ctx.author.guild.channels, id=736947827892289707)
         category = discord.utils.get(ctx.guild.categories, id=736941485135495219) 
         info_channel = discord.utils.get(ctx.author.guild.channels, id=736947827892289707)
-        try:
-            await ctx.author.voice.channel.connect()
-            if event == 'mafia':
-                channel_mafia = await ctx.guild.create_voice_channel('Мафия', category=category)
-                textchannel_mafia = await ctx.guild.create_text_channel('мафия', category=category)
-                embed=discord.Embed(title=f"Проводится ивент мафия!", description=f"Победа мирных - 100 коинов\nПобеда мафии - 75 коинов\nВедущий - {ctx.author.mention}", color=0xff0084)
-                embed.set_thumbnail(url="https://krot.info/uploads/posts/2020-01/1579563613_29-p-foni-s-mafiei-60.jpg")
-                await info_channel.send(embed = embed)
-                await ctx.author.move_to(channel_mafia)
+        if event == 'mafia' and ctx.author.voice.channel != None:
+            channel_mafia = await ctx.guild.create_voice_channel('Мафия', category=category)
+            textchannel_mafia = await ctx.guild.create_text_channel('мафия', category=category)
+            embed=discord.Embed(title=f"Проводится ивент мафия!", description=f"Победа мирных - 100 коинов\nПобеда мафии - 75 коинов\nВедущий - {ctx.author.mention}", color=0xff0084)
+            embed.set_thumbnail(url="https://krot.info/uploads/posts/2020-01/1579563613_29-p-foni-s-mafiei-60.jpg")
+            await info_channel.send(embed = embed)
+            await ctx.author.move_to(channel_mafia)
                 
-            elif event == 'uno':
-                channel_yno = await ctx.guild.create_voice_channel('Уно', category=category)
-                await ctx.guild.create_text_channel('уно', category=category)
-                embed=discord.Embed(title="Проводится ивент уно!", description=f"1 место - 100 коинов\n2 место - 75 коинов\n3 место - 50 коинов\nВедущий - {ctx.author.mention}", color=0x40ff00)
-                embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/532890437858623488/567023305698312202/Uno.png")
-                await info_channel.send(embed = embed)
-                await ctx.author.move_to(channel_yno)
+        elif event == 'uno' and ctx.author.voice.channel != None:
+            channel_yno = await ctx.guild.create_voice_channel('Уно', category=category)
+            await ctx.guild.create_text_channel('уно', category=category)
+            embed=discord.Embed(title="Проводится ивент уно!", description=f"1 место - 100 коинов\n2 место - 75 коинов\n3 место - 50 коинов\nВедущий - {ctx.author.mention}", color=0x40ff00)
+            embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/532890437858623488/567023305698312202/Uno.png")
+            await info_channel.send(embed = embed)
+            await ctx.author.move_to(channel_yno)
             
-            elif event == 'monopoly':
-                channel_monopoly = await ctx.guild.create_voice_channel('Монополия', category=category)
-                await ctx.guild.create_text_channel('монополия', category=category)
-                embed=discord.Embed(title="Проводится ивент монополия!", description=f"1 место - 350 коинов\n2 место - 300 коинов\n3 место - 150 коинов\nВедущий - {ctx.author.mention}", color=0xffc500)
-                embed.set_thumbnail(url="https://im0-tub-ru.yandex.net/i?id=013bb6a40f47b1cdee74dd2bc6e6b231&n=13&exp=1")
-                await info_channel.send(embed = embed)
-                await ctx.author.move_to(channel_monopoly)
+        elif event == 'monopoly' and ctx.author.voice.channel != None:
+            channel_monopoly = await ctx.guild.create_voice_channel('Монополия', category=category)
+            await ctx.guild.create_text_channel('монополия', category=category)
+            embed=discord.Embed(title="Проводится ивент монополия!", description=f"1 место - 350 коинов\n2 место - 300 коинов\n3 место - 150 коинов\nВедущий - {ctx.author.mention}", color=0xffc500)
+            embed.set_thumbnail(url="https://im0-tub-ru.yandex.net/i?id=013bb6a40f47b1cdee74dd2bc6e6b231&n=13&exp=1")
+            await info_channel.send(embed = embed)
+            await ctx.author.move_to(channel_monopoly)
             
-            else:
-                otherchannel = await ctx.guild.create_voice_channel(event, category=category)
-                await ctx.guild.create_text_channel(event, category=category)
-                await ctx.send(embed = discord.Embed(description = f'**Вы {ctx.author.mention} создали ивент не имеющий описания,напишите описание сами**'))
-                await ctx.author.move_to(otherchannel)
-        except:
+        elif ctx.author.voice.channel != None:
+            otherchannel = await ctx.guild.create_voice_channel(event, category=category)
+            await ctx.guild.create_text_channel(event, category=category)
+            await ctx.send(embed = discord.Embed(description = f'**Вы {ctx.author.mention} создали ивент не имеющий описания,напишите описание сами {events_channel.mention}**'))
+            await ctx.author.move_to(otherchannel)
+        elif ctx.author.voice.channel == None:
             await ctx.send(f'{ctx.author.mention} *Вы не находитесь в голосом канале!Зайдите и напишите эту команду!*')
-          
+
         
 
     @commands.command()
