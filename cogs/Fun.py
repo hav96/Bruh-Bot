@@ -95,8 +95,9 @@ class Fun(commands.Cog):
             await ctx.send(embed = discord.Embed(description = f"**{ctx.author.mention} используй команду только в NSFW канале!**", colour = 0xff0000))
         else:
             try:
-                hentai_url = nekos.img(f'{target}')
-                message_hentai = await ctx.send(hentai_url)
+                embed = discord.Embed(description= f'**{ctx.message.author.mention} Попросил(а) хентай картиночку({target}).**', color=0x74c3ff) 
+                embed.set_image(url=nekos.img(f'{target}'))
+                message_hentai = await ctx.send(embed=embed)
                 await message_hentai.add_reaction('💞')
             except Exception as error:
                 print(error)
@@ -294,6 +295,18 @@ class Fun(commands.Cog):
             os.chdir('/home/pirpix/Документы/GitHub/Bruh-Bot')
             os.remove("avatar2.jpg")
             os.remove('result.jpg')
+
+
+
+    @commands.command() 
+    async def kiss(self, ctx, member : discord.Member): 
+        if member == ctx.message.author: 
+            await ctx.send('Вы не можете поцеловать сами себя.')
+        else:
+            embed = discord.Embed(description= f'{member.mention}, Вас поцеловал(а) {ctx.message.author.mention}.', color=0x00ffff) 
+            embed.set_image(url=nekos.img('kiss'))
+            await ctx.send(embed=embed)
+
 
 
 def setup(bot):
