@@ -1,5 +1,5 @@
 import asyncio
-import os
+import sys, os
 from discord import File
 import discord
 from discord.ext import commands
@@ -7,6 +7,8 @@ import tenorpy
 import random
 import nekos
 import asyncio
+from PIL import Image
+
 
 
 
@@ -253,8 +255,45 @@ class Fun(commands.Cog):
             print(error)
 
   
+    @commands.command()
+    async def whiteavatar(self, ctx):
+        await ctx.message.delete() 
+        filename = "avatar1.jpg"
+        result_avatar = 'result.jpg'
+        try:
+            await ctx.author.avatar_url.save(filename)
+            tatras = Image.open(filename)
+            grayscale = tatras.convert('L')
+            grayscale.save('result.jpg')
+            file = discord.File(fp=result_avatar)
+            await ctx.send(f"Держи {ctx.author.mention}", file=file)
+        except IOError:
+            await ctx.send(f'Не получилось загрузить изображение(')
+        finally:
+            os.chdir('/home/pirpix/Документы/GitHub/Bruh-Bot')
+            os.remove("avatar1.jpg")
+            os.remove('result.jpg')
 
 
+
+    @commands.command()
+    async def avatarw(self, ctx, *, member : discord.Member):
+        await ctx.message.delete() 
+        filename = "avatar2.jpg"
+        result_avatar = 'result.jpg'
+        try:
+            await member.avatar_url.save(filename)
+            tatras = Image.open(filename)
+            grayscale = tatras.convert('L')
+            grayscale.save('result.jpg')
+            file = discord.File(fp=result_avatar)
+            await ctx.send(f"Держи {ctx.author.mention} аватарку {member.mention}", file=file)
+        except IOError:
+            await ctx.send(f'Не получилось загрузить изображение(')
+        finally:
+            os.chdir('/home/pirpix/Документы/GitHub/Bruh-Bot')
+            os.remove("avatar2.jpg")
+            os.remove('result.jpg')
 
 
 def setup(bot):
