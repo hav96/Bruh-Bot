@@ -3,6 +3,8 @@ import discord
 from discord.ext import commands
 
 
+
+
 class Leader(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -10,6 +12,7 @@ class Leader(commands.Cog):
     
     gleader_role = 738002868631502922
     leader_role = 722787700146700412
+   
 
     @commands.command()
     @commands.has_role(leader_role)
@@ -19,7 +22,7 @@ class Leader(commands.Cog):
             await ctx.message.delete()
             await ctx.channel.set_permissions(ctx.guild.default_role, send_messages=False)
             await ctx.channel.set_permissions(ctx.author, send_messages=True)
-            embed=discord.Embed(title="Bruh Bot", description="Наступает ночь,просыпаеться мафия.", color=0x000000)
+            embed=discord.Embed(title="Bruh Bot", description="Наступает ночь,просыпается мафия.", color=0x000000)
             embed.set_footer(text = f"Запросил {ctx.author}({ctx.author.display_name})", icon_url = f'{ctx.author.avatar_url}')
             await ctx.send(embed=embed)
         except Exception as error:
@@ -36,17 +39,11 @@ class Leader(commands.Cog):
             await ctx.send(embed=embed)
         except Exception as error:
             print(error)
-    
-
-
-
-
-
 
 
     @commands.command()
     @commands.has_role(leader_role)
-    async def start(self, ctx, *, channel_id: int):
+    async def start(self, ctx, *, channel_id: int, url: str):
         await ctx.message.delete()
         voice_channel = discord.utils.get(ctx.author.guild.channels, id=channel_id)
         members = voice_channel.members
@@ -60,7 +57,7 @@ class Leader(commands.Cog):
                     count += 1
                     await member.edit(nick=count)
                     if count == 3 or count == 2 or count == 9 and member != author: #мафия
-                        await member.send(f'{member.mention} тебе выпала роль мафии - ссылка на канал мафии')
+                        await member.send(f'{member.mention} тебе выпала роль мафии - ссылка на канал мафии {url}')
                     elif count == 4 and member != author: #доктор
                         await member.send(f'{member.mention} тебе выпала роль доктора')
                     elif count == 7 and member != author: #коммисар
@@ -265,6 +262,23 @@ class Leader(commands.Cog):
              await member.remove_roles(ewarn2_role)
         elif ewarn_role in member.roles:
             await member.remove(ewarn_role)
+
+
+
+    @commands.command()
+    async def vreport(self, ctx, *,  member : discord.Member):
+        try:
+            if member == ctx.author:
+                pass
+            else:
+                reports_channel = discord.utils.get(ctx.author.guild.channels, id=746492366407467139)
+                gleader = discord.utils.get(ctx.author.guild.roles, id=738002868631502922)
+                embed=discord.Embed(title="Bruh Bot", description=f'**{gleader.mention}\n\n{ctx.author.mention} написал репорт на ведущего {member.mention}**', color=0xffffff)     
+                message_report = await reports_channel.send(embed = embed)
+                await message_report.add_reaction('✅')
+        except Exception as error:
+            print(error)
+        
 
 
 
