@@ -57,9 +57,9 @@ class Events(commands.Cog):
         log_channel = discord.utils.get(member.guild.channels, id=723196150961930343) 
         welcome_channel = discord.utils.get(member.guild.channels, id=722577485589381150)
         startrole = discord.utils.get(member.guild.roles, id=722554994670305321)
-        embed=discord.Embed(title=f"Добро пожаловать {member.mention}", description="Привествуем на нашем сервере!Выдал вам роль новичка =)", color=0x8206f3)
+        embed=discord.Embed(title=f"Добро пожаловать друг", description="Привествуем на нашем сервере!Выдал вам роль новичка =)", color=0x8206f3)
         embed.set_thumbnail(url="https://thumbs.gfycat.com/FrighteningPlasticHuman-small.gif")
-        embed.set_footer(text = f"Участник {member}({member.display_name})", icon_url = f'{member.avatar_url}')
+        embed.set_footer(text = f"Новый участник {member}({member.display_name})", icon_url = f'{member.avatar_url}')
         await welcome_channel.send(embed = embed)
         await member.add_roles(startrole)
         await member.send(f'**Добро пожаловать {member.mention} на наш сервер,я выдал вам роль новичка.Не забудьте прочитать правила :)**')
@@ -76,7 +76,6 @@ class Events(commands.Cog):
         embed=discord.Embed(title=f"Нас покинул {member.mention}", description="Жаль что ты решил(а) покинуть наш сервер((", color=0xf9ff00)
         embed.set_thumbnail(url="https://media1.tenor.com/images/ae35ace17c27909ffb0c0e15f9cb79b6/tenor.gif?itemid=14776523")
         await welcome_channel.send(embed = embed)
-        await member.send(f'**Жаль что ты {member.mention} решил(а) покинуть наш сервер((**')
         await log_channel.send(f'{member.mention} вышел с сервера')
         await self.bot.get_channel(741448729713836143).edit(name= f"Участников - {len(CountUsers)} 🤔")
 
@@ -136,7 +135,6 @@ class Events(commands.Cog):
                 role3 = discord.utils.get(guild.roles, id=744258010775552090)
                 member = guild.get_member(payload.user_id)
                 await member.remove_roles(role3)
-       
         else:
             pass
            
