@@ -4,7 +4,9 @@ from discord.ext import commands
 from tokenfile import bot_token
 import json
 from discord import Game
-from time import sleep
+import asyncio
+
+
 TOKEN = bot_token
 
 
@@ -26,7 +28,7 @@ class Bot(commands.Bot):
     
     async def on_ready(self):
         load_cogs(self)
-        sleep(4)
+        await asyncio.sleep(3)
         print('-----------------\nBruh Bot запущен!\nВерсия бота: 𝟬.𝟬.𝟴\nАвтор бота: 𝐒𝐚𝐲𝐰𝐞𝐱𝟖𝟗')
         await bot.change_presence(activity=Game(name='>help'))
        
