@@ -12,6 +12,7 @@ class Leader(commands.Cog):
     
     gleader_role = 738002868631502922
     leader_role = 722787700146700412
+    events_ids = []
    
 
     @commands.command()
@@ -137,18 +138,16 @@ class Leader(commands.Cog):
         await member.send(embed = discord.Embed(description = '**Ваша роль шериф(коммисар)**', color=0xff0000))
         await log_channel.send(f'**{ctx.author.mention} выдал роль комисара игроку {member.mention}**')
 
-
-
+        
 
     @commands.command()
-    @commands.has_role(leader_role)
+    @commands.has_role(leader_role,gleader_role)
     async def event(self, ctx, *, event: str):
         await ctx.message.delete()
-        events_channel = discord.utils.get(ctx.author.guild.channels, id=736947827892289707)
         category = discord.utils.get(ctx.guild.categories, id=736941485135495219) 
         info_channel = discord.utils.get(ctx.author.guild.channels, id=736947827892289707)
-        if ctx.author.voice == None:
-            await ctx.send(f'{ctx.author.mention} **Вы не находитесь в голосом канале!Зайдите и напишите эту команду!**')
+        if ctx.author.voice == None or ctx.author.voice.channel.name == 'AFK♿':
+            await ctx.send(f'{ctx.author.mention} **Вы не находитесь в голосом канале(или в афк руме)!Зайдите и напишите эту команду!**')
             
         elif event == 'mafia' and ctx.author.voice != None:
             channel_mafia = await ctx.guild.create_voice_channel('Мафия', category=category)
@@ -175,13 +174,10 @@ class Leader(commands.Cog):
             await ctx.author.move_to(channel_monopoly)
             
         elif ctx.author.voice != None:
-            print(ctx.author.voice.channel)
-            otherchannel = await ctx.guild.create_voice_channel(event, category=category)
+            otherchannel = await ctx.guild.create_voice_channel(event.title(), category=category)
             await ctx.guild.create_text_channel(event, category=category)
-            await ctx.send(embed = discord.Embed(description = f'**Вы {ctx.author.mention} создали ивент не имеющий описания,напишите описание сами {events_channel.mention}**'))
+            await ctx.send(embed = discord.Embed(description = f'**Вы {ctx.author.mention} создали ивент не имеющий описания,напишите описание сами {info_channel.mention}**'))
             await ctx.author.move_to(otherchannel)
-        
-
         
 
     @commands.command()
@@ -233,6 +229,7 @@ class Leader(commands.Cog):
     @commands.command()
     @commands.has_role(gleader_role)
     async def uleader(self, ctx, *, member : discord.Member):
+        await ctx.message.delete()
         leader_role = discord.utils.get(ctx.author.guild.roles, id=722787700146700412)
         log_channel = discord.utils.get(ctx.author.guild.channels, id=723196150961930343)
         await member.remove_roles(leader_role)
@@ -243,6 +240,7 @@ class Leader(commands.Cog):
     @commands.command()
     @commands.has_role(gleader_role)
     async def leader(self, ctx, *, member : discord.Member):
+        await ctx.message.delete()
         leader_role = discord.utils.get(ctx.author.guild.roles, id=722787700146700412)
         log_channel = discord.utils.get(ctx.author.guild.channels, id=723196150961930343)
         await member.add_roles(leader_role)
@@ -253,6 +251,7 @@ class Leader(commands.Cog):
     @commands.command()
     @commands.has_role(gleader_role)
     async def unewarn(self, ctx, *, member : discord.Member):
+        await ctx.message.delete()
         ewarn1_role = discord.utils.get(ctx.author.guild.roles, id=739794254842298388)
         ewarn2_role = discord.utils.get(ctx.author.guild.roles, id=739797650861457540) 
         ewarn_role = discord.utils.get(ctx.author.guild.roles, id=735801403750219847) #бан ивентов роль
@@ -267,6 +266,7 @@ class Leader(commands.Cog):
 
     @commands.command()
     async def vreport(self, ctx, *,  member : discord.Member):
+        await ctx.message.delete()
         try:
             if member == ctx.author:
                 pass
@@ -278,10 +278,28 @@ class Leader(commands.Cog):
                 await message_report.add_reaction('✅')
         except Exception as error:
             print(error)
+       
+    @commands.command()
+    @commands.has_role(leader_role,gleader_role)
+    async def eventend(self, ctx):
+        '''удаление ивент комнаты и чата
+        получаем имя голосового,а потом получаем
+        текстовой и удаляем.'''
+        await ctx.message.delete()
+        try:
+            eventchannel = ctx.author.voice.channel
+            eventchannelname = ctx.author.voice.channel.name
+            eventcategory_id = eventchannel.category_id
+            eventchannelid = eventchannel.id
+            textchannelname = eventchannelname.lower()
+            textchannelid = discord.utils.get(ctx.author.guild.channels, name = textchannelname)
+            if eventcategory_id == 736941485135495219 and eventchannelid != 736941626479607828 and eventchannelid != 736947827892289707:       
+                await self.bot.get_channel(eventchannelid).delete()
+                await self.bot.get_channel(textchannelid.id).delete()
+        except Exception as error:
+            print(error)
+
         
-
-
-
 
 def setup(bot):
     bot.add_cog(Leader(bot))  
