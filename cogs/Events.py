@@ -2,7 +2,7 @@ from discord.ext import commands
 import discord
 import time
 import math
-
+from discord import Spotify
 
 class Events(commands.Cog):
     def __init__(self, bot):
@@ -95,7 +95,7 @@ class Events(commands.Cog):
 
     @commands.Cog.listener()
     async def on_raw_reaction_add(self, payload):
-        if payload.message_id == 744262818932719748:
+        if payload.message_id == 744262818932719748: #роли по реакции
             if payload.emoji.name == '😎':   
                 guild = self.bot.get_guild(payload.guild_id)
                 role = discord.utils.get(guild.roles, id=727184396322603118)
@@ -111,6 +111,14 @@ class Events(commands.Cog):
                 role3 = discord.utils.get(guild.roles, id=744258010775552090)
                 member = guild.get_member(payload.user_id)
                 await member.add_roles(role3)
+        elif payload.message_id == 747272422197166081: #сообщение проверки
+            if payload.emoji.name == '✅':
+                guild = self.bot.get_guild(payload.guild_id)
+                standart_role = discord.utils.get(guild.roles, id=722554994670305321)
+                check_role = discord.utils.get(guild.roles, id=747274165785985135)
+                member = guild.get_member(payload.user_id)
+                await member.remove_roles(check_role)
+                await member.add_roles(standart_role)
        
         else:
             pass
@@ -139,6 +147,29 @@ class Events(commands.Cog):
             pass
            
    
+
+    @commands.Cog.listener()
+    async def on_member_update(self, before, after):
+        guild = discord.utils.get(self.bot.guilds, name = 'Bruh Games')
+        logopen_channel = discord.utils.get(guild.channels, id=747293365908930621)
+        programmist_role = discord.utils.get(after.guild.roles, id=727184396322603118)
+        csgo_role = discord.utils.get(after.guild.roles, id=747305893929943171)
+        embed=discord.Embed(title="Bruh Bot", description=f"**{after.mention} Я вижу ты зашел в visual studio code☺\nВыдал тебе роль {programmist_role.mention}**", color=0x5e73bc)
+        embed2=discord.Embed(title="Bruh Bot", description=f"**{after.mention} Ой бля играешь в помойку🤡.\nВыдал тебе роль {csgo_role.mention}**", color=0xfff900)
+        try:
+            if after.activity.name == 'Играет в Visual studio code' and programmist_role not in after.roles:
+                await after.add_roles(programmist_role)
+                await logopen_channel.send(embed = embed)
+            elif after.activity.name == 'Играет в Counter-Strike: Global Offensive' and csgo_role not in after.roles:
+                await after.add_roles(csgo_role)
+                await logopen_channel.send(embed = embed2)
+            else:
+                pass
+        except Exception as error:
+            print(error)
+
+
+
 
 
     
