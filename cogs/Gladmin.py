@@ -17,7 +17,7 @@ class Gladmin(commands.Cog):
         post = args
         news_channel = discord.utils.get(ctx.author.guild.channels, id=722551182085587035)
         everyone = discord.utils.get(ctx.author.guild.roles, id=722548853173125162)
-        embed=discord.Embed(title="Bruh Bot", description=f"{everyone}\n{post}", color=0x3bffaa)
+        embed=discord.Embed(title="Bruh Bot", description=f"{ctx.guild.default_role}\n{post}", color=0x3bffaa)
         embed.set_footer(text="Автор команды - PirPix")
         await news_channel.send(embed = embed)
 
