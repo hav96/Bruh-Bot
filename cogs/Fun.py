@@ -308,6 +308,27 @@ class Fun(commands.Cog):
             await ctx.send(embed=embed)
 
 
+    @commands.command() 
+    async def baka(self, ctx, member : discord.Member):
+        if member == ctx.message.author: 
+            await ctx.send('Вы не можете назвать бакой сами себя.')
+        else:
+            embed = discord.Embed(description= f'{ctx.message.author.mention} назвал бакой {member.mention}.', color=0x00ffff) 
+            embed.set_image(url=nekos.img('baka'))
+            await ctx.send(embed=embed)
+
+
+
+    @commands.command() 
+    async def embed(self, ctx):
+        embed=discord.Embed(title="Bruh Bot", description=f"Команды для ведущих.\n>event название_ивента - запустить ивент.\n>eventend - удалить текстовой и голосовой каналы.", color=0x5a5a5a)
+        await ctx.send(embed = embed)
+
+
+
+
+
+
 
 def setup(bot):
     bot.add_cog(Fun(bot))
