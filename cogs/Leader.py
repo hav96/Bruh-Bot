@@ -182,15 +182,23 @@ class Leader(commands.Cog):
 
     @commands.command()
     @commands.has_role(leader_role)
-    async def rename(self, ctx, *, channel: int):
+    async def rename(self, ctx):
         await ctx.message.delete()
-        voice_channel = discord.utils.get(ctx.author.guild.channels, id=channel)
-        members = voice_channel.members
+        count = 0
         try:
+            voice = ctx.author.voice.channel
+            voice_id = voice.id
+            voice_channel = discord.utils.get(ctx.author.guild.channels, id=voice.id)
+            members = voice_channel.members
             for member in members:
                 count += 1
-                await member.edit(nick=count)
-        except:
+                await member.edit(nick=f'0{count}')
+                await ctx.send(f'{ctx.author.mention} - команда **rename**.\nИзменён никнейм игрока {member.mention}.\n{member.name} -> 0{count}')
+                if count == 10:
+                    await member.edit(nick=f'{count}')       
+        except Exception as error:
+            print(error)
+            count += 1
             await ctx.send(f'**Не смог сменить ник {member.mention},не достаточно прав!**')
 
 
@@ -201,14 +209,16 @@ class Leader(commands.Cog):
         await ctx.message.delete()
         await ctx.send(f'Мафия убила {member.mention} 💀')
         try:
-            await member.edit(nick='умер')
             embed=discord.Embed(title='Bruh Bot' , description=f'Сменил ник {member.mention}', color=0xff0035)
             embed.set_footer(text = f"Запросил {ctx.author}({ctx.author.display_name})", icon_url = f'{ctx.author.avatar_url}')
+            await member.edit(nick='умер')
             await ctx.send(embed = embed)
+            await ctx.channel.set_permissions(member, read_messages=True, send_messages=False, add_reactions=True, read_message_history=True, change_nickname=False, connect=True)
         except:
             embed=discord.Embed(title='Bruh Bot' , description=f'Не смог сменить ник {member.mention},не достаточно прав!', color=0xff0035)
             embed.set_footer(text = f"Запросил {ctx.author}({ctx.author.display_name})", icon_url = f'{ctx.author.avatar_url}')
             await ctx.send(embed = embed)
+            await ctx.channel.set_permissions(member, read_messages=True, send_messages=False, add_reactions=True, read_message_history=True, change_nickname=False, connect=True)
 
 
     @commands.command()
@@ -220,11 +230,12 @@ class Leader(commands.Cog):
             embed=discord.Embed(title='Bruh Bot' , description=f'Сменил ник {member.mention}', color=0xff0035)
             embed.set_footer(text = f"Запросил {ctx.author}({ctx.author.display_name})", icon_url = f'{ctx.author.avatar_url}')
             await ctx.send(embed = embed)
+            await ctx.channel.set_permissions(member, read_messages=True, send_messages=False, add_reactions=True, read_message_history=True, change_nickname=False, connect=True)
         except:
             embed=discord.Embed(title='Bruh Bot' , description=f'Не смог сменить ник {member.mention},не достаточно прав!', color=0xff0035)
             embed.set_footer(text = f"Запросил {ctx.author}({ctx.author.display_name})", icon_url = f'{ctx.author.avatar_url}')
             await ctx.send(embed = embed)
-
+            await ctx.channel.set_permissions(member, read_messages=True, send_messages=False, add_reactions=True, read_message_history=True, change_nickname=False, connect=True)
 
     @commands.command()
     @commands.has_role(gleader_role)
@@ -301,7 +312,41 @@ class Leader(commands.Cog):
         except Exception as error:
             print(error)
 
-        
+
+       
+    @commands.command()
+    @commands.has_role(leader_role)
+    async def ename(self, ctx):
+        await ctx.message.delete()
+        try:
+            voice = ctx.author.voice.channel
+            voice_id = voice.id
+            voice_channel = discord.utils.get(ctx.author.guild.channels, id=voice.id)
+            members = voice_channel.members
+            for member in members:
+                nickname = member.name
+                await member.edit(nick=nickname)
+        except Exception as error:
+            await ctx.send(f'Не смог сменить ник {member.mention}')
+            
+
+
+    @commands.command()
+    @commands.has_role(leader_role)
+    async def prv(self, ctx):
+        await ctx.message.delete()
+        voice = ctx.author.voice.channel
+        voice_id = voice.id
+        voice_channel = discord.utils.get(ctx.author.guild.channels, id=voice.id)
+        members = voice_channel.members
+        gamer_role = discord.utils.get(ctx.author.guild.roles, id = 722567345872175124)
+        try:
+            for member in members:
+                await ctx.channel.set_permissions(member, read_messages=True, send_messages=True, add_reactions=True, read_message_history=True, change_nickname=False, mention_everyone=False)
+        finally:
+            await ctx.channel.set_permissions(ctx.guild.gamer_role, send_messages=False, add_reactions=True, read_message_history=True, read_messages=True)
+
+
 
 def setup(bot):
     bot.add_cog(Leader(bot))  
