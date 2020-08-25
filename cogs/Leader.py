@@ -141,7 +141,7 @@ class Leader(commands.Cog):
         
 
     @commands.command()
-    @commands.has_role(leader_role,gleader_role)
+    @commands.has_role(leader_role)
     async def event(self, ctx, *, event: str):
         await ctx.message.delete()
         category = discord.utils.get(ctx.guild.categories, id=736941485135495219) 
@@ -280,7 +280,7 @@ class Leader(commands.Cog):
             print(error)
        
     @commands.command()
-    @commands.has_role(leader_role,gleader_role)
+    @commands.has_role(leader_role)
     async def eventend(self, ctx):
         '''удаление ивент комнаты и чата
         получаем имя голосового,а потом получаем
@@ -293,9 +293,11 @@ class Leader(commands.Cog):
             eventchannelid = eventchannel.id
             textchannelname = eventchannelname.lower()
             textchannelid = discord.utils.get(ctx.author.guild.channels, name = textchannelname)
-            if eventcategory_id == 736941485135495219 and eventchannelid != 736941626479607828 and eventchannelid != 736947827892289707:       
+            if eventcategory_id == 736941485135495219 and eventchannelid != 736941626479607828 and eventchannelid != 736947827892289707 and textchannelid.category_id == 736941485135495219:       
                 await self.bot.get_channel(eventchannelid).delete()
                 await self.bot.get_channel(textchannelid.id).delete()
+            else:
+                pass
         except Exception as error:
             print(error)
 
