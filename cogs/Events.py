@@ -95,8 +95,8 @@ class Events(commands.Cog):
 
     @commands.Cog.listener()
     async def on_raw_reaction_add(self, payload):
-        if payload.message_id == 744262818932719748: #роли по реакции
-            if payload.emoji.name == '😎':   
+        if payload.message_id == 748649191441563748: #роли по реакции
+            if payload.emoji.name == '🗿':   
                 guild = self.bot.get_guild(payload.guild_id)
                 role = discord.utils.get(guild.roles, id=727184396322603118)
                 member = guild.get_member(payload.user_id)
@@ -111,6 +111,11 @@ class Events(commands.Cog):
                 role3 = discord.utils.get(guild.roles, id=744258010775552090)
                 member = guild.get_member(payload.user_id)
                 await member.add_roles(role3)
+            elif payload.emoji.name == '🔑':
+                guild = self.bot.get_guild(payload.guild_id)
+                role4 = discord.utils.get(guild.roles, id=727690980341317632)
+                member = guild.get_member(payload.user_id)
+                await member.add_roles(role4)
         elif payload.message_id == 747272422197166081: #сообщение проверки
             if payload.emoji.name == '✅':
                 guild = self.bot.get_guild(payload.guild_id)
@@ -126,8 +131,8 @@ class Events(commands.Cog):
            
     @commands.Cog.listener()
     async def on_raw_reaction_remove(self, payload):
-        if payload.message_id == 744262818932719748:        
-            if payload.emoji.name == '😎':   
+        if payload.message_id == 748649191441563748:     
+            if payload.emoji.name == '🗿':   
                 guild = self.bot.get_guild(payload.guild_id)
                 role = discord.utils.get(guild.roles, id=727184396322603118)
                 member = guild.get_member(payload.user_id)
@@ -142,6 +147,12 @@ class Events(commands.Cog):
                 role3 = discord.utils.get(guild.roles, id=744258010775552090)
                 member = guild.get_member(payload.user_id)
                 await member.remove_roles(role3)
+            elif payload.emoji.name == '🔑':
+                guild = self.bot.get_guild(payload.guild_id)
+                role4 = discord.utils.get(guild.roles, id=727690980341317632)
+                member = guild.get_member(payload.user_id)
+                await member.remove_roles(role4)   
+            
         else:
             pass
            
