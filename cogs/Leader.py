@@ -335,16 +335,19 @@ class Leader(commands.Cog):
     @commands.has_role(leader_role)
     async def prv(self, ctx):
         await ctx.message.delete()
-        voice = ctx.author.voice.channel
-        voice_id = voice.id
-        voice_channel = discord.utils.get(ctx.author.guild.channels, id=voice.id)
-        members = voice_channel.members
-        gamer_role = discord.utils.get(ctx.author.guild.roles, id = 722567345872175124)
         try:
-            for member in members:
-                await ctx.channel.set_permissions(member, read_messages=True, send_messages=True, add_reactions=True, read_message_history=True, change_nickname=False, mention_everyone=False)
-        finally:
-            await ctx.channel.set_permissions(ctx.guild.gamer_role, send_messages=False, add_reactions=True, read_message_history=True, read_messages=True)
+            voice = ctx.author.voice.channel
+            voice_id = voice.id
+            voice_channel = discord.utils.get(ctx.author.guild.channels, id=voice.id)
+            members = voice_channel.members
+            gamer_role = discord.utils.get(ctx.author.guild.roles, id=722567345872175124)
+            try:
+                for member in members:
+                    await ctx.channel.set_permissions(member, read_messages=True, send_messages=True, add_reactions=True, read_message_history=True, change_nickname=False, mention_everyone=False)
+            finally:
+                await ctx.channel.set_permissions(ctx.guild.gamer_role, send_messages=False, add_reactions=True, read_message_history=True, read_messages=True)
+        except Exception as error:
+            print(error)
 
 
 
