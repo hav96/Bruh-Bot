@@ -172,14 +172,13 @@ class Events(commands.Cog):
             elif after.activity.name == 'Играет в Visual studio code' and programmist_role not in after.roles:
                 await after.add_roles(programmist_role)
                 await logopen_channel.send(embed = embed)
-            elif after.activity.name == 'Играет в Counter-Strike: Global Offensive' and csgo_role not in after.roles:
+            elif after.activity.name == 'Counter-Strike: Global Offensive' or  after.activity.name == 'Играет в Counter-Strike: Global Offensive' and csgo_role not in after.roles:
                 await after.add_roles(csgo_role)
                 await logopen_channel.send(embed = embed2)
             else:
                 pass
         except Exception as error:
             pass
-
 
 
 
