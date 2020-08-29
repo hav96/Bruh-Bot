@@ -8,8 +8,8 @@ import random
 import nekos
 import asyncio
 from PIL import Image
-
-
+from googletrans import Translator
+import random
 
 
 class Fun(commands.Cog):
@@ -338,6 +338,21 @@ class Fun(commands.Cog):
         except Exception as error:
             print(error)
 
+    @commands.command() 
+    async def translate(self, ctx, *, text):
+        await ctx.message.delete()
+        translate_func = Translator()
+        result = translate_func.translate(text, dest = 'ru')
+        embed=discord.Embed(title="Bruh Bot", description=f"Оригинальный текст - {text}\nПеревод - {result.text}")
+        embed.set_footer(text = f"Запросил {ctx.author}({ctx.author.display_name})", icon_url = f'{ctx.author.avatar_url}')
+        await ctx.send(embed = embed)
+    
+
+    @commands.command()
+    async def coin(self, ctx):
+        generate_coin = random.choice(['Монетка выпала ребром','Выпала решка','Выпал орёл','Выпала решка','Выпал орёл','Выпала решка','Выпал орёл'])
+        await ctx.send(f'{ctx.author.mention} Подбрасываю монетку.')
+        await ctx.send(f'**{generate_coin}**.')
 
 
 
