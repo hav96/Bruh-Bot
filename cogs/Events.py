@@ -167,14 +167,19 @@ class Events(commands.Cog):
         embed=discord.Embed(title="Bruh Bot", description=f"**{after.mention} Я вижу ты зашел в visual studio code☺\nВыдал тебе роль {programmist_role.mention}**", color=0x5e73bc)
         embed2=discord.Embed(title="Bruh Bot", description=f"**{after.mention} Ой бля играешь в помойку🤡.\nВыдал тебе роль {csgo_role.mention}**", color=0xfff900)
         try:
-            if after.activity.name == None:
-                pass 
-            elif after.activity.name == 'Играет в Visual studio code' and programmist_role not in after.roles:
-                await after.add_roles(programmist_role)
-                await logopen_channel.send(embed = embed)
-            elif after.activity.name == 'Counter-Strike: Global Offensive' or  after.activity.name == 'Играет в Counter-Strike: Global Offensive' and csgo_role not in after.roles:
-                await after.add_roles(csgo_role)
-                await logopen_channel.send(embed = embed2)
+            if after.activity.name == 'Играет в Visual studio code':
+                if programmist_role not in after.roles:
+                    await after.add_roles(programmist_role)
+                    await logopen_channel.send(embed = embed)
+                else:
+                    pass
+            elif after.activity.name == 'Counter-Strike: Global Offensive' or  after.activity.name == 'Играет в Counter-Strike: Global Offensive':
+                if csgo_role not in after.roles:
+                    await after.add_roles(csgo_role)
+                    await logopen_channel.send(embed = embed2)
+                else:
+                    pass
+                    
             else:
                 pass
         except Exception as error:
