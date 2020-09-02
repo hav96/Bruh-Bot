@@ -33,11 +33,12 @@ class Bot(commands.Bot):
         await bot.change_presence(activity=Game(name='>help'))
        
     async def on_message(self, message):
+        #Костыль что бы отправлять сообщения
         global count
         url = 'https://discordbook.ru/server/722548853173125162'
         if message.author.bot:
             pass
-        if message.content != '%$' and not message.author.bot :
+        if message.content != '%$' and not message.author.bot:
             embed=discord.Embed(title="Bruh Bot", description=f"Если вам нравится наш сервер ,вы можете проголосовать за него.\n{url}", color = 0x9aebff)
             embed.set_thumbnail(url="https://i11d.3djuegos.com/juegos/5919/_logos_y_personajes_/fotos/maestras/_logos_y_personajes_-4937655.jpg")
             count += 1
