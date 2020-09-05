@@ -164,8 +164,10 @@ class Events(commands.Cog):
         logopen_channel = discord.utils.get(guild.channels, id=747293365908930621)
         programmist_role = discord.utils.get(after.guild.roles, id=727184396322603118)
         csgo_role = discord.utils.get(after.guild.roles, id=747305893929943171)
+        minecraft_role = discord.utils.get(after.guild.roles, id=751599974487163000)
         embed=discord.Embed(title="Bruh Bot", description=f"**{after.mention} Я вижу ты зашел в visual studio code☺\nВыдал тебе роль {programmist_role.mention}**", color=0x5e73bc)
         embed2=discord.Embed(title="Bruh Bot", description=f"**{after.mention} Ой бля играешь в помойку🤡.\nВыдал тебе роль {csgo_role.mention}**", color=0xfff900)
+        embed3=discord.Embed(title="Bruh Bot", description=f"**{after.mention} Ура ты зашел в майнкрафт.\nВыдал тебе роль {minecraft_role.mention}**", color=0x00ff97)    
         try:
             if after.activity.name == 'Играет в Visual studio code':
                 if programmist_role not in after.roles:
@@ -179,7 +181,10 @@ class Events(commands.Cog):
                     await logopen_channel.send(embed = embed2)
                 else:
                     pass
-                    
+            elif after.activity.name == 'Minecraft' or after.activity.name == 'Играет в Minecraft':
+                if minecraft_role not in after.roles:
+                    await after.add_roles(minecraft_role)
+                    await logopen_channel.send(embed = embed3)      
             else:
                 pass
         except Exception as error:
