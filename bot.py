@@ -5,11 +5,7 @@ from tokenfile import bot_token
 from discord import Game
 import asyncio
 
-
-
 TOKEN = bot_token
-
-count = 0
 
 def load_cogs(bot):
     try:
@@ -33,10 +29,29 @@ class Bot(commands.Bot):
         await bot.change_presence(activity=Game(name='>help'))
        
     async def on_message(self, message):
-        if message.content in ['ru','com','com.','//','net','www','www/']: 
-            await message.delete()
+        urls = ('http','https','https://','.com','ru','en','//')
+        warn_role = discord.utils.get(message.author.guild.roles, id=726853781001863299)
+        warn_role2 = discord.utils.get(message.author.guild.roles, id=726853849352241213)
+        ban_role = discord.utils.get(message.author.guild.roles, id=726255138926362704)
+        channel = message.channel
+        msg = message.content.lower()     
+        for word in urls:
+            if word in msg:
+                await message.delete() 
+                if warn_role not in message.author.roles:
+                    await message.author.send('**Вам выдано #1 предупреждение!\nСсылки удаляються автоматический.**')
+                    await message.author.add_roles(warn_role) 
+                elif warn_role in message.author.roles and warn_role2 not in message.author.roles:
+                    await message.author.send('**Вам выдано #2 предупреждение!\nСсылки удаляються автоматический.**')
+                    await message.author.add_roles(warn_role2)
+                elif warn_role2 in message.author.roles:
+                    await message.author.send('**Вы забанены!\nЗа ссылку в чате.**')
+                    await message.author.add_roles(ban_role)
+                    
+
+
         await bot.process_commands(message)
-        
+    
 
 
 if __name__ == "__main__":
