@@ -4,7 +4,7 @@ from discord.ext import commands
 from tokenfile import bot_token
 from discord import Game
 import asyncio
-import random
+
 
 
 TOKEN = bot_token
@@ -33,12 +33,10 @@ class Bot(commands.Bot):
         await bot.change_presence(activity=Game(name='>help'))
        
     async def on_message(self, message):
-        global count
-        reaction = random.choice(['💤','👁‍🗨','🖤'])
-        count += 1
-        if count == 6:
-            count = 0
-            await message.add_reaction(reaction)
+        if message.content in ['ru','com','com.','//','net','www','www/']: 
+            await message.delete()
+        await bot.process_commands(message)
+        
 
 
 if __name__ == "__main__":
