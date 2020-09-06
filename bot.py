@@ -29,28 +29,29 @@ class Bot(commands.Bot):
         await bot.change_presence(activity=Game(name='>help'))
        
     async def on_message(self, message):
-        urls = ('http','https','https://','.com','ru','en','//')
-        warn_role = discord.utils.get(message.author.guild.roles, id=726853781001863299)
-        warn_role2 = discord.utils.get(message.author.guild.roles, id=726853849352241213)
-        ban_role = discord.utils.get(message.author.guild.roles, id=726255138926362704)
-        channel = message.channel
-        msg = message.content.lower()     
-        for word in urls:
-            if word in msg:
-                await message.delete() 
-                if warn_role not in message.author.roles:
-                    await message.author.send('**Вам выдано #1 предупреждение!\nСсылки удаляються автоматический.**')
-                    await message.author.add_roles(warn_role) 
-                elif warn_role in message.author.roles and warn_role2 not in message.author.roles:
-                    await message.author.send('**Вам выдано #2 предупреждение!\nСсылки удаляються автоматический.**')
-                    await message.author.add_roles(warn_role2)
-                elif warn_role2 in message.author.roles:
-                    await message.author.send('**Вы забанены!\nЗа ссылку в чате.**')
-                    await message.author.add_roles(ban_role)
-                    
-
-
-        await bot.process_commands(message)
+        pass
+        #urls = ('http','https','https://','.com','ru','en','//')
+        #warn_role = discord.utils.get(message.author.guild.roles, id=726853781001863299)
+        #warn_role2 = discord.utils.get(message.author.guild.roles, id=726853849352241213)
+        #ban_role = discord.utils.get(message.author.guild.roles, id=726255138926362704)
+        #msg = message.content.lower()     
+        #channel = message.channel
+        #try:
+            #for word in urls:
+                #if word in msg:
+                    #await message.delete() 
+                    #if warn_role not in message.author.roles:
+                       # await message.author.send('**Вам выдано #1 предупреждение!\nСсылки удаляються автоматический.**')
+                        #await message.author.add_roles(warn_role) 
+                    #elif warn_role in message.author.roles and warn_role2 not in message.author.roles:
+                        #await message.author.send('**Вам выдано #2 предупреждение!\nСсылки удаляються автоматический.**')
+                       # await message.author.add_roles(warn_role2)
+                    #elif warn_role2 in message.author.roles:
+                        #await message.author.send('**Вы забанены!\nЗа ссылку в чате.**')
+                        #await message.author.add_roles(ban_role)
+        #except Exception as error:
+        #    print(error)
+        #await bot.process_commands(message)
     
 
 
