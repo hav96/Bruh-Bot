@@ -177,10 +177,6 @@ class Moder(commands.Cog):
                     await log_channel.send(f'{ctx.author.mention} снял варн {member.mention}\nВарнов 0/3')
 
 
-
-
-
-
     @commands.command()
     @commands.has_role(moder_role)
     async def mute(self, ctx, *, member : discord.Member):
@@ -197,14 +193,16 @@ class Moder(commands.Cog):
         else:
             log_channel = discord.utils.get(ctx.author.guild.channels, id=723196150961930343) 
             mute_role = discord.utils.get(ctx.author.guild.roles, id=727228695277732063)
+            embed=discord.Embed(title="Bruh Bot", description=f"**{member.mention} получил мут**", color=0xfaff86)
             await member.edit(mute=True)
             await member.add_roles(mute_role)
-            await log_channel.send(f'**{ctx.author.mention} дал мут {member.mention}**')
-            embed=discord.Embed(title="Bruh Bot", description=f"**{member.mention} получил мут**", color=0xfaff86)
             message_mute = await ctx.send(embed = embed)
+            await log_channel.send(f'**{ctx.author.mention} дал мут {member.mention}**')
             await message_mute.add_reaction('😳')
             await message_mute.add_reaction('😨')
             await message_mute.add_reaction('😢')
+            await asyncio.sleep(15) 
+            await self.bot.delete_message(message_mute)
 
     @commands.command()
     @commands.has_role(moder_role)
