@@ -165,9 +165,9 @@ class Events(commands.Cog):
         programmist_role = discord.utils.get(after.guild.roles, id=727184396322603118)
         csgo_role = discord.utils.get(after.guild.roles, id=747305893929943171)
         minecraft_role = discord.utils.get(after.guild.roles, id=751599974487163000)
-        embed=discord.Embed(title="Bruh Bot", description=f"**{after.mention} Я вижу ты зашел в visual studio code☺\nВыдал тебе роль {programmist_role.mention}**", color=0x5e73bc)
+        embed=discord.Embed(title="Bruh Bot", description=f"**{after.mention} Я вижу ты зашел(a) в visual studio code☺\nВыдал тебе роль {programmist_role.mention}**", color=0x5e73bc)
         embed2=discord.Embed(title="Bruh Bot", description=f"**{after.mention} Ой бля играешь в помойку🤡.\nВыдал тебе роль {csgo_role.mention}**", color=0xfff900)
-        embed3=discord.Embed(title="Bruh Bot", description=f"**{after.mention} Ура ты зашел в майнкрафт.\nВыдал тебе роль {minecraft_role.mention}**", color=0x00ff97)    
+        embed3=discord.Embed(title="Bruh Bot", description=f"**{after.mention} Ура ты зашел(a) в майнкрафт.\nВыдал тебе роль {minecraft_role.mention}**", color=0x00ff97)    
         try:
             if after.activity.name == 'Играет в Visual studio code':
                 if programmist_role not in after.roles:
