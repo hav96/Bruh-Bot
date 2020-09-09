@@ -1,7 +1,6 @@
-<h1>Bruh Bot команды.</h1>
+<h1>Bruh Bot</h1>
 
 <img src='https://sun2-3.userapi.com/mqQGAA79UJcgtYTCekNhWhAk3oLGeP5N_lDa3A/dsF9IG5Bdkg.jpg'></img>
-
 
 <h2>Рофлан команды.</h2>
 <p>member - рандомный человек с сервера)).</p>
