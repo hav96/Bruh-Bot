@@ -11,7 +11,7 @@ TOKEN = bot_token
 
 def load_cogs(bot):
     try:
-        os.chdir('/home/pirpix/Документы/GitHub/Bruh-Bot')
+        os.chdir('/home/pirpix/Документы/GitHub/Bruh-Bot') #for linux )
         for filename in os.listdir('./cogs'):
             if filename.endswith('.py'):
                 bot.load_extension(f'cogs.{filename[:-3]}')
@@ -27,7 +27,7 @@ class Bot(commands.Bot):
     async def on_ready(self):
         load_cogs(self)
         await asyncio.sleep(3)
-        print('-----------------\nBruh Bot запущен!\nВерсия бота: 0.0.20\nАвтор бота: 𝐒𝐚𝐲𝐰𝐞𝐱𝟖𝟗')
+        print('-----------------\nBruh Bot запущен!\nВерсия бота: 0.0.20\nАвтор бота: saywex89')
         await bot.change_presence(activity=Game(name=bot_game))
        
     
